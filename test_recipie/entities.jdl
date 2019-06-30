@@ -1,0 +1,12 @@
+{% for entity in package.classes %}
+entity {{ entity.name }} {
+{% for attr in entity.attributes[:-1] %}
+    {{attr.name}} {{attr.dest_type}},{% endfor %}{% for attr in entity.attributes[-1:] %}
+    {{attr.name}} {{attr.dest_type}}{% endfor %}
+}
+{% endfor %}
+{% for relationship in package.associations %}
+relationship {{relationship.association_type}}{
+    {{relationship.source.name}}{%raw%}{{%endraw%}{{relationship.source_name}}{%raw%}}{%endraw%} to {{relationship.dest.name}}{%raw%}{{%endraw%}{{relationship.dest_name}}{%raw%}}{%endraw%}
+}
+{% endfor %}
