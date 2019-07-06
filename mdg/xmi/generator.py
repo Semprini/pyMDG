@@ -7,9 +7,8 @@ import yaml
 from lxml import etree
 from jinja2 import Template, Environment, FileSystemLoader
 
-from xmi.uml.parse import ns, parse_uml, UMLPackage, UMLClass, UMLAttribute
-
-from xmi.validator import validate_package
+from mdg.uml.parse import ns, parse_uml, UMLPackage, UMLClass, UMLAttribute
+from mdg.xmi.validator import validate_package
 
 settings = None
 

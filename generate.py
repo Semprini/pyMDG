@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import sys
-from xmi import generator
+from mdg.xmi import generator
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:

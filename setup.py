@@ -11,11 +11,11 @@ def find_packages(srcdir):
                 package_list.append( root.replace("/",".").replace("\\",".").strip('.') )
     return package_list
 
-pyxmi_packages = find_packages('.')
+packages = find_packages('.')
 
 setup(name='pymdg',
     version='0.1-alpha',
-    packages=pyxmi_packages,
+    packages=packages,
     install_requires=[
         "lxml",
         "jinja2",
