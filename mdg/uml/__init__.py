@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import re
 
 
@@ -87,7 +88,7 @@ class UMLEnumeration(object):
         self.values = []
         self.package = package
         self.name = name
-        self.name = id
+        self.id = id
 
 
 class UMLClass(object):

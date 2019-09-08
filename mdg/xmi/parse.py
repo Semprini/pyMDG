@@ -15,7 +15,7 @@ settings = None
 
 
 def parse_uml(element, root):
-    """ Root package parser entrypoint.
+    """ Root package parser entry point.
     """
     global settings
     test_package = None
@@ -64,14 +64,14 @@ def parse_test_cases(package):
     """
     test_cases = []
 
-    for instance in package.instances:
-        if instance.stereotype in ['request', 'response']:
-            test_cases.append(instance)
-
-    for child in package.children:
-        res = parse_test_cases(child)
-        if res:
-            test_cases += res
+    # for instance in package.instances:
+    #     if instance.stereotype in ['request', 'response']:
+    #         test_cases.append(instance)
+    #
+    # for child in package.children:
+    #     res = parse_test_cases(child)
+    #     if res:
+    #         test_cases += res
 
     return test_cases
 
@@ -187,8 +187,9 @@ def package_parse_associations(package, element, root_element):
             else:
                 print("Unable to create association id={}".format(e_id))
 
-    for child in package.children:
-        child.parse_associations()
+    for package_child in package.children:
+        element = element.xpath("//packagedElement[@xmi:id='%s']" % package_child.id, namespaces=ns)[0]
+        package_parse_associations(package_child, element, root_element)
 
 
 def package_parse_inheritance(package):
@@ -205,7 +206,7 @@ def package_parse_inheritance(package):
                 attr.classification = package.root_package.find_by_id(attr.classification_id)
 
     for child in package.children:
-        child.parse_inheritance()
+        package_parse_inheritance(child)
 
 
 def instance_parse(package, element, root):
