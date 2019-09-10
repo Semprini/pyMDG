@@ -221,7 +221,7 @@ def instance_parse(package, element, root):
     # Create attributes for each item found in the run_state
     # TODO: Change this to using an re
     extended_properties = detail.find('extended_properties')
-    if extended_properties.get('run_state') is not None:
+    if extended_properties and extended_properties.get('run_state') is not None:
         run_state = extended_properties.get('run_state')
         vars = run_state.split('@ENDVAR;')
         for var in vars:

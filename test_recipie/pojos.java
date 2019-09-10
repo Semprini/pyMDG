@@ -12,8 +12,8 @@ public class {{ cls.name }}()
     @Column (name = "{{attr.name}}"{% if attr.dest_type == 'String' %}, length={{attr.length}}{% endif %})
     private {{attr.dest_type}} {{attr.name}};
     {% endfor %}{% for assoc in cls.associations_from %}
-    @Expandable (name = "{{assoc.source_name}}", expandableClass = {{ assoc.dest.name }}.class)
-    private {{assoc.dest.name}} {{assoc.source_name}};
+    @Expandable (name = "{{assoc.source_name}}", expandableClass = {{ assoc.destination.name }}.class)
+    private {{assoc.destination.name}} {{assoc.source_name}};
     {% endfor %}{% for attr in cls.attributes %}
     public {{ attr.dest_type }} get{{ attr.name }}() {
         return {{ attr.name }};
