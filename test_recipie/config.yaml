@@ -16,13 +16,4 @@ test_package: Test
 test_templates:
 - dest: ./build/test_output{{ins.package.path}}/{{ins.stereotype}}.json
   format: json
-types:
-  boolean: boolean
-  date: Date
-  dateTime: DateTime
-  decimal: Double
-  enum: String
-  int: int
-  integer: int
-  long: int
-  string: String
+generation_type: default

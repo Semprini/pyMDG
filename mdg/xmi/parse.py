@@ -3,6 +3,7 @@ import re
 import yaml
 
 from mdg.uml import UMLPackage, UMLAssociation, UMLInstance, UMLEnumeration, UMLClass, UMLAttribute
+from mdg import generation_fields
 
 ns = {
     'uml': 'http://schema.omg.org/spec/UML/2.1',
@@ -357,8 +358,8 @@ def attr_parse(parent, element, root):
     properties = detail.find('properties')
     attr.type = properties.get('type')
 
-    if properties.get('type') in settings['types'].keys():
-        attr.dest_type = settings['types'][properties.get('type')]
+    if properties.get('type') in generation_fields[settings['generation_type']].keys():
+        attr.dest_type = generation_fields[settings['generation_type']][properties.get('type')]
     else:
         attr.dest_type = properties.get('type')
 

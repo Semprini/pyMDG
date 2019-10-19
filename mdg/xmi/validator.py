@@ -42,8 +42,8 @@ def validate_package(package):
                 errors.append( ClassValidationError(package,cls,"primary key in both class and supertype") )
 
         for attr in cls.attributes:
-            if attr.stereotype == "auto" and attr.type != "int":
-                errors.append( AttributeValidationError(package,cls,attr,"auto increment field must be int") )
+            if attr.stereotype == "auto" and attr.type not in ("int","bigint"):
+                errors.append( AttributeValidationError(package,cls,attr,"auto increment field must be int or bigint") )
             
     for child in package.children:
         errors += validate_package(child)
