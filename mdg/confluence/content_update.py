@@ -2,7 +2,7 @@ import os
 import glob
 import json
 
-from xmi.confluence.util import basic_auth, http_put, http_get_json
+from mdg.confluence.util import basic_auth, http_put, http_get_json
 
 
 def update(auth, content_id, path):
