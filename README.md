@@ -20,8 +20,13 @@ If your generation recipie has created a file for your wiki (Confluence) then an
 To generate a confluence token please see: https://confluence.atlassian.com/cloud/api-tokens-938839638.html
 > python confluence.py {your email} {your confluence token} {confluence page id} {path to images}
 
-## Metamodel:
-![Metamodel](/test_recipie/Images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png)
+## Nomenclature:
+This diagram shows all the features and how to model in UML
+![Nomenclature](/test_recipie/Images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png)
 
 ## Sample model
 ![Sample model](/test_recipie/Images/EAID_8B1CACEB_2CAB_458e_BED9_DA3ADD6F3F70.png)
+
+## Metamodel
+This diagram shows the internal classes which are passed to the templates during generation.
+![Metamodel](/test_recipie/Images/EAID_B080F856_9EFB_46f2_8D69_1C79956D714A.png)
