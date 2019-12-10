@@ -10,8 +10,8 @@ To generate code a recipie folder is provided:
 
 Or once installed into site-packages:
 > python
-from pymdg import generator
-generator.parse('{folder}')
+> from pymdg import generator
+> generator.parse('{folder}')
 
 The recipie folder must have a config.yaml file which specifies templates and output.
 
@@ -20,6 +20,8 @@ If your generation recipie has created a file for your wiki (Confluence) then an
 To generate a confluence token please see: https://confluence.atlassian.com/cloud/api-tokens-938839638.html
 > python confluence.py {your email} {your confluence token} {confluence page id} {path to images}
 
-
 ## Metamodel:
-![GitHub Logo](/test_recipie/Images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png)
+![Metamodel](/test_recipie/Images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png)
+
+## Sample model
+![Sample model](/test_recipie/Images/EAID_8B1CACEB_2CAB_458e_BED9_DA3ADD6F3F70.png)
