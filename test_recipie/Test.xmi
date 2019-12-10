@@ -329,7 +329,7 @@
 			<element xmi:idref="EAPK_7AD4553C_4DDB_4c0d_A503_EFCBD33BF08F" xmi:type="uml:Package" name="Sample" scope="public">
 				<model package2="EAID_7AD4553C_4DDB_4c0d_A503_EFCBD33BF08F" package="EAPK_35938050_2201_4883_B233_D30192AE85F1" tpos="0" ea_localid="2" ea_eleType="package"/>
 				<properties isSpecification="false" sType="Package" nType="0" scope="public"/>
-				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:10" modified="2019-05-22 13:01:57" complexity="1" status="Proposed"/>
+				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:10" modified="2019-12-10 16:32:13" complexity="1" status="Proposed"/>
 				<code gentype="Java"/>
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
@@ -337,7 +337,7 @@
 				<extendedProperties tagged="0" package_name="Model"/>
 				<packageproperties version="1.0" tpos="0"/>
 				<paths/>
-				<times created="2019-05-27 14:00:10" modified="2019-05-27 14:00:11" lastloaddate="2019-05-27 14:00:10" lastsavedate="2019-05-27 14:00:10"/>
+				<times created="2019-05-27 14:00:10" modified="2019-12-10 16:32:13" lastloaddate="2019-05-27 14:00:10" lastsavedate="2019-05-27 14:00:10"/>
 				<flags iscontrolled="FALSE" isprotected="FALSE" batchsave="0" batchload="0" usedtd="FALSE" logxml="FALSE" packageFlags="isModel=1;VICON=3;"/>
 			</element>
 			<element xmi:idref="EAPK_AF8E1C4F_DB86_4417_AAEC_98D983BC2AFC" xmi:type="uml:Package" name="Model" scope="public">
@@ -3985,33 +3985,6 @@
 			</uml:Profile>
 		</profiles>
 		<diagrams>
-			<diagram xmi:id="EAID_B080F856_9EFB_46f2_8D69_1C79956D714A">
-				<model package="EAPK_7AD4553C_4DDB_4c0d_A503_EFCBD33BF08F" localID="8" owner="EAPK_7AD4553C_4DDB_4c0d_A503_EFCBD33BF08F" tpos="0"/>
-				<properties name="Metamodel" type="Logical"/>
-				<project author="atkinp" version="1.0" created="2019-07-19 12:53:10" modified="2019-12-10 16:29:18"/>
-				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=795;DocSize.cy=1138;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;ShowShape=1;AllDockable=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLineClr=0;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;MDGDgm=;STBLDgm=;ShowNotes=0;OPTIONS_0249E0D3=BkmOn=0:;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;Theme=:119;SaveTag=BDA86BE6;"/>
-				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;tcol=15589597;ofCol=-1;ufCol=-1;hl=0;ufh=0;hh=0;cls=0;bw=0;hli=0;SwimlaneFont=lfh:-21,lfw:0,lfi:0,lfu:0,lfs:0,lfface:Calibri,lfe:0,lfo:0,lfchar:1,lfop:0,lfcp:0,lfq:0,lfpf=0,lfWidth=0;"/>
-				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;clrLine=0;"/>
-				<extendedProperties/>
-				<elements>
-					<element geometry="Left=130;Top=350;Right=234;Bottom=420;" subject="EAID_6D54AE50_B130_47c1_A08D_615FDE303048" seqno="1" style="DUID=9ED76C06;"/>
-					<element geometry="Left=710;Top=270;Right=930;Bottom=397;" subject="EAID_20BB3720_BB9E_4de1_9202_EBCFCE8AD096" seqno="2" style="DUID=C106EF26;"/>
-					<element geometry="Left=410;Top=280;Right=592;Bottom=433;" subject="EAID_392B2011_29BC_4db0_A704_E819A2A771EF" seqno="3" style="DUID=0249E0D3;"/>
-					<element geometry="Left=750;Top=20;Right=930;Bottom=199;" subject="EAID_E3593398_BCFA_4627_9916_5A2327648C06" seqno="4" style="DUID=36936000;"/>
-					<element geometry="Left=407;Top=18;Right=653;Bottom=236;" subject="EAID_C47BBEA8_EE6B_4966_B7BA_9051AD6A590F" seqno="5" style="DUID=C37FAC48;"/>
-					<element geometry="Left=20;Top=20;Right=240;Bottom=264;" subject="EAID_8F478701_4A4D_44ef_8495_77EA9E4A3352" seqno="6" style="DUID=3B6C18D7;"/>
-					<element geometry="SX=69;SY=-95;EX=61;EY=-7;EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_08E0E107_E8DD_496a_8C0E_132751F3EE4D" style="Mode=3;Color=-1;LWidth=0;SOID=C37FAC48;EOID=0249E0D3;Hidden=1;"/>
-					<element geometry="SX=-33;SY=-1;EX=-42;EY=-1;EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_5CB1233C_7E24_4cae_B5C7_8F1B43B64A60" style="Mode=3;Color=-1;LWidth=0;SOID=C37FAC48;EOID=0249E0D3;Hidden=1;"/>
-					<element geometry="SX=-73;SY=-12;EX=-82;EY=-12;EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_FC48EDAF_40E7_4120_97EF_BB14B16B070A" style="Mode=3;Color=-1;LWidth=0;SOID=C37FAC48;EOID=0249E0D3;Hidden=1;"/>
-					<element geometry="SX=100;SY=0;EX=91;EY=0;EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_B1BEF87C_0BE3_4345_9542_2A55FE2B5CE6" style="Mode=3;Color=-1;LWidth=0;SOID=C37FAC48;EOID=0249E0D3;Hidden=1;"/>
-					<element geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_80608A9A_8059_41a3_A0D3_9C9EBFF32AF8" style="Mode=3;Color=-1;LWidth=0;SOID=3B6C18D7;EOID=0249E0D3;Hidden=1;"/>
-					<element geometry="SX=0;SY=0;EX=0;EY=0;EDGE=1;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_B1219FDE_4A5A_4091_8074_89DF534D6F04" style="Mode=3;Color=-1;LWidth=0;SOID=C106EF26;EOID=36936000;Hidden=1;"/>
-					<element geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_2B43B8B3_D69A_40c1_A25A_A106867E7815" style="Mode=3;Color=-1;LWidth=0;SOID=C37FAC48;EOID=36936000;Hidden=1;"/>
-					<element geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_E3152F2E_ED05_4a53_AEC0_8A90409FE62E" style="Mode=3;Color=-1;LWidth=0;SOID=3B6C18D7;EOID=C106EF26;Hidden=1;"/>
-					<element geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_51649C8F_F09A_4069_9299_C8951C4A64A5" style="Mode=3;Color=-1;LWidth=0;SOID=3B6C18D7;EOID=C37FAC48;Hidden=1;"/>
-				</elements>
-			</diagram>
 			<diagram xmi:id="EAID_8B1CACEB_2CAB_458e_BED9_DA3ADD6F3F70">
 				<model package="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" localID="1" owner="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F"/>
 				<properties name="Test_Domain" type="Logical"/>
