@@ -14,6 +14,8 @@ class UMLPackage(object):
         self.inherited_stereotypes = []
         self.name = name
         self.id = id
+        self.diagrams = []
+        self.documentation = ""
 
         if self.parent is None:
             self.root_package = self
@@ -57,7 +59,8 @@ class UMLInstance(object):
         self.stereotype = None
         self.name = name
         self.id = id
-
+        self.documentation = ""
+        
 
 class UMLAssociation(object):
     def __init__(self, package, source, destination):
@@ -73,6 +76,7 @@ class UMLAssociation(object):
         self.destination_multiplicity = ['0', '0']
         self.destination_name = None
         destination.associations_to.append(self)
+        self.documentation = ""
 
     @property
     def source_name_camel(self):
@@ -89,6 +93,7 @@ class UMLEnumeration(object):
         self.package = package
         self.name = name
         self.id = id
+        self.documentation = ""
 
 
 class UMLClass(object):
@@ -104,6 +109,7 @@ class UMLClass(object):
         self.is_supertype = False
         self.stereotypes = []
         self.id_attribute = None
+        self.documentation = ""
 
         for inherited_stereotype, inherited_package in package.inherited_stereotypes:
             if not hasattr(self, inherited_stereotype):
@@ -119,6 +125,7 @@ class UMLAttribute(object):
         self.stereotype = None
         self.classification = None
         self.classification_id = None
+        self.documentation = ""
 
     def name_camel(self):
         return re.sub(r'_([a-z])', lambda x: x.group(1).upper(), self.name)

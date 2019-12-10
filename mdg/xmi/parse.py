@@ -100,6 +100,15 @@ def package_parse(element, root):
     if package.stereotype is not None:
         package.inherited_stereotypes.append([package.stereotype, package])
 
+    package.documentation = properties.get('documentation')
+    if package.documentation is None:
+        package.documentation = ""
+
+    diagram_elements = root.xpath("//diagrams/diagram/model[@package='%s']"%package.id)
+    for diagram_model in diagram_elements:
+        diagram = diagram_model.getparent()
+        package.diagrams.append( diagram.get('{%s}id'%ns['xmi']) )
+
     # Loop through all child elements and get classes and sub packages
     for child in element:
         e_type = child.get('{%s}type' % ns['xmi'])
@@ -218,7 +227,10 @@ def instance_parse(package, element, root):
     detail = root.xpath("//element[@xmi:idref='%s']" % ins.id, namespaces=ns)[0]
     properties = detail.find('properties')
     ins.stereotype = properties.get('stereotype')
-
+    ins.documentation = properties.get('documentation')
+    if ins.documentation is None:
+        ins.documentation = ""
+        
     # Create attributes for each item found in the run_state
     # TODO: Change this to using an re
     extended_properties = detail.find('extended_properties')
@@ -331,7 +343,11 @@ def class_parse(package, element, root):
     # Detail is sparx sprecific
     # TODO: Put modelling tool in settings and use tool specific parser here
     detail = root.xpath("//element[@xmi:idref='%s']" % cls.id, namespaces=ns)[0]
-
+    properties = detail.find('properties')
+    cls.documentation = properties.get('documentation')
+    if cls.documentation is None:
+        cls.documentation = ""
+            
     # Get stereotypes, when multiple are provided only the first is found in the stereotype tag but all are found in
     # xrefs
     xrefs = detail.find('xrefs')
