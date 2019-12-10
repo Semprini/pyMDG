@@ -15,6 +15,14 @@ Or once installed into site-packages:
 
 The recipie folder must have a config.yaml file which specifies templates and output.
 
+## Export Process
+In Sparx select the domain root node  (e.g. Model/Sample )
+Select the publish tab at the top
+Select Publish As... from top menu
+Set export type as XMI 2.1
+Optionally select 'Export Diagrams', 'Generate Diagram Images' and PNG format
+Export to folder where you want to generate from
+
 ## Wiki documentation upload
 If your generation recipie has created a file for your wiki (Confluence) then an uploader utilitity can be used. This assumes that you have done the XMI export from Sparx EA with export diagrams and generate diagram images. 
 To generate a confluence token please see: https://confluence.atlassian.com/cloud/api-tokens-938839638.html
