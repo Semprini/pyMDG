@@ -13,3 +13,6 @@ from pymdg import generator
 generator.parse('<<folder>>')
 
 The recipie folder must have a config.yaml file which specifies templates and output.
+
+# Sample Model:
+![GitHub Logo](/test_recipie/Images/EAID_8B1CACEB_2CAB_458e_BED9_DA3ADD6F3F70.png)
