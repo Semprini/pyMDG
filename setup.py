@@ -14,7 +14,7 @@ def find_packages(srcdir):
 packages = find_packages('.')
 
 setup(name='pymdg',
-    version='0.1-alpha',
+    version='0.1a0',
     packages=packages,
     install_requires=[
         "lxml",

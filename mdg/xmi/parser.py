@@ -132,7 +132,7 @@ def UMLPackage_parse(package, element, root):
         #print("Parsed package with {} classes & {} instances: {}{}".format( len(package.classes), len(package.instances), package.path, package.name ) )
         
 
-    def parse_associations(self):
+def parse_associations(self):
         """ Packages and classes should already have been parsed so now we link classes for each association.
         This gets messy as XMI output varies based on association type. 
         This supports both un-specified and source to destination directional associations
@@ -187,7 +187,7 @@ def UMLPackage_parse(package, element, root):
             child.parse_associations()
 
 
-    def parse_inheritance(self):
+def parse_inheritance(self):
         """ Looks for classes with a supertype and finds the correct object """
         for cls in self.classes:
             if cls.supertype_id is not None:

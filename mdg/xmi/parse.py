@@ -207,9 +207,12 @@ def package_parse_inheritance(package):
     for cls in package.classes:
         if cls.supertype_id is not None:
             cls.supertype = package.root_package.find_by_id(cls.supertype_id)
-            cls.supertype.is_supertype = True
-            if cls.id_attribute is None:
-                cls.id_attribute = cls.supertype.id_attribute
+            if cls.supertype == None:
+                print("Cannot find supertype node id={}".format(cls.supertype_id))
+            else:
+                cls.supertype.is_supertype = True
+                if cls.id_attribute is None:
+                    cls.id_attribute = cls.supertype.id_attribute
 
         for attr in cls.attributes:
             if attr.classification_id is not None:
@@ -268,19 +271,19 @@ def association_parse(package, source_element, dest_element, source, dest):
         dest_upper = dest_element.find('upperValue').get('value')
         if dest_upper == '-1':
             dest_upper = '*'
-        association.dest_multiplicity = (dest_lower, dest_upper)
+        association.destination_multiplicity = (dest_lower, dest_upper)
 
     # print( '{}:{} to {}:{}'.format(self.source.name, self.source_multiplicity, self.dest.name,
-    # self.dest_multiplicity))
+    # self.destination_multiplicity))
 
     # Use multiplicities to calculate the type of association
-    if association.source_multiplicity[1] == '*' and association.dest_multiplicity[1] in ('0', '1'):
+    if association.source_multiplicity[1] == '*' and association.destination_multiplicity[1] in ('0', '1'):
         association.association_type = 'ManyToOne'
-    elif association.dest_multiplicity[1] == '*' and association.source_multiplicity[1] in ('0', '1'):
+    elif association.destination_multiplicity[1] == '*' and association.source_multiplicity[1] in ('0', '1'):
         association.association_type = 'OneToMany'
-    elif association.dest_multiplicity[1] == '*' and association.source_multiplicity[1] == '*':
+    elif association.destination_multiplicity[1] == '*' and association.source_multiplicity[1] == '*':
         association.association_type = 'ManyToMany'
-    elif association.dest_multiplicity[1] in ('0', '1') and association.source_multiplicity[1] in ('0', '1'):
+    elif association.destination_multiplicity[1] in ('0', '1') and association.source_multiplicity[1] in ('0', '1'):
         association.association_type = 'OneToOne'
 
     # If it's an association to or from a multiple then pluralize the name
@@ -298,7 +301,7 @@ def association_parse(package, source_element, dest_element, source, dest):
     else:
         # Use opposing ends class name as attribute name for association
         association.source_name = association.destination.name.lower()
-        if association.dest_multiplicity[1] == '*':
+        if association.destination_multiplicity[1] == '*':
             association.source_name += 's'
 
     # print('Assoc in {}: {} to {}: type = {}'.format(self.source.name, self.source_name, self.dest_name,
