@@ -33,5 +33,20 @@ generation_fields = {
         "duration": "DurationField",
         "file": "FileField",
         "float": "FloatField",
+    },
+    "marshmallow": {
+        "boolean": "Boolean",
+        "int": "Integer",
+        "integer": "Integer",
+        "bigint": "Integer",
+        "decimal": "Decimal",
+        "string": "String",
+        "text": "Text",
+        "duration": "Duration",
+        "file": "File",
+        "float": "Float",
+        "date": "Date",
+        "dateTime": "DateTime",
+        "date_time": "DateTime",
     }
 }

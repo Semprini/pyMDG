@@ -34,7 +34,7 @@ def parse_uml(element, root):
     # Create our root model UMLPackage and parse in 3 passes
     e_type = model_element.get('{%s}type' % ns['xmi'])
     if e_type == 'uml:Package':
-        model_package = package_parse(model_element, root)
+        model_package = package_parse(model_element, root, None)
         package_parse_inheritance(model_package)
         package_parse_associations(model_package, model_element, model_element)
     else:
@@ -50,7 +50,7 @@ def parse_uml(element, root):
     # Create our root test data UMLPackage and parse in 2 passes. Does not support inheritance
     e_type = test_element.get('{%s}type' % ns['xmi'])
     if e_type == 'uml:Package':
-        test_package = package_parse(test_element, root)
+        test_package = package_parse(test_element, root, None)
         package_parse_associations(test_package, test_element, test_element)
 
     # With our test package parsed, we must return a list of instances instead of hierarchy of packages
@@ -77,24 +77,24 @@ def parse_test_cases(package):
     return test_cases
 
 
-def package_parse(element, root):
+def package_parse(element, root_element, parent_package):
     """ Extract package details, call class parser for classes and self parser for sub-packages.
     Associations are not done here, but in a 2nd pass using the parse_associations function.
     :param element:
-    :param root:
+    :param root_element:
     :return:
     :rtype: UMLPackage
     """
     name = element.get('name')
     id = element.get('{%s}id' % ns['xmi'])
 
-    package = UMLPackage(id, name)
+    package = UMLPackage(id, name, parent_package)
     package.element = element
-    package.root_element = root
+    package.root_element = root_element
 
     # Detail is Sparx specific
     # TODO: Put modelling tool in settings and use tool specific parser here
-    detail = root.xpath("//element[@xmi:idref='%s']" % package.id, namespaces=ns)[0]
+    detail = root_element.xpath("//element[@xmi:idref='%s']" % package.id, namespaces=ns)[0]
     properties = detail.find('properties')
     package.stereotype = properties.get('stereotype')
     if package.stereotype is not None:
@@ -104,26 +104,26 @@ def package_parse(element, root):
     if package.documentation is None:
         package.documentation = ""
 
-    diagram_elements = root.xpath("//diagrams/diagram/model[@package='%s']"%package.id)
+    diagram_elements = root_element.xpath("//diagrams/diagram/model[@package='%s']"%package.id)
     for diagram_model in diagram_elements:
         diagram = diagram_model.getparent()
         package.diagrams.append( diagram.get('{%s}id'%ns['xmi']) )
 
-    # Loop through all child elements and get classes and sub packages
+    # Loop through all child elements and create nodes for classes and sub packages
     for child in element:
         e_type = child.get('{%s}type' % ns['xmi'])
 
         if e_type == 'uml:Package':
-            pkg = package_parse(child, root)
+            pkg = package_parse(child, root_element, package)
             package.children.append(pkg)
 
         elif e_type == 'uml:Class':
-            cls = class_parse(package, child, root)
+            cls = class_parse(package, child, root_element)
             if cls.name is not None:
                 package.classes.append(cls)
 
         elif e_type == 'uml:InstanceSpecification':
-            ins = instance_parse(package, child, root)
+            ins = instance_parse(package, child, root_element)
             if ins.name is not None:
                 package.instances.append(ins)
 
@@ -131,6 +131,7 @@ def package_parse(element, root):
             enumeration = enumeration_parse(package, child)
             if enumeration.name is not None:
                 package.enumerations.append(enumeration)
+            #print(f"Enum: {package.path}{enumeration}")
 
     return package
 
@@ -217,6 +218,11 @@ def package_parse_inheritance(package):
         for attr in cls.attributes:
             if attr.classification_id is not None:
                 attr.classification = package.root_package.find_by_id(attr.classification_id)
+                if attr.classification == None:
+                    print("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
+                    #print(package.root_package.name)
+                    #for p in package.root_package.children:
+                    #    print("    " + p.name)
 
     for child in package.children:
         package_parse_inheritance(child)

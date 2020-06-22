@@ -19,11 +19,16 @@ class UMLPackage(object):
 
         if self.parent is None:
             self.root_package = self
-            self.path = '/'
+            self.path = '/' +  self.name + '/'
         else:
             self.root_package = parent.root_package
             self.inherited_stereotypes += parent.inherited_stereotypes
             self.path = self.parent.path + self.name + '/'
+
+
+    def __str__(self):
+        return f"{self.name}"
+
 
     def find_by_id(self, id):
         """ Finds UMLPackage, UMLClass, UMLEnumeration or UMLInstance object with specified Id
@@ -36,13 +41,13 @@ class UMLPackage(object):
             if cls.id == id:
                 return cls
 
-        for enum in self.enumerations:
-            if enum.id == id:
-                return enum
-
         for ins in self.instances:
             if ins.id == id:
                 return ins
+
+        for enum in self.enumerations:
+            if enum.id == id:
+                return enum
 
         for child in self.children:
             res = child.find_by_id(id)
@@ -95,6 +100,9 @@ class UMLEnumeration(object):
         self.id = id
         self.documentation = ""
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class UMLClass(object):
     def __init__(self, package, name, id):
@@ -126,6 +134,7 @@ class UMLAttribute(object):
         self.classification = None
         self.classification_id = None
         self.documentation = ""
+        self.dest_type = None
 
     def name_camel(self):
         return re.sub(r'_([a-z])', lambda x: x.group(1).upper(), self.name)
