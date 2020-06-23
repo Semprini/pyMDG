@@ -1,4 +1,4 @@
-package nz.co.genesis_energy.{{ enum.package.parent.name }}.{{ enum.package.name }};
+package my.co.sample.{{ enum.package.parent.name }}.{{ enum.package.name }};
 
 
 public enum {{ enum.name }}()

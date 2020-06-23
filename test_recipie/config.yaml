@@ -1,15 +1,18 @@
 model_package: Model
-root_package: Sample
-source: ./test_recipie/test.xmi
-templates_folder: ./test_recipie
+root_package: SampleIndustry
+source: ./test_recipie/sample_industry.xmi
+templates_folder: ./test_recipie/templates
 templates:
-- dest: ./build/test_output{{package.path}}{{package.name}}.jdl
+- dest: ./build/test_output/python{{package.path}}/models.py
+  level: package
+  source: models.py
+- dest: ./build/test_output/jdl{{package.path}}{{package.name}}.jdl
   level: package
   source: entities.jdl
-- dest: ./build/test_output/entities{{cls.package.path}}{{cls.name}}.java
+- dest: ./build/test_output/java/entities{{cls.package.path}}{{cls.name}}.java
   level: class
   source: pojos.java
-- dest: ./build/test_output/enums{{enum.package.path}}{{enum.name}}.java
+- dest: ./build/test_output/java/enums{{enum.package.path}}{{enum.name}}.java
   level: enumeration
   source: enums.java
 test_package: Test
