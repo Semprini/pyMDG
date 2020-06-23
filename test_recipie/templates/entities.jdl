@@ -1,7 +1,7 @@
 {% for entity in package.classes %}
 entity {{ entity.name }} {
 {% for attr in entity.attributes[:-1] %}
-    {{attr.name}} {{attr.dest_type}},{% endfor %}{% for attr in entity.attributes[-1:] %}
+    {{attr.name}} {{attr.dest_type}}{% endfor %}{% for attr in entity.attributes[-1:] %}
     {{attr.name}} {{attr.dest_type}}{% endfor %}
 }
 {% endfor %}

@@ -1131,19 +1131,41 @@
 			</uml:Profile>
 		</profiles>
 		<diagrams>
-			<diagram xmi:id="EAID_C2DCFBA0_B0CD_4ee7_B446_57AFD55328FE">
-				<model package="EAPK_2EC26DBB_E816_4b6b_8801_153AD1C99052" localID="56" owner="EAPK_2EC26DBB_E816_4b6b_8801_153AD1C99052"/>
-				<properties name="TestData" type="Object"/>
-				<project author="atkin" version="1.0" created="2020-06-23 19:26:51" modified="2020-06-23 19:32:20"/>
+			<diagram xmi:id="EAID_96AC850E_2FD0_4e6c_B00E_C030EDA89F42">
+				<model package="EAPK_66210731_396E_41fe_91E3_39FAF6AAE634" localID="57" owner="EAPK_66210731_396E_41fe_91E3_39FAF6AAE634"/>
+				<properties name="Model" type="Logical"/>
+				<project author="atkin" version="1.0" created="2020-06-23 20:10:29" modified="2020-06-23 20:12:56"/>
 				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=815;DocSize.cy=1067;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=1;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;ShowShape=1;AllDockable=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLineClr=0;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;MDGDgm=;MDGView=UML::Simple Object;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;Theme=:119;SaveTag=26BBF0D4;"/>
+				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLineClr=0;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;Theme=:119;SaveTag=1DDC73CF;"/>
 				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;ufCol=-1;hl=1;ufh=0;hh=0;cls=0;bw=0;hli=0;SwimlaneFont=lfh:-10,lfw:0,lfi:0,lfu:0,lfs:0,lfface:Calibri,lfe:0,lfo:0,lfchar:1,lfop:0,lfcp:0,lfq:0,lfpf=0,lfWidth=0;"/>
 				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;clrLine=0;"/>
 				<extendedProperties/>
 				<elements>
-					<element geometry="Left=610;Top=249;Right=733;Bottom=311;" subject="EAID_F7BABB3C_5CFE_49b9_840D_78E1BC77DF4D" seqno="1" style="DUID=831D7677;"/>
-					<element geometry="Left=592;Top=134;Right=715;Bottom=196;" subject="EAID_2C9E6111_CE12_4d2a_AAAB_7FE6DA2EF3D2" seqno="2" style="DUID=4E174F0C;"/>
-					<element geometry="Left=346;Top=179;Right=446;Bottom=234;" subject="EAID_67B5C6F5_3A2C_47db_BF32_B44C3751DC51" seqno="3" style="DUID=DCF54134;"/>
+					<element geometry="Left=238;Top=405;Right=328;Bottom=484;imgL=48;imgT=468;imgR=171;imgB=576;" subject="EAID_E293515A_A540_453b_92BB_F201C5CDB039" seqno="1" style="DUID=BC5E9C55;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+					<element geometry="Left=238;Top=108;Right=328;Bottom=178;imgL=48;imgT=63;imgR=171;imgB=158;" subject="EAID_5A9CB912_F283_41ae_9E4D_D73598C576AE" seqno="2" style="DUID=CC8416CF;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+					<element geometry="Left=682;Top=257;Right=772;Bottom=342;imgL=654;imgT=266;imgR=776;imgB=382;" subject="EAID_158872D2_A080_4905_BA8F_5D4A2AEDE5C3" seqno="3" style="DUID=924665FB;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+					<element geometry="Left=238;Top=265;Right=328;Bottom=335;imgL=48;imgT=277;imgR=171;imgB=373;" subject="EAID_4C590147_0972_48b4_A592_C6523942A4FA" seqno="4" style="DUID=28414A17;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+					<element geometry="Left=449;Top=248;Right=585;Bottom=350;imgL=336;imgT=254;imgR=521;imgB=393;" subject="EAID_272A824F_58C0_4e49_93EE_3D2C0FCF16FE" seqno="5" style="DUID=A83BE0EF;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+					<element geometry="Left=472;Top=108;Right=562;Bottom=178;imgL=367;imgT=63;imgR=490;imgB=158;" subject="EAID_B55731D4_644B_464e_8D11_7723CC0A4E37" seqno="6" style="DUID=75376BE4;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
+					<element geometry="EDGE=3;$LLB=CX=17:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LLT=;LMT=;LMB=;LRT=;LRB=CX=17:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_FBEEC661_49DC_4d9a_9456_7108FAF14DFF" style="Mode=3;EOID=BC5E9C55;SOID=28414A17;Color=-1;LWidth=0;Hidden=0;"/>
+					<element geometry="EDGE=4;$LLB=CX=17:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LLT=CX=83:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LMT=;LMB=;LRT=;LRB=CX=17:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_157A81B7_08C9_413f_83F9_2B5925F40168" style="Mode=3;EOID=28414A17;SOID=A83BE0EF;Color=-1;LWidth=0;Hidden=0;"/>
+					<element geometry="EDGE=4;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_0D94C3E7_F23A_44c9_B585_7F66CA955508" style="Mode=3;EOID=CC8416CF;SOID=75376BE4;Color=-1;LWidth=0;Hidden=0;"/>
+					<element geometry="EDGE=3;$LLB=CX=17:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LLT=;LMT=;LMB=;LRT=;LRB=CX=6:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_3155D38E_1C0E_4234_920E_932B28EE8187" style="Mode=3;EOID=A83BE0EF;SOID=75376BE4;Color=-1;LWidth=0;Hidden=0;"/>
+				</elements>
+			</diagram>
+			<diagram xmi:id="EAID_C2DCFBA0_B0CD_4ee7_B446_57AFD55328FE">
+				<model package="EAPK_2EC26DBB_E816_4b6b_8801_153AD1C99052" localID="56" owner="EAPK_2EC26DBB_E816_4b6b_8801_153AD1C99052"/>
+				<properties name="TestData" type="Object"/>
+				<project author="atkin" version="1.0" created="2020-06-23 19:26:51" modified="2020-06-23 20:12:56"/>
+				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=815;DocSize.cy=1067;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=1;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;ShowShape=1;AllDockable=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLineClr=0;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;MDGDgm=;MDGView=UML::Simple Object;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;Theme=:119;SaveTag=65E289F0;"/>
+				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=-1;bold=false;fcol=0;tcol=-1;ofCol=-1;ufCol=-1;hl=1;ufh=0;hh=0;cls=0;bw=0;hli=0;SwimlaneFont=lfh:-10,lfw:0,lfi:0,lfu:0,lfs:0,lfface:Calibri,lfe:0,lfo:0,lfchar:1,lfop:0,lfcp:0,lfq:0,lfpf=0,lfWidth=0;"/>
+				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;clrLine=0;"/>
+				<extendedProperties/>
+				<elements>
+					<element geometry="Left=610;Top=249;Right=733;Bottom=311;imgL=408;imgT=220;imgR=576;imgB=304;" subject="EAID_F7BABB3C_5CFE_49b9_840D_78E1BC77DF4D" seqno="1" style="DUID=831D7677;"/>
+					<element geometry="Left=592;Top=134;Right=715;Bottom=196;imgL=383;imgT=63;imgR=551;imgB=147;" subject="EAID_2C9E6111_CE12_4d2a_AAAB_7FE6DA2EF3D2" seqno="2" style="DUID=4E174F0C;"/>
+					<element geometry="Left=346;Top=179;Right=446;Bottom=234;imgL=48;imgT=124;imgR=184;imgB=199;" subject="EAID_67B5C6F5_3A2C_47db_BF32_B44C3751DC51" seqno="3" style="DUID=DCF54134;"/>
 					<element geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=CX=6:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_3039A868_1109_430b_A5E0_DE82A9646265" style="Mode=3;EOID=831D7677;SOID=DCF54134;Color=-1;LWidth=0;Hidden=0;"/>
 					<element geometry="SX=0;SY=0;EX=0;EY=0;EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=CX=6:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;IRHS=;ILHS=;Path=;" subject="EAID_84335E88_B6E8_42aa_8E72_C0E729A15A44" style="Mode=3;EOID=4E174F0C;SOID=DCF54134;Color=-1;LWidth=0;Hidden=0;"/>
 				</elements>
