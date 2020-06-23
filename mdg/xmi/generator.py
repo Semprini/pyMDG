@@ -8,9 +8,7 @@ from jinja2 import Template, Environment, FileSystemLoader
 
 from mdg.xmi.parse import ns, parse_uml
 from mdg.xmi.validator import validate_package
-
-settings = None
-
+from mdg import settings
 
 def output_model(package, recipie_path):
     env = Environment(loader=FileSystemLoader(settings['templates_folder']))
@@ -116,13 +114,9 @@ def serialize_instance(instance):
 
 
 def parse(recipie_path):
-    global settings
 
-    config_filename = recipie_path + "/config.yaml"
-    os.environ.setdefault("PYXMI_SETTINGS_MODULE", config_filename)
-
-    with open(config_filename, 'r') as config_file:
-        settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
+    #with open(config_filename, 'r') as config_file:
+    #    settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
 
     tree = etree.parse(settings['source'])
     model = tree.find('uml:Model', ns)

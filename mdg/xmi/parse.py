@@ -3,7 +3,7 @@ import re
 import yaml
 
 from mdg.uml import UMLPackage, UMLAssociation, UMLInstance, UMLEnumeration, UMLClass, UMLAttribute
-from mdg import generation_fields
+from mdg import generation_fields, settings
 
 ns = {
     'uml': 'http://schema.omg.org/spec/UML/2.1',
@@ -12,17 +12,15 @@ ns = {
     'NIEM_PSM_profile': 'http://www.omg.org/spec/NIEM-UML/20130801/NIEM_PSM_Profile',
 }
 
-settings = None
+
 
 
 def parse_uml(element, root):
     """ Root package parser entry point.
     """
-    global settings
     test_package = None
 
-    with open(os.environ.get('PYXMI_SETTINGS_MODULE'), 'r') as config_file:
-        settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
+
 
     # Find the element that is the root for models
     print("Parsing models")
@@ -371,7 +369,6 @@ def class_parse(package, element, root):
 
 
 def attr_parse(parent, element, root):
-    global settings
     attr = UMLAttribute(parent, element.get('name'), element.get('{%s}id' % ns['xmi']))
 
     attr.visibility = element.get('visibility')

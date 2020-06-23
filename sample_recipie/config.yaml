@@ -1,0 +1,22 @@
+model_package: Model
+root_package: SampleIndustry
+source: ./sample_recipie/sample_industry.xmi
+templates_folder: ./sample_recipie/templates
+templates:
+- dest: ./build/sample_output/python{{package.path}}/models.py
+  level: package
+  source: models.py
+- dest: ./build/sample_output/jdl{{package.path}}{{package.name}}.jdl
+  level: package
+  source: entities.jdl
+- dest: ./build/sample_output/java/entities{{cls.package.path}}{{cls.name}}.java
+  level: class
+  source: pojos.java
+- dest: ./build/sample_output/java/enums{{enum.package.path}}{{enum.name}}.java
+  level: enumeration
+  source: enums.java
+test_package: Test
+test_templates:
+- dest: ./build/sample_output{{ins.package.path}}/{{ins.stereotype}}.json
+  format: json
+generation_type: default
