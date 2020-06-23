@@ -135,6 +135,7 @@ class UMLAttribute(object):
         self.classification_id = None
         self.documentation = ""
         self.dest_type = None
+        self.value = None
 
     def name_camel(self):
         return re.sub(r'_([a-z])', lambda x: x.group(1).upper(), self.name)

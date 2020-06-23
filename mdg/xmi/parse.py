@@ -65,14 +65,14 @@ def parse_test_cases(package):
     """
     test_cases = []
 
-    # for instance in package.instances:
-    #     if instance.stereotype in ['request', 'response']:
-    #         test_cases.append(instance)
-    #
-    # for child in package.children:
-    #     res = parse_test_cases(child)
-    #     if res:
-    #         test_cases += res
+    for instance in package.instances:
+        if instance.stereotype in ['request', 'response']:
+            test_cases.append(instance)
+    
+    for child in package.children:
+        res = parse_test_cases(child)
+        if res:
+            test_cases += res
 
     return test_cases
 
@@ -240,17 +240,20 @@ def instance_parse(package, element, root):
     if ins.documentation is None:
         ins.documentation = ""
         
-    # Create attributes for each item found in the run_state
+    # Create attributes for each item found in the runstate
     # TODO: Change this to using an re
-    extended_properties = detail.find('extended_properties')
-    if extended_properties and extended_properties.get('run_state') is not None:
-        run_state = extended_properties.get('run_state')
+    extended_properties = detail.find('extendedProperties')
+    if extended_properties is not None and extended_properties.get('runstate') is not None:
+        run_state = extended_properties.get('runstate')
         vars = run_state.split('@ENDVAR;')
         for var in vars:
             if var != '':
                 variable, value = (var.split(';')[1:3])
                 attr = UMLAttribute(ins, variable.split('=')[1], value.split('=')[1])
+                attr.value =value.split('=')[1]
                 ins.attributes.append(attr)
+    #else: #TODO: logging debug
+    #    print(f"No runstate found for instance {ins.name} | {ins.id}")
     return ins
 
 
