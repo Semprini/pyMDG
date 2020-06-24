@@ -1,4 +1,3 @@
-import os
 import setuptools
 
 
@@ -12,6 +11,7 @@ setuptools.setup(
     author='Paul Atkin',
     description='Model driven genration - from UML to Code & Docs',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/semprini/pyMDG',
     packages=setuptools.find_packages(),
     classifiers=[
