@@ -1,24 +1,28 @@
 import os
+import setuptools
 
-from setuptools import setup
 
-def find_packages(srcdir):
-    package_list = []
-    badnames=["__pycache__","venv"]
-    for root, _, files in os.walk(srcdir):
-        if not any(bad in root for bad in badnames):
-            if "__init__.py" in files:
-                package_list.append( root.replace("/",".").replace("\\",".").strip('.') )
-    return package_list
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
-packages = find_packages('.')
 
-setup(name='pymdg',
+setuptools.setup(
+    name='pymdg',
     version='0.1a0',
-    packages=packages,
+    author='Paul Atkin',
+    description='Model driven genration - from UML to Code & Docs',
+    long_description=long_description,
+    url='https://github.com/semprini/pyMDG',
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: GPL",
+        "Operating System :: OS Independent",
+    ],
     install_requires=[
         "lxml",
         "jinja2",
         "pyyaml",
     ],
+    python_requires='>=3.5',
 )
