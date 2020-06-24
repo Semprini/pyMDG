@@ -4,7 +4,7 @@ from setuptools import setup
 
 def find_packages(srcdir):
     package_list = []
-    badnames=["__pycache__",]
+    badnames=["__pycache__","venv"]
     for root, _, files in os.walk(srcdir):
         if not any(bad in root for bad in badnames):
             if "__init__.py" in files:
