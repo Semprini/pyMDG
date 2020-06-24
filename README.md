@@ -6,15 +6,19 @@ Parser and tools to manipulate UML models. Initial version uses Sparx EA Generat
 Can be used to parse XMI file passed to jinja2 templates for generation of code (POJO, POCO, Django etc), JSON data and HTML documentation.
 
 ## Test
-To generate code a recipie folder is provided:
-> python generate.py <recipie folder>
+Standard testing:
+ > python -m unittest
 
-Or once installed into site-packages:
-> python
-> from pymdg import generator
-> generator.parse('{folder}')
+To generate code a sample recipie folder is provided:
+ > python generate.py <recipie folder>
 
-The recipie folder must have a config.yaml file which specifies templates and output.
+Or once installed into site-packages use a little python script:
+ ```
+ from mdg import generator
+ generator.parse('{folder}')
+```
+
+The recipie folder must have a config.yaml file which specifies templates and output. See the sample config for examples
 
 ## Export Process
 - In Sparx select the domain root node  (e.g. Model/Sample )
