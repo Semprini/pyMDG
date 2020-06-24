@@ -5,6 +5,7 @@ from lxml import etree
 from mdg.xmi.parse import attr_parse, class_parse
 from mdg.uml import UMLClass, UMLPackage
 
+
 class TestXMIAttributeParse(unittest.TestCase):
     def setUp(self):
         self.tree = etree.fromstring("""
@@ -28,9 +29,8 @@ class TestXMIAttributeParse(unittest.TestCase):
                             <xrefs value="$XREFPROP=$XID={EA9F1375-D590-4c2b-8721-DC0B55BFE4A9}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={47318F66-BBA6-4e9f-9045-83B2E12E25C8}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
                         </attribute>
                     </xmi:XMI>""")
-        self.package = UMLPackage("id","name")
+        self.package = UMLPackage("id", "name")
         self.parent = UMLClass(self.package, "name", "id")
-
 
     def test_attr_parse(self):
         element = self.tree.find("ownedAttribute")
@@ -62,8 +62,7 @@ class TestXMIClassParse(unittest.TestCase):
                             <extendedProperties tagged="0" package_name="Common"/>
                         </element>
                     </xmi:XMI>""")
-        self.package = UMLPackage("id","name")
-
+        self.package = UMLPackage("id", "name")
 
     def test_class_parse(self):
         element = self.tree.find("packagedElement")

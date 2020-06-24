@@ -19,16 +19,14 @@ class UMLPackage(object):
 
         if self.parent is None:
             self.root_package = self
-            self.path = '/' +  self.name + '/'
+            self.path = '/' + self.name + '/'
         else:
             self.root_package = parent.root_package
             self.inherited_stereotypes += parent.inherited_stereotypes
             self.path = self.parent.path + self.name + '/'
 
-
     def __str__(self):
         return f"{self.name}"
-
 
     def find_by_id(self, id):
         """ Finds UMLPackage, UMLClass, UMLEnumeration or UMLInstance object with specified Id
@@ -65,7 +63,7 @@ class UMLInstance(object):
         self.name = name
         self.id = id
         self.documentation = ""
-        
+
 
 class UMLAssociation(object):
     def __init__(self, package, source, destination):

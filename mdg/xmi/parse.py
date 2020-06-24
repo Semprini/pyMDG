@@ -1,6 +1,4 @@
-import os
 import re
-import yaml
 
 from mdg.uml import UMLPackage, UMLAssociation, UMLInstance, UMLEnumeration, UMLClass, UMLAttribute
 from mdg import generation_fields, settings
@@ -13,14 +11,10 @@ ns = {
 }
 
 
-
-
 def parse_uml(element, root):
     """ Root package parser entry point.
     """
     test_package = None
-
-
 
     # Find the element that is the root for models
     print("Parsing models")
@@ -66,7 +60,7 @@ def parse_test_cases(package):
     for instance in package.instances:
         if instance.stereotype in ['request', 'response']:
             test_cases.append(instance)
-    
+
     for child in package.children:
         res = parse_test_cases(child)
         if res:
@@ -102,26 +96,32 @@ def package_parse(element, root_element, parent_package):
     if package.documentation is None:
         package.documentation = ""
 
-    diagram_elements = root_element.xpath("//diagrams/diagram/model[@package='%s']"%package.id)
+    diagram_elements = root_element.xpath("//diagrams/diagram/model[@package='%s']" % package.id)
     for diagram_model in diagram_elements:
         diagram = diagram_model.getparent()
-        package.diagrams.append( diagram.get('{%s}id'%ns['xmi']) )
+        package.diagrams.append(diagram.get('{%s}id' % ns['xmi']))
+
+    package_parse_children(element, package)
+    return package
+
+
+def package_parse_children(element, package):
 
     # Loop through all child elements and create nodes for classes and sub packages
     for child in element:
         e_type = child.get('{%s}type' % ns['xmi'])
 
         if e_type == 'uml:Package':
-            pkg = package_parse(child, root_element, package)
+            pkg = package_parse(child, package.root_element, package)
             package.children.append(pkg)
 
         elif e_type == 'uml:Class':
-            cls = class_parse(package, child, root_element)
+            cls = class_parse(package, child, package.root_element)
             if cls.name is not None:
                 package.classes.append(cls)
 
         elif e_type == 'uml:InstanceSpecification':
-            ins = instance_parse(package, child, root_element)
+            ins = instance_parse(package, child, package.root_element)
             if ins.name is not None:
                 package.instances.append(ins)
 
@@ -129,9 +129,7 @@ def package_parse(element, root_element, parent_package):
             enumeration = enumeration_parse(package, child)
             if enumeration.name is not None:
                 package.enumerations.append(enumeration)
-            #print(f"Enum: {package.path}{enumeration}")
-
-    return package
+            # print(f"Enum: {package.path}{enumeration}") # TODO: Logging debug
 
 
 def package_parse_associations(package, element, root_element):
@@ -206,7 +204,7 @@ def package_parse_inheritance(package):
     for cls in package.classes:
         if cls.supertype_id is not None:
             cls.supertype = package.root_package.find_by_id(cls.supertype_id)
-            if cls.supertype == None:
+            if cls.supertype is None:
                 print("Cannot find supertype node id={}".format(cls.supertype_id))
             else:
                 cls.supertype.is_supertype = True
@@ -216,11 +214,11 @@ def package_parse_inheritance(package):
         for attr in cls.attributes:
             if attr.classification_id is not None:
                 attr.classification = package.root_package.find_by_id(attr.classification_id)
-                if attr.classification == None:
+                if attr.classification is None:
                     print("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
-                    #print(package.root_package.name)
-                    #for p in package.root_package.children:
-                    #    print("    " + p.name)
+                    # print(package.root_package.name)
+                    # for p in package.root_package.children:
+                    #     print("    " + p.name)
 
     for child in package.children:
         package_parse_inheritance(child)
@@ -237,7 +235,7 @@ def instance_parse(package, element, root):
     ins.documentation = properties.get('documentation')
     if ins.documentation is None:
         ins.documentation = ""
-        
+
     # Create attributes for each item found in the runstate
     # TODO: Change this to using an re
     extended_properties = detail.find('extendedProperties')
@@ -248,10 +246,10 @@ def instance_parse(package, element, root):
             if var != '':
                 variable, value = (var.split(';')[1:3])
                 attr = UMLAttribute(ins, variable.split('=')[1], value.split('=')[1])
-                attr.value =value.split('=')[1]
+                attr.value = value.split('=')[1]
                 ins.attributes.append(attr)
-    #else: #TODO: logging debug
-    #    print(f"No runstate found for instance {ins.name} | {ins.id}")
+    # else: #TODO: logging debug
+    #     print(f"No runstate found for instance {ins.name} | {ins.id}")
     return ins
 
 
@@ -357,7 +355,7 @@ def class_parse(package, element, root):
     cls.documentation = properties.get('documentation')
     if cls.documentation is None:
         cls.documentation = ""
-            
+
     # Get stereotypes, when multiple are provided only the first is found in the stereotype tag but all are found in
     # xrefs
     xrefs = detail.find('xrefs')
