@@ -1,3 +1,4 @@
+![Test Application](https://github.com/Semprini/pyMDG/workflows/Test%20Application/badge.svg)
 # pyMDG
 
 ## Overview
