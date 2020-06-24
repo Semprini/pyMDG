@@ -1,7 +1,6 @@
 #!/usr/bin/python
-import sys, os
-
-
+import sys
+import os
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
@@ -10,8 +9,7 @@ if __name__ == '__main__':
         recipie_path = str(sys.argv[1])
 
     config_filename = recipie_path + "/config.yaml"
-    os.environ.setdefault("PYXMI_SETTINGS_MODULE", config_filename)
+    os.environ.setdefault("PYMDG_SETTINGS_MODULE", config_filename)
 
     from mdg.xmi import generator
     generator.parse(recipie_path)
-    
