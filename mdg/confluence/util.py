@@ -3,6 +3,7 @@ import requests
 import json
 from base64 import b64encode
 import os
+import logging
 
 def bearer_auth(api_client_id, api_client_secret):
     data = """grant_type=client_credentials&client_id={}&client_secret={}&resource=http://GE-SemanticHub-Explorer""".format(api_client_id, api_client_secret)
