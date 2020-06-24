@@ -1,13 +1,9 @@
 import os
 import yaml
 
-settings = {'generation_type':'default'}
-
-try:
-    with open(os.environ.get('PYXMI_SETTINGS_MODULE',""), 'r') as config_file:
-        settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
-except FileNotFoundError:
-    print("Using default settings")
+settings = {
+    "generation_type":"default",
+}
 
 generation_fields = {
     "default": {
@@ -61,3 +57,11 @@ generation_fields = {
         "date_time": "DateTime",
     }
 }
+
+try:
+    with open(os.environ.get('PYXMI_SETTINGS_MODULE',""), 'r') as config_file:
+        settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
+except FileNotFoundError:
+    print("Using default settings")
+    
+    
