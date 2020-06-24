@@ -1,4 +1,4 @@
-![Test](https://github.com/Semprini/pyMDG/workflows/Test/badge.svg)
+![Test](https://github.com/Semprini/pyMDG/workflows/Test/badge.svg) ![PyPI](https://github.com/Semprini/pyMDG/workflows/PyPI/badge.svg)
 # pyMDG
 
 ## Overview
