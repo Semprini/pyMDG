@@ -9,10 +9,7 @@ Can be used to parse XMI file passed to jinja2 templates for generation of code 
 Standard testing:
  > python -m unittest
 
-To generate code:
- > python mdg/generate.py <recipie folder>
-
-A sample recipie folder is provided in the github repo:
+To generate code call the generate script and pass in the recipie folder. A sample recipie folder is provided in the github repo:
  > python mdg/generate.py sample_recipie
 
 Or once installed into site-packages an executable is provided:
