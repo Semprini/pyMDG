@@ -7,7 +7,7 @@ from jinja2 import Template, Environment, FileSystemLoader
 
 from mdg.xmi.parse import ns, parse_uml
 from mdg.xmi.validator import validate_package
-from mdg import settings
+from mdg.config import settings
 
 
 def output_level_package(env, template_definition, package):

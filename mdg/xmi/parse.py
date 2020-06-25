@@ -1,7 +1,9 @@
 import re
 
 from mdg.uml import UMLPackage, UMLAssociation, UMLInstance, UMLEnumeration, UMLClass, UMLAttribute
-from mdg import generation_fields, settings
+from mdg.config import settings
+from mdg import generation_fields
+
 
 ns = {
     'uml': 'http://schema.omg.org/spec/UML/2.1',

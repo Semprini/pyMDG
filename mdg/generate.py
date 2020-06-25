@@ -2,9 +2,10 @@
 import sys
 import os
 
-if __name__ == '__main__':
+
+def main():
     if len(sys.argv) == 1:
-        recipie_path = 'sample_recipie'
+        recipie_path = '.'
     else:
         recipie_path = str(sys.argv[1])
 
@@ -13,3 +14,7 @@ if __name__ == '__main__':
 
     from mdg.xmi import generator
     generator.parse(recipie_path)
+
+
+if __name__ == '__main__':
+    main()

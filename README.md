@@ -10,13 +10,12 @@ Standard testing:
  > python -m unittest
 
 To generate code a sample recipie folder is provided:
- > python generate.py <recipie folder>
+ > python mdg/generate.py <recipie folder>
 
-Or once installed into site-packages use a little python script:
- ```
- from mdg import generator
- generator.parse('{folder}')
-```
+Or once installed into site-packages an executable is provided:
+ > cd /my/recipie
+And execute:
+ > mdg_generate
 
 The recipie folder must have a config.yaml file which specifies templates and output. See the sample config for examples
 

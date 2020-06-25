@@ -2,7 +2,7 @@
 from lxml import etree
 
 from mdg.xmi.parse import ns, parse_uml
-from mdg import settings
+from mdg.config import settings
 
 
 class ClassValidationError(object):
