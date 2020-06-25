@@ -12,7 +12,7 @@ Standard testing:
 To generate code call the generate script and pass in the recipie folder. A sample recipie folder is provided in the github repo:
  > python mdg/generate.py sample_recipie
 
-Or once installed into site-packages an executable is provided:
+Or once installed into site-packages via 'pip install pymdg', an executable is provided:
  > cd /my/recipie/folder
 
 And execute:
