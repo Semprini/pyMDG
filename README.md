@@ -13,7 +13,8 @@ To generate code a sample recipie folder is provided:
  > python mdg/generate.py <recipie folder>
 
 Or once installed into site-packages an executable is provided:
- > cd /my/recipie
+ > cd /my/recipie/folder
+
 And execute:
  > mdg_generate
 
