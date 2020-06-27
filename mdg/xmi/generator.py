@@ -55,6 +55,20 @@ def output_level_enum(env, template_definition, filter_template, package):
                 fh.write(template.render(enum=enum))
 
 
+def output_level_root( env, template_definition, package ):
+    template = env.get_template(template_definition['source'])
+    filename_template = Template(template_definition['dest'])
+
+    filename = os.path.abspath(filename_template.render(package=package))
+    dirname = os.path.dirname(filename)
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+
+    # print("Writing: " + filename)
+    with open(filename, 'w') as fh:
+        fh.write(template.render(package=package))
+
+
 def output_level_assoc(env, template_definition, filter_template, package):
     template = env.get_template(template_definition['source'])
     filename_template = Template(template_definition['dest'])
@@ -90,6 +104,9 @@ def output_model(package, recipie_path):
 
         elif template_definition['level'] == 'assocication':
             output_level_assoc(env, template_definition, filter_template, package)
+
+        elif template_definition['level'] == 'root' and package.parent == None:
+            output_level_root(env, template_definition, package)
 
     for child in package.children:
         output_model(child, recipie_path)

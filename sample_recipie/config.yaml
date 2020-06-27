@@ -15,6 +15,9 @@ templates:
 - dest: ./build/sample_output/java/enums{{enum.package.path}}{{enum.name}}.java
   level: enumeration
   source: enums.java
+- dest: ./build/sample_output/base.txt
+  level: root
+  source: base.txt
 test_package: Test
 test_templates:
 - dest: ./build/sample_output{{ins.package.path}}/{{ins.stereotype}}.json

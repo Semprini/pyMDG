@@ -1,0 +1,8 @@
+# {{ package.name }}
+====================
+## Packages:{% for child in package.children %}
+- {{ child.name }}
+{{ child.documentation }}
+### Classes:{% for cls in child.classes %}
+- {{ cls.name }}{% endfor %}
+{% endfor %}
