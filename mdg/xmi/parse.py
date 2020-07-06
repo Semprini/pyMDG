@@ -92,7 +92,7 @@ def package_parse(element, root_element, parent_package):
     properties = detail.find('properties')
     package.stereotype = properties.get('stereotype')
     if package.stereotype is not None:
-        package.inherited_stereotypes.append([package.stereotype, package])
+        package.inherited_stereotypes.append(package.stereotype)
 
     package.documentation = properties.get('documentation')
     if package.documentation is None:
@@ -296,12 +296,12 @@ def association_parse(package, source_element, dest_element, source, dest):
     # If it's an association to or from a multiple then pluralize the name
     # TODO: Allow pluralized name to be specified in UML
     if dest_element.get('name') is not None:
-        association.dest_name = dest_element.get('name')
+        association.destination_name = dest_element.get('name')
     else:
         # Use opposing ends class name as attribute name for association
-        association.dest_name = association.source.name.lower()
+        association.destination_name = association.source.name.lower()
         if association.source_multiplicity[1] == '*':
-            association.dest_name += 's'
+            association.destination_name += 's'
 
     if source_element.get('name') is not None:
         association.source_name = source_element.get('name')
@@ -311,7 +311,7 @@ def association_parse(package, source_element, dest_element, source, dest):
         if association.destination_multiplicity[1] == '*':
             association.source_name += 's'
 
-    # print('Assoc in {}: {} to {}: type = {}'.format(self.source.name, self.source_name, self.dest_name,
+    # print('Assoc in {}: {} to {}: type = {}'.format(self.source.name, self.source_name, self.destination_name,
     # self.association_type) )
     return association
 

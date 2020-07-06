@@ -5,19 +5,19 @@ templates_folder: ./sample_recipie/templates
 templates:
 - dest: ./build/sample_output/python{{package.path}}/models.py
   level: package
-  source: models.py
+  source: models.py.jinja
 - dest: ./build/sample_output/jdl{{package.path}}{{package.name}}.jdl
   level: package
-  source: entities.jdl
+  source: entities.jdl.jinja
 - dest: ./build/sample_output/java/entities{{cls.package.path}}{{cls.name}}.java
   level: class
-  source: pojos.java
+  source: pojos.java.jinja
 - dest: ./build/sample_output/java/enums{{enum.package.path}}{{enum.name}}.java
   level: enumeration
-  source: enums.java
+  source: enums.java.jinja
 - dest: ./build/sample_output/base.txt
   level: root
-  source: base.txt
+  source: base.txt.jinja
 test_package: Test
 test_templates:
 - dest: ./build/sample_output{{ins.package.path}}/{{ins.stereotype}}.json

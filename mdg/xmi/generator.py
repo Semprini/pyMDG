@@ -1,16 +1,17 @@
 #!/usr/bin/python
-import os
 import json
+import os
 
+from jinja2 import Environment, FileSystemLoader, Template
 from lxml import etree
-from jinja2 import Template, Environment, FileSystemLoader
 
+from mdg.config import settings
+from mdg.util import camelcase, snakecase
 from mdg.xmi.parse import ns, parse_uml
 from mdg.xmi.validator import validate_package
-from mdg.config import settings
 
 
-def output_level_package(env, template_definition, package):
+def output_level_package(env, template_definition, package) -> None:
     template = env.get_template(template_definition['source'])
     filename_template = Template(template_definition['dest'])
     filename = os.path.abspath(filename_template.render(package=package))
@@ -55,7 +56,7 @@ def output_level_enum(env, template_definition, filter_template, package):
                 fh.write(template.render(enum=enum))
 
 
-def output_level_root( env, template_definition, package ):
+def output_level_root(env, template_definition, package):
     template = env.get_template(template_definition['source'])
     filename_template = Template(template_definition['dest'])
 
@@ -86,7 +87,9 @@ def output_level_assoc(env, template_definition, filter_template, package):
 
 def output_model(package, recipie_path):
     env = Environment(loader=FileSystemLoader(settings['templates_folder']))
-    print("Generating model output")
+    env.filters['camelcase'] = camelcase
+    env.filters['snakecase'] = snakecase
+    print("Generating model output for package {}".format(package.path))
     for template_definition in settings['templates']:
         filter_template = None
         if 'filter' in template_definition.keys():
@@ -105,7 +108,7 @@ def output_model(package, recipie_path):
         elif template_definition['level'] == 'assocication':
             output_level_assoc(env, template_definition, filter_template, package)
 
-        elif template_definition['level'] == 'root' and package.parent == None:
+        elif template_definition['level'] == 'root' and package.parent is None:
             output_level_root(env, template_definition, package)
 
     for child in package.children:
