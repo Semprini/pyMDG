@@ -11,108 +11,97 @@ from mdg.xmi.parse import ns, parse_uml
 from mdg.xmi.validator import validate_package
 
 
-def output_level_package(env, template_definition, package) -> None:
-    template = env.get_template(template_definition['source'])
-    filename_template = Template(template_definition['dest'])
-    filename = os.path.abspath(filename_template.render(package=package))
-    dirname = os.path.dirname(filename)
+def output_level_package(env, source_template, dest_file_template, package) -> None:
+    dest_filename = os.path.abspath(dest_file_template.render(package=package))
+    dirname = os.path.dirname(dest_filename)
 
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
-    # print("Writing: " + filename)
-    with open(filename, 'w') as fh:
-        fh.write(template.render(package=package))
+    with open(dest_filename, 'w') as fh:
+        fh.write(source_template.render(package=package))
 
 
-def output_level_class(env, template_definition, filter_template, package):
-    template = env.get_template(template_definition['source'])
-    filename_template = Template(template_definition['dest'])
+def output_level_class(env, source_template, dest_file_template, filter_template, package):
+
     for cls in package.classes:
         if filter_template is None or filter_template.render(cls=cls) == "True":
-            filename = os.path.abspath(filename_template.render(cls=cls))
+            filename = os.path.abspath(dest_file_template.render(cls=cls))
             dirname = os.path.dirname(filename)
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
 
-            # print("Writing: " + filename)
             with open(filename, 'w') as fh:
-                fh.write(template.render(cls=cls))
+                fh.write(source_template.render(cls=cls))
 
 
-def output_level_enum(env, template_definition, filter_template, package):
-    template = env.get_template(template_definition['source'])
-    filename_template = Template(template_definition['dest'])
+def output_level_enum(env, source_template, dest_file_template, filter_template, package):
 
     for enum in package.enumerations:
         if filter_template is None or filter_template.render(enum=enum) == "True":
-            filename = os.path.abspath(filename_template.render(enum=enum))
+            filename = os.path.abspath(dest_file_template.render(enum=enum))
             dirname = os.path.dirname(filename)
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
 
-            # print("Writing: " + filename)
             with open(filename, 'w') as fh:
-                fh.write(template.render(enum=enum))
+                fh.write(source_template.render(enum=enum))
 
 
-def output_level_root(env, template_definition, package):
-    template = env.get_template(template_definition['source'])
-    filename_template = Template(template_definition['dest'])
+def output_level_root(env, source_template, dest_file_template, package):
+    dest_filename = os.path.abspath(dest_file_template.render(package=package))
+    dirname = os.path.dirname(dest_filename)
 
-    filename = os.path.abspath(filename_template.render(package=package))
-    dirname = os.path.dirname(filename)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
-    # print("Writing: " + filename)
-    with open(filename, 'w') as fh:
-        fh.write(template.render(package=package))
+    with open(dest_filename, 'w') as fh:
+        fh.write(source_template.render(package=package))
 
 
-def output_level_assoc(env, template_definition, filter_template, package):
-    template = env.get_template(template_definition['source'])
-    filename_template = Template(template_definition['dest'])
+def output_level_assoc(env, source_template, dest_file_template, filter_template, package):
 
     for assoc in package.associations:
         if filter_template is None or filter_template.render(association=assoc) == "True":
-            filename = os.path.abspath(filename_template.render(association=assoc))
+            filename = os.path.abspath(dest_file_template.render(association=assoc))
             dirname = os.path.dirname(filename)
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
-            # print("Writing: " + filename)
+
             with open(filename, 'w') as fh:
-                fh.write(template.render(association=assoc))
+                fh.write(source_template.render(association=assoc))
 
 
-def output_model(package, recipie_path):
+def output_model(package):
     env = Environment(loader=FileSystemLoader(settings['templates_folder']))
     env.filters['camelcase'] = camelcase
     env.filters['snakecase'] = snakecase
     print("Generating model output for package {}".format(package.path))
-    for template_definition in settings['templates']:
+    for template_definition in settings['model_templates']:
+        source_template = env.get_template(template_definition['source'])
+        dest_file_template = Template(os.path.join(settings['dest_root'], template_definition['dest']))
         filter_template = None
         if 'filter' in template_definition.keys():
             filter_template = Template(template_definition['filter'])
 
         if template_definition['level'] == 'package':
             if filter_template is None or filter_template.render(package=package) == "True":
-                output_level_package(env, template_definition, package)
+                output_level_package(env, source_template, dest_file_template, package)
 
         elif template_definition['level'] == 'class':
-            output_level_class(env, template_definition, filter_template, package)
+            output_level_class(env, source_template, dest_file_template, filter_template, package)
 
         elif template_definition['level'] == 'enumeration':
-            output_level_enum(env, template_definition, filter_template, package)
+            output_level_enum(env, source_template, dest_file_template, filter_template, package)
 
         elif template_definition['level'] == 'assocication':
-            output_level_assoc(env, template_definition, filter_template, package)
+            output_level_assoc(env, source_template, dest_file_template, filter_template, package)
 
         elif template_definition['level'] == 'root' and package.parent is None:
-            output_level_root(env, template_definition, package)
+            output_level_root(env, source_template, dest_file_template, package)
 
     for child in package.children:
-        output_model(child, recipie_path)
+        output_model(child)
 
 
 def output_test_cases(test_cases):
@@ -158,11 +147,7 @@ def serialize_instance(instance):
     return ret
 
 
-def parse(recipie_path):
-
-    # with open(config_filename, 'r') as config_file:
-    #    settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
-
+def parse():
     tree = etree.parse(settings['source'])
     model = tree.find('uml:Model', ns)
     root_package = model.xpath("//packagedElement[@name='%s']" % settings['root_package'], namespaces=ns)
@@ -180,5 +165,5 @@ def parse(recipie_path):
         for error in errors:
             print("    {}".format(error))
 
-    output_model(model_package, recipie_path)
+    output_model(model_package)
     output_test_cases(test_cases)

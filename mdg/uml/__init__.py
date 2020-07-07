@@ -1,7 +1,8 @@
 #!/usr/bin/python
 from __future__ import annotations
-import re
-from typing import List, Union, Optional, Any
+from typing import List, Union, Optional, Any, Tuple
+
+from mdg.config import settings
 
 
 class UMLPackage(object):
@@ -13,7 +14,7 @@ class UMLPackage(object):
         self.enumerations: List[UMLEnumeration] = []
         self.parent: Optional[UMLPackage] = parent
         self.stereotype: Optional[str] = stereotype
-        self.inherited_stereotypes: List[str] = []
+        self.inherited_stereotypes: List[Tuple[str, UMLPackage]] = []
         self.name: str = name
         self.id: Union[int, str] = id
         self.diagrams: Any = []
@@ -23,7 +24,7 @@ class UMLPackage(object):
 
         if self.parent is None:
             self.root_package: UMLPackage = self
-            self.path = '/' + self.name + '/'
+            self.path = '/' + settings['root_package'] + '/'
         else:
             self.root_package = self.parent.root_package
             self.inherited_stereotypes += self.parent.inherited_stereotypes
@@ -32,7 +33,7 @@ class UMLPackage(object):
     def __str__(self):
         return f"{self.name}"
 
-    def find_by_id(self, id):
+    def find_by_id(self, id: Union[int, str]):
         """ Finds UMLPackage, UMLClass, UMLEnumeration or UMLInstance object with specified Id
         Looks for classes part of this package and all sub-packages
         """
@@ -57,7 +58,7 @@ class UMLPackage(object):
                 return res
 
     def add_child(self, id: Union[int, str], name: str, stereotype=None) -> UMLPackage:
-        package = UMLPackage(id, name, self, stereotype)
+        package: UMLPackage = UMLPackage(id, name, self, stereotype)
         self.children.append(package)
         return package
 
@@ -65,93 +66,90 @@ class UMLPackage(object):
 class UMLInstance(object):
     def __init__(self, package: UMLPackage, name: str, id: Union[int, str]):
         self.attributes: List[UMLAttribute] = []
-        self.associations_from: List[UMLInstance] = []
-        self.associations_to: List[UMLInstance] = []
-        self.package = package
-        self.stereotype = None
-        self.name = name
-        self.id = id
-        self.documentation = ""
+        self.associations_from: List[UMLAssociation] = []
+        self.associations_to: List[UMLAssociation] = []
+        self.package: UMLPackage = package
+        self.stereotype: Optional[str] = None
+        self.name: str = name
+        self.id: Union[int, str] = id
+        self.documentation: str = ""
 
     def __str__(self) -> str:
         return f"{self.name}"
 
 
 class UMLAssociation(object):
-    def __init__(self, package, source, destination):
-        self.package = package
-        self.association_type = None
+    def __init__(self, package: UMLPackage, source: Union[UMLClass, UMLInstance], destination: Union[UMLClass, UMLInstance]):
+        self.package: UMLPackage = package
+        self.association_type: Optional[str] = None
 
-        self.source = source
-        self.source_name = None
-        self.source_multiplicity = ['0', '0']
+        self.source: Union[UMLClass, UMLInstance] = source
+        self.source_name: Optional[str] = None
+        self.source_multiplicity: List[str] = ['0', '0']
         source.associations_from.append(self)
 
-        self.destination = destination
-        self.destination_multiplicity = ['0', '0']
-        self.destination_name = None
+        self.destination: Union[UMLClass, UMLInstance] = destination
+        self.destination_multiplicity: List[str] = ['0', '0']
+        self.destination_name: Optional[str] = None
         destination.associations_to.append(self)
-        self.documentation = ""
+        self.documentation: str = ""
 
     def __str__(self) -> str:
         return f"{self.source_name} -> {self.destination_name}"
 
 
 class UMLEnumeration(object):
-    def __init__(self, package, name, id):
-        self.values = []
-        self.package = package
-        self.name = name
-        self.id = id
-        self.documentation = ""
+    def __init__(self, package: UMLPackage, name: str, id: Union[int, str]):
+        self.values: List[str] = []
+        self.package: UMLPackage = package
+        self.name: str = name
+        self.id: Union[int, str] = id
+        self.documentation: str = ""
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}"
 
 
 class UMLClass(object):
-    def __init__(self, package, name, id):
-        self.name = name
-        self.id = id
-        self.attributes = []
-        self.associations_from = []
-        self.associations_to = []
-        self.package = package
-        self.supertype = None
-        self.supertype_id = None
-        self.is_supertype = False
-        self.stereotypes = []
-        self.id_attribute = None
-        self.documentation = ""
-        self.is_abstract = False
+    def __init__(self, package: UMLPackage, name: str, id: Union[int, str]):
+        self.name: str = name
+        self.id: Union[int, str] = id
+        self.attributes: List[UMLAttribute] = []
+        self.associations_from: List[UMLAssociation] = []
+        self.associations_to: List[UMLAssociation] = []
+        self.package: UMLPackage = package
+        self.supertype: Optional[UMLClass] = None
+        self.supertype_id: Union[None, int, str] = None
+        self.is_supertype: bool = False
+        self.stereotypes: List[str] = []
+        self.id_attribute: Optional[UMLAttribute] = None
+        self.documentation: str = ""
+        self.is_abstract: bool = False
 
         for inherited_stereotype, inherited_package in package.inherited_stereotypes:
             if not hasattr(self, inherited_stereotype):
                 setattr(self, inherited_stereotype, inherited_package)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}"
 
 
 class UMLAttribute(object):
-    def __init__(self, parent, name, id):
-        self.parent = parent
-        self.name = name
-        self.id = id
-        self.is_unique = False
-        self.stereotype = None
-        self.classification = None
-        self.classification_id = None
-        self.documentation = ""
-        self.type = None
-        self.dest_type = None
-        self.value = None
-        self.visibility = True
-        self.is_id = False
-        self.length = 0
+    def __init__(self, parent: UMLPackage, name: str, id: Union[int, str]):
+        self.parent: UMLPackage = parent
+        self.name: str = name
+        self.id: Union[int, str] = id
+        self.is_unique: bool = False
+        self.stereotype: Optional[str] = None
+        self.classification: Optional[UMLClass] = None
+        self.classification_id: Union[None, int, str] = None
+        self.documentation: str = ""
+        self.type: Optional[str] = None
+        self.dest_type: Optional[str] = None
+        self.value: Optional[str] = None
+        self.visibility: bool = True
+        self.is_id: bool = False
+        self.length: int = 0
 
-    def name_camel(self):
-        return re.sub(r'_([a-z])', lambda x: x.group(1).upper(), self.name)
-
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}"

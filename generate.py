@@ -5,7 +5,7 @@ import os
 
 def main():
     if len(sys.argv) == 1:
-        recipie_path = '.'
+        recipie_path = './sample_recipie'
     else:
         recipie_path = str(sys.argv[1])
 
@@ -13,7 +13,7 @@ def main():
     os.environ.setdefault("PYMDG_SETTINGS_MODULE", config_filename)
 
     from mdg.xmi import generator
-    generator.parse(recipie_path)
+    generator.parse()
 
 
 if __name__ == '__main__':

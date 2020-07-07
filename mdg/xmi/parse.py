@@ -1,8 +1,15 @@
 import re
 
-from mdg.uml import UMLPackage, UMLAssociation, UMLInstance, UMLEnumeration, UMLClass, UMLAttribute
-from mdg.config import settings
 from mdg import generation_fields
+from mdg.config import settings
+from mdg.uml import (
+    UMLAssociation,
+    UMLAttribute,
+    UMLClass,
+    UMLEnumeration,
+    UMLInstance,
+    UMLPackage,
+)
 
 
 ns = {
@@ -92,7 +99,7 @@ def package_parse(element, root_element, parent_package):
     properties = detail.find('properties')
     package.stereotype = properties.get('stereotype')
     if package.stereotype is not None:
-        package.inherited_stereotypes.append(package.stereotype)
+        package.inherited_stereotypes.append([package.stereotype, package])
 
     package.documentation = properties.get('documentation')
     if package.documentation is None:

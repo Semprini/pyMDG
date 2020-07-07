@@ -1,0 +1,10 @@
+from django.db import models
+
+
+{% for cls in package.classes %}class {{ cls.name }}(models.Model):
+    {% for attr in cls.attributes %}{{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% endif %})
+    {% endfor %}
+{% if cls.is_abstract %}    class Meta:
+        abstract = True
+{% endif %}
+{% endfor %}

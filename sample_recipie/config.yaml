@@ -1,25 +1,35 @@
-model_package: Model
 root_package: SampleIndustry
+model_package: Model
+test_package: Test
 source: ./sample_recipie/sample_industry.xmi
+dest_root: ./build/sample_output
 templates_folder: ./sample_recipie/templates
-templates:
-- dest: ./build/sample_output/python{{package.path}}/models.py
+generation_type: django
+model_templates:
+# Python: Django Rest
+- dest: python/django{{package.path}}/models.py
   level: package
-  source: models.py.jinja
-- dest: ./build/sample_output/jdl{{package.path}}{{package.name}}.jdl
+  source: Django/app/models.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+# Python: Arango ORM
+- dest: python/arango{{package.path}}/models.py
+  level: package
+  source: Arango/models.py.jinja
+# Java: JHipster
+- dest: jdl{{package.path}}{{package.name}}.jdl
   level: package
   source: entities.jdl.jinja
-- dest: ./build/sample_output/java/entities{{cls.package.path}}{{cls.name}}.java
+# Java: spring data rest
+- dest: java/entities{{cls.package.path}}{{cls.name}}.java
   level: class
   source: pojos.java.jinja
-- dest: ./build/sample_output/java/enums{{enum.package.path}}{{enum.name}}.java
+- dest: java/enums{{enum.package.path}}{{enum.name}}.java
   level: enumeration
   source: enums.java.jinja
-- dest: ./build/sample_output/base.txt
+# Documentation
+- dest: base.txt
   level: root
   source: base.txt.jinja
-test_package: Test
 test_templates:
 - dest: ./build/sample_output{{ins.package.path}}/{{ins.stereotype}}.json
   format: json
-generation_type: default

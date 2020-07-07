@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# This file is used as an entry point so requires mdg package to be installed into site-packages
+# So after a pip or setup.py install you can just cd to the recipie folder and call mdg_generate
 import sys
 import os
 
@@ -13,7 +15,7 @@ def main():
     os.environ.setdefault("PYMDG_SETTINGS_MODULE", config_filename)
 
     from mdg.xmi import generator
-    generator.parse(recipie_path)
+    generator.parse()
 
 
 if __name__ == '__main__':
