@@ -11,6 +11,18 @@ model_templates:
   level: package
   source: Django/app/models.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: python/django{{package.path}}/admin.py
+  level: package
+  source: Django/app/admin.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: python/django{{package.path}}/__init__.py
+  level: package
+  source: Django/app/__init__.py
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: python/django{{package.path}}/apps.py
+  level: package
+  source: Django/app/apps.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
 # Python: Arango ORM
 - dest: python/arango{{package.path}}/models.py
   level: package

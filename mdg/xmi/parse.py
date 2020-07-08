@@ -306,16 +306,16 @@ def association_parse(package, source_element, dest_element, source, dest):
         association.destination_name = dest_element.get('name')
     else:
         # Use opposing ends class name as attribute name for association
-        association.destination_name = association.source.name.lower()
-        if association.source_multiplicity[1] == '*':
+        association.destination_name = association.destination.name.lower()
+        if association.destination_multiplicity[1] == '*':
             association.destination_name += 's'
 
     if source_element.get('name') is not None:
         association.source_name = source_element.get('name')
     else:
         # Use opposing ends class name as attribute name for association
-        association.source_name = association.destination.name.lower()
-        if association.destination_multiplicity[1] == '*':
+        association.source_name = association.source.name.lower()
+        if association.source_multiplicity[1] == '*':
             association.source_name += 's'
 
     # print('Assoc in {}: {} to {}: type = {}'.format(self.source.name, self.source_name, self.destination_name,
