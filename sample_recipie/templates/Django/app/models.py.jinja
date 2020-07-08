@@ -1,9 +1,17 @@
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 
-{% for cls in package.classes %}class {{ cls.name }}(models.Model):
-    {% for attr in cls.attributes %}{{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% endif %})
-    {% endfor %}
+{% for enum in package.enumerations %}class ENUM_{{ enum.name }}(models.TextChoices):
+{% for attr in enum.values %}
+    {{ attr.upper() }} = '{{ attr }}', _('{{ attr }}'){% endfor %}
+{% endfor %}
+
+{% for cls in package.classes %}class {{ cls.name }}( {% if cls.supertype %}{{ cls.supertype.name }}{% else %}models.Model{% endif %} ):
+{% for attr in cls.attributes %}
+{% if attr.classification %}    {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name}}.choices, blank=True, null=True )
+{% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %} )
+{% endif %}{% endfor %}
 {% if cls.is_abstract %}    class Meta:
         abstract = True
 {% endif %}

@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader, Template
 from lxml import etree
 
 from mdg.config import settings
-from mdg.util import camelcase, snakecase
+from mdg.util import camelcase, snakecase, titlecase, sentencecase
 from mdg.xmi.parse import ns, parse_uml
 from mdg.xmi.validator import validate_package
 
@@ -76,6 +76,9 @@ def output_model(package):
     env = Environment(loader=FileSystemLoader(settings['templates_folder']))
     env.filters['camelcase'] = camelcase
     env.filters['snakecase'] = snakecase
+    env.filters['titlecase'] = titlecase
+    env.filters['sentencecase'] = sentencecase
+
     print("Generating model output for package {}".format(package.path))
     for template_definition in settings['model_templates']:
         source_template = env.get_template(template_definition['source'])

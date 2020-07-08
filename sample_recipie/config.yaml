@@ -19,7 +19,7 @@ model_templates:
 - dest: jdl{{package.path}}{{package.name}}.jdl
   level: package
   source: entities.jdl.jinja
-# Java: spring data rest
+# Java: Spring Data Rest
 - dest: java/entities{{cls.package.path}}{{cls.name}}.java
   level: class
   source: pojos.java.jinja
