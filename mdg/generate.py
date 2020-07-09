@@ -14,8 +14,8 @@ def main():
     config_filename = recipie_path + "/config.yaml"
     os.environ.setdefault("PYMDG_SETTINGS_MODULE", config_filename)
 
-    from mdg.xmi import generator
-    generator.parse()
+    from mdg import generator
+    generator.xmi_parse()
 
 
 if __name__ == '__main__':

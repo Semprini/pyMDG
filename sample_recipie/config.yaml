@@ -6,7 +6,7 @@ dest_root: ./build/sample_output
 templates_folder: ./sample_recipie/templates
 generation_type: django
 model_templates:
-# Python: Django Rest
+# Python: Django App
 - dest: python/django{{package.path}}/models.py
   level: package
   source: Django/app/models.py.jinja
@@ -23,6 +23,25 @@ model_templates:
   level: package
   source: Django/app/apps.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
+# Python: Django Project
+- dest: python/django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/settings.py
+  level: root
+  source: Django/project/settings.py.jinja
+- dest: python/django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/urls.py
+  level: root
+  source: Django/project/urls.py.jinja
+- dest: python/django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/__init__.py
+  level: root
+  source: Django/project/__init__.py
+- dest: python/django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/wsgi.py
+  level: root
+  source: Django/project/wsgi.py.jinja
+- dest: python/django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/asgi.py
+  level: root
+  source: Django/project/asgi.py.jinja
+- dest: python/django/{{ package.path }}/manage.py
+  level: root
+  source: Django/manage.py.jinja
 # Python: Arango ORM
 - dest: python/arango{{package.path}}/models.py
   level: package

@@ -1,5 +1,5 @@
 """
-WSGI config for foo project.
+WSGI config for {{ package.path.split('/')[1] | snakecase }} project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'foo.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', '{{ package.path.split('/')[1] | snakecase }}.settings')
 
 application = get_wsgi_application()

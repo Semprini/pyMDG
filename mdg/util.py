@@ -1,11 +1,13 @@
+#!/usr/bin/python
 """
 String convert functions
 """
 
+from __future__ import annotations
 import re
 
 
-def camelcase(string):
+def camelcase(string: str) -> str:
     """ Convert string into camel case.
 
     Args:
@@ -22,7 +24,7 @@ def camelcase(string):
     return lowercase(string[0]) + re.sub(r"[\-_\.\s]([a-z])", lambda matched: uppercase(matched.group(1)), string[1:])
 
 
-def capitalcase(string):
+def capitalcase(string: str) -> str:
     """Convert string into capital case.
     First letters will be uppercase.
 
@@ -40,7 +42,7 @@ def capitalcase(string):
     return uppercase(string[0]) + string[1:]
 
 
-def constcase(string):
+def constcase(string: str) -> str:
     """Convert string into upper snake case.
     Join punctuation with underscore and convert letters into uppercase.
 
@@ -55,7 +57,7 @@ def constcase(string):
     return uppercase(snakecase(string))
 
 
-def lowercase(string):
+def lowercase(string: str) -> str:
     """Convert string into lower case.
 
     Args:
@@ -69,7 +71,7 @@ def lowercase(string):
     return str(string).lower()
 
 
-def pascalcase(string):
+def pascalcase(string: str) -> str:
     """Convert string into pascal case.
 
     Args:
@@ -83,7 +85,7 @@ def pascalcase(string):
     return capitalcase(camelcase(string))
 
 
-def pathcase(string):
+def pathcase(string: str) -> str:
     """Convert string into path case.
     Join punctuation with slash.
 
@@ -100,7 +102,7 @@ def pathcase(string):
     return re.sub(r"_", "/", string)
 
 
-def backslashcase(string):
+def backslashcase(string: str) -> str:
     """Convert string into spinal case.
     Join punctuation with backslash.
 
@@ -117,7 +119,7 @@ def backslashcase(string):
     # return re.sub(r"\\n", "", str1))  # TODO: make regex fot \t ...
 
 
-def sentencecase(string):
+def sentencecase(string: str) -> str:
     """Convert string into sentence case.
     First letter capped and each punctuations are joined with space.
 
@@ -136,7 +138,7 @@ def sentencecase(string):
         re.sub(r"[A-Z]", lambda matched: joiner + lowercase(matched.group(0)), string)))
 
 
-def snakecase(string):
+def snakecase(string: str) -> str:
     """Convert string into snake case.
     Join punctuation with underscore
 
@@ -154,7 +156,7 @@ def snakecase(string):
     return lowercase(string[0]) + re.sub(r"[A-Z]", lambda matched: '_' + lowercase(matched.group(0)), string[1:])
 
 
-def spinalcase(string):
+def spinalcase(string: str) -> str:
     """Convert string into spinal case.
     Join punctuation with hyphen.
 
@@ -169,7 +171,7 @@ def spinalcase(string):
     return re.sub(r"_", "-", snakecase(string))
 
 
-def dotcase(string):
+def dotcase(string: str) -> str:
     """Convert string into dot case.
     Join punctuation with dot.
 
@@ -184,7 +186,7 @@ def dotcase(string):
     return re.sub(r"_", ".", snakecase(string))
 
 
-def titlecase(string):
+def titlecase(string: str) -> str:
     """Convert string into sentence case.
     First letter capped while each punctuations is capitalsed
     and joined with space.
@@ -202,7 +204,7 @@ def titlecase(string):
     )
 
 
-def trimcase(string):
+def trimcase(string: str) -> str:
     """Convert string into trimmed string.
 
     Args:
@@ -215,7 +217,7 @@ def trimcase(string):
     return str(string).strip()
 
 
-def uppercase(string):
+def uppercase(string: str) -> str:
     """Convert string into upper case.
 
     Args:
@@ -229,7 +231,7 @@ def uppercase(string):
     return str(string).upper()
 
 
-def alphanumcase(string):
+def alphanumcase(string: str) -> str:
     """Cuts all non-alphanumeric symbols,
     i.e. cuts all expect except 0-9, a-z and A-Z.
 

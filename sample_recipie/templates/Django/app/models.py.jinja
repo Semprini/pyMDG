@@ -22,8 +22,9 @@ from django.db import models
 {% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %} )
 {% endif %}{% endfor %}
 {% for rel in cls.associations_from %}
-    {% if rel.destination_multiplicity[1]!='*' %}{{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True ){% endif %}
-    {% if rel.destination_multiplicity[1]!='1' %}{{ rel.destination_name | snakecase }} = models.ManyToManyField( '{{ rel.destination.name }}', blank=True ){% endif %}
+    {% if rel.destination_multiplicity[1]=='1' and rel.source_multiplicity[1]=='*' %}{{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True )
+    {% elif rel.destination_multiplicity[1]=='1' %}{{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True )
+    {% elif rel.destination_multiplicity[1]!='1' %}{{ rel.destination_name | snakecase }} = models.ManyToManyField( '{{ rel.destination.name }}', blank=True ){% endif %}
 {% endfor %}
 {% if cls.is_abstract %}    class Meta:
         abstract = True

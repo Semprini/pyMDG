@@ -1,4 +1,6 @@
 import re
+from typing import List, Tuple
+from lxml.etree import Element
 
 from mdg import generation_fields
 from mdg.config import settings
@@ -20,10 +22,10 @@ ns = {
 }
 
 
-def parse_uml(element, root):
+def parse_uml(element: Element, root: Element) -> Tuple[UMLPackage, List[UMLInstance]]:
     """ Root package parser entry point.
     """
-    test_package = None
+    test_cases = []
 
     # Find the element that is the root for models
     print("Parsing models")
@@ -41,25 +43,27 @@ def parse_uml(element, root):
     else:
         raise ValueError('Error - Non uml:Package element provided to packagedElement parser')
 
-    # Find the element that is the root for test data
-    print("Parsing test cases")
-    test_element = element.xpath("//packagedElement[@name='%s']" % settings['test_package'], namespaces=ns)
-    if len(test_element) == 0:
-        raise ValueError("Test packaged element not found. Settings has:{}".format(settings['test_package']))
-    test_element = test_element[0]
+    if 'test_package' in settings.keys():
+        print("Parsing test cases")
 
-    # Create our root test data UMLPackage and parse in 2 passes. Does not support inheritance
-    e_type = test_element.get('{%s}type' % ns['xmi'])
-    if e_type == 'uml:Package':
-        test_package = package_parse(test_element, root, None)
-        package_parse_associations(test_package, test_element, test_element)
+        # Find the element that is the root for test data
+        test_element = element.xpath("//packagedElement[@name='%s']" % settings['test_package'], namespaces=ns)
+        if len(test_element) == 0:
+            raise ValueError("Test packaged element not found. Settings has:{}".format(settings['test_package']))
+        test_element = test_element[0]
 
-    # With our test package parsed, we must return a list of instances instead of hierarchy of packages
-    test_cases = parse_test_cases(test_package)
+        # Create our root test data UMLPackage and parse in 2 passes. Does not support inheritance
+        e_type = test_element.get('{%s}type' % ns['xmi'])
+        if e_type == 'uml:Package':
+            test_package = package_parse(test_element, root, None)
+            package_parse_associations(test_package, test_element, test_element)
+
+            # With our test package parsed, we must return a list of instances instead of hierarchy of packages
+            test_cases = parse_test_cases(test_package)
     return model_package, test_cases
 
 
-def parse_test_cases(package):
+def parse_test_cases(package) -> List[UMLInstance]:
     """ Looks through package hierarchy for instances with request or response stereotype
     and returns list of instances.
     :rtype: list<UMLInstance>

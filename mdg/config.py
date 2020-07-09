@@ -1,8 +1,13 @@
 import os
 import yaml
+from typing import Dict, List
 
-settings = {
+model_templates: List[Dict] = []
+
+settings: Dict = {
     "generation_type": "default",
+    "root_package": "default",
+    "model_templates": model_templates,
 }
 
 try:
