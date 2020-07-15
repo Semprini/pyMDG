@@ -4,12 +4,10 @@ import os
 from typing import Dict, Optional, List, Any
 
 from jinja2 import Environment, FileSystemLoader, Template
-from lxml import etree
+
 
 from .config import settings
 from .util import camelcase, snakecase, titlecase, sentencecase
-from .xmi.parse import ns, parse_uml
-from .xmi.validator import validate_package
 
 from .uml import UMLPackage, UMLInstance
 
@@ -186,38 +184,3 @@ def serialize_instance(instance: UMLInstance):
             ret[assoc.destination.name] = serialize_instance(dest)
 
     return ret
-
-
-def xmi_parse():
-    """ Loads XMI file from settings as an etree
-        Calls XMI parser to turn model and tests into python native (see UML metamodel)
-        Calls output functions to render for model and tests
-    """
-
-    # TODO: Move this to XMI parser and turn this geneneric to support not just XMI
-
-    # Parse into etree and grab root package
-    tree = etree.parse(settings['source'])
-    model = tree.find('uml:Model', ns)
-    root_package = model.xpath("//packagedElement[@name='%s']" % settings['root_package'], namespaces=ns)
-    if len(root_package) == 0:
-        print("Root packaged element not found. Settings has:{}".format(settings['root_package']))
-        return
-    root_package = root_package[0]
-
-    # Call the parser
-    model_package, test_cases = parse_uml(root_package, tree)
-    print("Base Model Package: " + model_package.name)
-
-    # Validate the parsed model package
-    errors = validate_package(model_package)
-    if len(errors) > 0:
-        print("Validation Errors:")
-        for error in errors:
-            print("    {}".format(error))
-
-    # TODO: Validate the test cases
-
-    # Generate files from the native python UML
-    output_model(model_package)
-    output_test_cases(test_cases)

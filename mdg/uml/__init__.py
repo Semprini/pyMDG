@@ -135,8 +135,8 @@ class UMLClass(object):
 
 
 class UMLAttribute(object):
-    def __init__(self, parent: UMLPackage, name: str, id: Union[int, str]):
-        self.parent: UMLPackage = parent
+    def __init__(self, parent: UMLClass, name: str, id: Union[int, str]):
+        self.parent: UMLClass = parent
         self.name: str = name
         self.id: Union[int, str] = id
         self.is_unique: bool = False

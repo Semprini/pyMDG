@@ -1,7 +1,7 @@
-root_package: SampleIndustry
+root_package: TestDomain
 model_package: Model
 test_package: Test
-source: ./sample_recipie/sample_industry.xmi
+source: ./sample_recipie/test_domain.xml
 dest_root: ./build/sample_output
 templates_folder: ./sample_recipie/templates
 generation_type: django

@@ -3,7 +3,7 @@ import sys
 import os
 
 
-def main():
+if __name__ == '__main__':
     if len(sys.argv) == 1:
         recipie_path = './sample_recipie'
     else:
@@ -12,9 +12,5 @@ def main():
     config_filename = recipie_path + "/config.yaml"
     os.environ.setdefault("PYMDG_SETTINGS_MODULE", config_filename)
 
-    from mdg import generator
-    generator.xmi_parse()
-
-
-if __name__ == '__main__':
+    from mdg.generate import main
     main()

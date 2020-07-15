@@ -1,6 +1,6 @@
 import re
 from typing import List, Tuple
-from lxml.etree import Element
+from lxml import etree
 
 from mdg import generation_fields
 from mdg.config import settings
@@ -22,10 +22,18 @@ ns = {
 }
 
 
-def parse_uml(element: Element, root: Element) -> Tuple[UMLPackage, List[UMLInstance]]:
+def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     """ Root package parser entry point.
     """
-    test_cases = []
+    test_cases: List[UMLInstance] = []
+
+    # Parse into etree and grab root package
+    tree = etree.parse(settings['source'])
+    model = tree.find('uml:Model', ns)
+    root_package = model.xpath("//packagedElement[@name='%s']" % settings['root_package'], namespaces=ns)
+    if len(root_package) == 0:
+        raise ValueError("Root packaged element not found. Settings has:{}".format(settings['root_package']))
+    element = root_package[0]
 
     # Find the element that is the root for models
     print("Parsing models")
@@ -37,7 +45,7 @@ def parse_uml(element: Element, root: Element) -> Tuple[UMLPackage, List[UMLInst
     # Create our root model UMLPackage and parse in 3 passes
     e_type = model_element.get('{%s}type' % ns['xmi'])
     if e_type == 'uml:Package':
-        model_package = package_parse(model_element, root, None)
+        model_package = package_parse(model_element, tree, None)
         package_parse_inheritance(model_package)
         package_parse_associations(model_package, model_element, model_element)
     else:
@@ -55,7 +63,7 @@ def parse_uml(element: Element, root: Element) -> Tuple[UMLPackage, List[UMLInst
         # Create our root test data UMLPackage and parse in 2 passes. Does not support inheritance
         e_type = test_element.get('{%s}type' % ns['xmi'])
         if e_type == 'uml:Package':
-            test_package = package_parse(test_element, root, None)
+            test_package = package_parse(test_element, tree, None)
             package_parse_associations(test_package, test_element, test_element)
 
             # With our test package parsed, we must return a list of instances instead of hierarchy of packages
@@ -339,7 +347,7 @@ def enumeration_parse(package, element):
 
 
 def class_parse(package, element, root):
-    cls = UMLClass(package, element.get('name'), element.get('{%s}id' % ns['xmi']))
+    cls: UMLClass = UMLClass(package, element.get('name'), element.get('{%s}id' % ns['xmi']))
     if element.get('isAbstract') == 'true':
         cls.is_abstract = True
     else:
@@ -379,7 +387,7 @@ def class_parse(package, element, root):
     return cls
 
 
-def attr_parse(parent, element, root):
+def attr_parse(parent: UMLClass, element, root):
     attr = UMLAttribute(parent, element.get('name'), element.get('{%s}id' % ns['xmi']))
 
     attr.visibility = element.get('visibility')

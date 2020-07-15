@@ -2,7 +2,7 @@ import unittest
 
 from lxml import etree
 
-from mdg.xmi.parse import attr_parse, class_parse
+from mdg.sparx_xmi.parse import attr_parse, class_parse
 from mdg.uml import UMLClass, UMLPackage
 
 
