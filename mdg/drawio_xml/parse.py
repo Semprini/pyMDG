@@ -13,6 +13,20 @@ from mdg.uml import (
 )
 
 
+def find_label_name(element, name):
+    ret = element.find('object[@label="<div>{}</div>"]'.format(name))
+    if ret is None:
+        ret = element.find('object[@label="{}"]'.format(name))
+    return ret
+
+
+def get_label_name(element):
+    label = element.get("label")
+    if "div>" in label:
+        label = label.split("div>")[1].split("</")[0]
+    return label
+
+
 def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     test_cases: List[UMLInstance] = []
 
@@ -22,11 +36,15 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     if model is None:
         raise ValueError("Cannot find model in XML at path ./diagram/mxGraphModel/root")
 
-    element = model.find('object[@label="<div>{}</div>"]'.format(settings['root_package']))
+    element = find_label_name(model, settings['root_package'])
     if element is None:
         raise ValueError("Root packaged element not found. Settings has:{}".format(settings['root_package']))
 
-    model_package: UMLPackage = package_parse(element, root, None)
+    model_element = find_label_name(model, settings['model_package'])
+    if model_element is None:
+        raise ValueError("Model element not found. Settings has:{}".format(settings['model_package']))
+
+    model_package: UMLPackage = package_parse(model_element, root, None)
 
     return model_package, test_cases
 
@@ -35,10 +53,12 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
     """ Extract package details, call class parser for classes and self parser for sub-packages.
     Association linking is not done here, but in a 2nd pass using the parse_associations function.
     """
-    name = element.get("label").split("div>")[1].split("</")[0]
+
+    name = get_label_name(element)
     id = element.get('id')
 
     package = UMLPackage(id, name, parent_package)
+    package.root_element = root_element
 
     model = root_element.find('./diagram/mxGraphModel/root')
     child_elements = model.findall('object/mxCell[@parent="{}"]'.format(id))
@@ -51,6 +71,10 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
         if element_type == "Class":
             cls = class_parse(package, object_element, root_element)
             package.classes.append(cls)
+
+        elif element_type == "Package":
+            pkg = package_parse(object_element, package.root_element, package)
+            package.children.append(pkg)
 
     # Classes are needed to parse generalisations and associations
     for element in child_elements:
