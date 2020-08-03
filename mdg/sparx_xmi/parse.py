@@ -302,16 +302,6 @@ def association_parse(package, source_element, dest_element, source, dest):
     # print( '{}:{} to {}:{}'.format(self.source.name, self.source_multiplicity, self.dest.name,
     # self.destination_multiplicity))
 
-    # Use multiplicities to calculate the type of association
-    if association.source_multiplicity[1] == '*' and association.destination_multiplicity[1] in ('0', '1'):
-        association.association_type = 'ManyToOne'
-    elif association.destination_multiplicity[1] == '*' and association.source_multiplicity[1] in ('0', '1'):
-        association.association_type = 'OneToMany'
-    elif association.destination_multiplicity[1] == '*' and association.source_multiplicity[1] == '*':
-        association.association_type = 'ManyToMany'
-    elif association.destination_multiplicity[1] in ('0', '1') and association.source_multiplicity[1] in ('0', '1'):
-        association.association_type = 'OneToOne'
-
     # If it's an association to or from a multiple then pluralize the name
     # TODO: Allow pluralized name to be specified in UML
     if dest_element.get('name') is not None:

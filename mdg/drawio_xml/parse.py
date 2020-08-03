@@ -4,10 +4,10 @@ from lxml import etree
 from mdg import generation_fields
 from mdg.config import settings
 from mdg.uml import (
-    # UMLAssociation,
-    UMLAssociation, UMLAttribute,
+    UMLAssociation,
+    UMLAttribute,
     UMLClass,
-    # UMLEnumeration,
+    UMLEnumeration,
     UMLInstance,
     UMLPackage,
 )
@@ -46,6 +46,8 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
 
     model_package: UMLPackage = package_parse(model_element, root, None)
 
+    enumeration_link(model_package)
+
     return model_package, test_cases
 
 
@@ -72,6 +74,10 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
             cls = class_parse(package, object_element, root_element)
             package.classes.append(cls)
 
+        elif element_type == "Enumeration":
+            enum = enumeration_parse(package, object_element, root_element)
+            package.enumerations.append(enum)
+
         elif element_type == "Package":
             pkg = package_parse(object_element, package.root_element, package)
             package.children.append(pkg)
@@ -89,6 +95,30 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
     return package
 
 
+def find_enumeration_by_name(package, name):
+    for enum in package.enumerations:
+        if enum.name == name:
+            return enum
+    for child in package.children:
+        res = find_enumeration_by_name(child, name)
+        if res is not None:
+            return res
+
+
+def enumeration_link(package):
+    root_package = package
+    while root_package.parent is not None:
+        root_package = root_package.parent
+
+    for cls in package.classes:
+        for attr in cls.attributes:
+            enum = find_enumeration_by_name(root_package, attr.dest_type)
+            if enum is not None:
+                attr.classification = enum
+    for child in package.children:
+        enumeration_link(child)
+
+
 def generalization_parse(package: UMLPackage, element, root):
     cell = element.find("mxCell")
     source: UMLClass = package.find_by_id(cell.get("source"))
@@ -97,11 +127,36 @@ def generalization_parse(package: UMLPackage, element, root):
 
 
 def association_parse(package: UMLPackage, element, root):
+    id = element.get("id")
     cell = element.find("mxCell")
     source: UMLClass = package.find_by_id(cell.get("source"))
     target: UMLClass = package.find_by_id(cell.get("target"))
 
-    UMLAssociation(package, source, target)
+    association = UMLAssociation(package, source, target, id)
+
+    # Extract multiplicities
+    ret = root.findall('.//object[@UMLType="DestinationMultiplicity"]')
+    for dest in ret:
+        dm = dest.find('mxCell[@parent="{}"]'.format(association.id))
+        if dm is not None:
+            label = dest.get("label").strip('<div>').strip('</div>')
+            association.destination_multiplicity = association.string_to_multiplicity(label)
+            break
+    ret = root.findall('.//object[@UMLType="SourceMultiplicity"]')
+    for dest in ret:
+        dm = dest.find('mxCell[@parent="{}"]'.format(association.id))
+        if dm is not None:
+            label = dest.get("label").strip('<div>').strip('</div>')
+            association.source_multiplicity = association.string_to_multiplicity(label)
+            break
+
+    # Set association names
+    association.destination_name = target.name
+    if association.destination_multiplicity[1] == '*':
+        association.destination_name += 's'
+    association.source_name = source.name
+    if association.source_multiplicity[1] == '*':
+        association.source_name += 's'
 
 
 def class_parse(package: UMLPackage, element, root) -> UMLClass:
@@ -137,7 +192,23 @@ def class_parse(package: UMLPackage, element, root) -> UMLClass:
     return cls
 
 
-def attr_parse(parent: UMLClass, element, root, stereotypes):
+def enumeration_parse(package: UMLPackage, element, root) -> UMLEnumeration:
+    label = element.get("label").split(",")[-1].split("div>")
+    if len(label) == 1:
+        name = label[0].strip("<b>").strip("</b>").strip("i>").strip("</i")
+    else:
+        name = label[-2].strip("<b>").strip("</b></").strip("i>").strip("</i")
+    id = element.get("id")
+    enum = UMLEnumeration(package, name, id)
+
+    children = root.findall('./diagram/mxGraphModel/root/mxCell[@parent="{}"]'.format(id))
+    for child in children:
+        enum.values.append(child.get('value'))
+
+    return enum
+
+
+def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
     value = element.get("value").strip("<div>").strip("</div>").strip("<br")
     # height = int(element.find("mxGeometry").get("y"))
 

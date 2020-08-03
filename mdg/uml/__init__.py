@@ -79,23 +79,51 @@ class UMLInstance(object):
 
 
 class UMLAssociation(object):
-    def __init__(self, package: UMLPackage, source: Union[UMLClass, UMLInstance], destination: Union[UMLClass, UMLInstance]):
+    def __init__(self, package: UMLPackage, source: Union[UMLClass, UMLInstance], destination: Union[UMLClass, UMLInstance], id):
         self.package: UMLPackage = package
-        self.association_type: Optional[str] = None
 
         self.source: Union[UMLClass, UMLInstance] = source
         self.source_name: Optional[str] = None
-        self.source_multiplicity: List[str] = ['0', '0']
+        self.source_multiplicity: Tuple[str, str] = ('0', '0')
         source.associations_from.append(self)
 
         self.destination: Union[UMLClass, UMLInstance] = destination
-        self.destination_multiplicity: List[str] = ['0', '0']
+        self.destination_multiplicity: Tuple[str, str] = ('0', '0')
         self.destination_name: Optional[str] = None
         destination.associations_to.append(self)
         self.documentation: str = ""
+        self.id: Union[int, str] = id
 
     def __str__(self) -> str:
-        return f"{self.source_name} -> {self.destination_name}"
+        return f"{self.source_name}({self.source_multiplicity}) -> {self.destination_name}({self.destination_multiplicity})"
+
+    @property
+    def association_type(self):
+        association_type = None
+        # Use multiplicities to calculate the type of association
+        if self.source_multiplicity[1] == '*' and self.destination_multiplicity[1] in ('0', '1'):
+            association_type = 'ManyToOne'
+        elif self.destination_multiplicity[1] == '*' and self.source_multiplicity[1] in ('0', '1'):
+            association_type = 'OneToMany'
+        elif self.destination_multiplicity[1] == '*' and self.source_multiplicity[1] == '*':
+            association_type = 'ManyToMany'
+        elif self.destination_multiplicity[1] in ('0', '1') and self.source_multiplicity[1] in ('0', '1'):
+            association_type = 'OneToOne'
+
+        return association_type
+
+    def string_to_multiplicity(self, value):
+        output = ('', '')
+        if value == "0..*":
+            output = ("0", "*")
+        elif value == "1..*":
+            output = ("1", "*")
+        elif value in ("1", "0..1"):
+            output = ("0", "1")
+        elif value == "1..1":
+            output = ("1", "1")
+
+        return output
 
 
 class UMLEnumeration(object):
