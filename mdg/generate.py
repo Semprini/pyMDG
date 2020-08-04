@@ -4,10 +4,17 @@
 import sys
 import os
 
-# from .sparx_xmi.parse import parse_uml
-from .drawio_xml.parse import parse_uml
 from .validate import validate_package
 from .render import output_model, output_test_cases
+
+from .sparx_xmi.parse import parse_uml as sparx_parse_uml
+from .drawio_xml.parse import parse_uml as drawio_parse_uml
+
+# TODO: change to using a registration decorator
+PARSERS = {
+    'sparx': sparx_parse_uml,
+    'drawio': drawio_parse_uml,
+}
 
 
 def generate():
@@ -15,9 +22,10 @@ def generate():
         Calls XMI parser to turn model and tests into python native (see UML metamodel)
         Calls output functions to render for model and tests
     """
+    from mdg.config import settings
 
     # Call the parser
-    model_package, test_cases = parse_uml()
+    model_package, test_cases = PARSERS[settings['parser']]()
     print("Base Model Package: " + model_package.name)
 
     # Validate the parsed model package
@@ -36,11 +44,11 @@ def generate():
 
 def main():
     if len(sys.argv) == 1:
-        recipie_path = '.'
+        recipie_path = '.' + "/config.yaml"
     else:
         recipie_path = str(sys.argv[1])
 
-    config_filename = recipie_path + "/config.yaml"
+    config_filename = recipie_path
     os.environ.setdefault("PYMDG_SETTINGS_MODULE", config_filename)
 
     generate()

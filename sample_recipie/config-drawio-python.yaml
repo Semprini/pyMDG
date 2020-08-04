@@ -1,0 +1,52 @@
+root_package: SampleIndustry
+model_package: Model
+test_package: Test
+source: ./sample_recipie/sample_industry.xml
+parser: drawio
+dest_root: ./build/sample_drawio_python
+templates_folder: ./sample_recipie/templates
+generation_type: django
+model_templates:
+# Python: Django App
+- dest: django{{package.path}}/models.py
+  level: package
+  source: Django/app/models.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: django{{package.path}}/admin.py
+  level: package
+  source: Django/app/admin.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: django{{package.path}}/__init__.py
+  level: package
+  source: Django/app/__init__.py
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: django{{package.path}}/apps.py
+  level: package
+  source: Django/app/apps.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+# Python: Django Project
+- dest: django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/settings.py
+  level: root
+  source: Django/project/settings.py.jinja
+- dest: django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/urls.py
+  level: root
+  source: Django/project/urls.py.jinja
+- dest: django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/__init__.py
+  level: root
+  source: Django/project/__init__.py
+- dest: django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/wsgi.py
+  level: root
+  source: Django/project/wsgi.py.jinja
+- dest: django/{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/asgi.py
+  level: root
+  source: Django/project/asgi.py.jinja
+- dest: django/{{ package.path }}/manage.py
+  level: root
+  source: Django/manage.py.jinja
+# Python: Arango ORM
+- dest: arango{{package.path}}/models.py
+  level: package
+  source: Arango/models.py.jinja
+test_templates:
+- dest: ./build/sample_sparx_python/json{{ins.package.path}}/{{ins.stereotype}}.json
+  format: json

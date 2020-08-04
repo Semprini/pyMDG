@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+{% for cls in package.classes %}{% if not cls.is_abstract %}
+from {{ package.name }}.models import {{ cls.name }}
+admin.site.register({{ cls.name }})
+{% endif %}{% endfor %}
+

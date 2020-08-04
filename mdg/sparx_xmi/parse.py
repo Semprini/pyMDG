@@ -245,8 +245,8 @@ def package_parse_inheritance(package):
         package_parse_inheritance(child)
 
 
-def instance_parse(package, element, root):
-    ins = UMLInstance(package, element.get('name'), element.get('{%s}id' % ns['xmi']))
+def instance_parse(package, source_element, root):
+    ins = UMLInstance(package, source_element.get('name'), source_element.get('{%s}id' % ns['xmi']))
 
     # Detail is sparx specific
     # TODO: Put modelling tool in settings and use tool specific parser here
@@ -275,7 +275,8 @@ def instance_parse(package, element, root):
 
 
 def association_parse(package, source_element, dest_element, source, dest):
-    association = UMLAssociation(package, source, dest)
+    id = source_element.get('{%s}id' % ns['xmi'])
+    association = UMLAssociation(package, source, dest, id)
 
     # Extract multiplicity for source
     source_lower = source_element.find('lowerValue')

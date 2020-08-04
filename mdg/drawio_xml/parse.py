@@ -240,6 +240,4 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
     else:
         attr.dest_type = attr_type
 
-    # print("{} | {} | {} | {}".format(name, attr_type, is_id, height))
-
     return attr
