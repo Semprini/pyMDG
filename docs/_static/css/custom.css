@@ -1,8 +1,13 @@
 body {
     color:#B0B0B0;
 }
-.section{
+.document{
     background:#202020DD;
+    padding: 10px 20px 20px 20px;
+    color:#B0B0B0;
+}
+.section{
+    background:#20202055;
     padding: 10px 20px 20px 20px;
     margin-top: 20px;
     color:#B0B0B0;
@@ -45,7 +50,7 @@ body {
     margin-left: 5%;
     margin-top: 30px;
     margin-bottom: 30px;
-    background:#202020DD;
+    background:#202020BB;
 }
 @media screen and (min-width:1100px) {
     .wy-nav-content {

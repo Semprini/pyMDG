@@ -1,25 +1,34 @@
 pyMDG's documentation
-=================================
+=====================
 
 pyMDG is a library to allow you to create UML and other models and generate code and documentation. pyMDG currently supports 2 modelling tools: diagrams.net (drawio) and Sparx EA.
 
-Diagrams.net Quickstart
-=================================
+Currently used for data systems so supports class diagrams.
 
+Quickstart
+==========
 
+The github project comes with a sample which can generate a complete data platform.
 
-This is a test::
+Generation::
 
-    print('hello')
-    >> hello
+   git clone https://github.com/Semprini/pyMDG
+   cd pyMDG
+   virtualenv venv
+   . venv/bin/activate
+   pip install -r requirements.txt
+   python generate.py ./sample_recipie/config-drawio-django.yaml 
+   
+Run the app::
 
-Guide
-^^^^^
+   pip install django
+   cd build/sample_drawio_django/SampleIndustry
+   python manage.py makemigrations TestDomain TestDomain2
+   python manage.py migrate
+   python manage.py createsuperuser
+   python manage.py runserver
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
+And browse to http://127.0.0.1:8000/admin/
 
 Indices and tables
 ==================
@@ -27,3 +36,18 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+   :caption: Contents:
+   :glob:
+
+   tutorial*
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+   :caption: Code:
+
+   source/modules
