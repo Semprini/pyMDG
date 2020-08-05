@@ -5,6 +5,8 @@
 Parser and tools to manipulate UML models. Initial version uses Sparx EA Generated XMI 2.1
 Can be used to parse XMI file passed to jinja2 templates for generation of code (POJO, POCO, Django etc), JSON data and HTML documentation.
 
+Quickstart and docs can be found here: ![readthedocs](https://pymdg.readthedocs.io/en/latest/index.html)
+
 ## Test
 Standard testing:
  > python -m unittest

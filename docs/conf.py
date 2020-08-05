@@ -4,8 +4,6 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-master_doc = 'index'
-
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -22,7 +20,7 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'pyMDG'
 copyright = '2020, Semprini'
 author = 'Semprini'
-
+master_doc = 'index'
 
 # -- General configuration ---------------------------------------------------
 
