@@ -13,5 +13,6 @@ settings: Dict = {
 try:
     with open(os.environ.get('PYMDG_SETTINGS_MODULE', ""), 'r') as config_file:
         settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
+    print("Config file loaded: " + os.environ.get('PYMDG_SETTINGS_MODULE', ""))
 except FileNotFoundError:
-    print("Using default settings")
+    print("WARN: Config file not found. Using default settings")
