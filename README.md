@@ -2,8 +2,9 @@
 # pyMDG
 
 ## Overview
-Parser and tools to manipulate UML models. Initial version uses Sparx EA Generated XMI 2.1
-Can be used to parse XMI file passed to jinja2 templates for generation of code (POJO, POCO, Django etc), JSON data and HTML documentation.
+Parser and tools to manipulate UML models. Current version supports Sparx EA Generated XMI 2.1 or diagrams.net XML
+
+Used to parse model files to native python classes (see metamodel below) which are passed to jinja2 templates for generation of code (POJO, POCO, Django etc), JSON data and HTML documentation.
 
 Quickstart and docs can be found here: [readthedocs](https://pymdg.readthedocs.io/en/latest/index.html)
 
@@ -12,17 +13,17 @@ Standard testing:
  > python -m unittest
 
 To generate code call the generate script and pass in the recipie folder. A sample recipie folder is provided in the github repo:
- > python mdg/generate.py sample_recipie
+ > python generate.py ./sample_recipie/config-drawio-django.yaml
 
 Or once installed into site-packages via 'pip install pymdg', an executable is provided:
  > cd /my/recipie/folder
 
 And execute:
- > mdg_generate
+ > mdg_generate <my/config.yaml>
 
-The recipie folder must have a config.yaml file which specifies templates and output. See the sample config for examples
+See the sample_recipie configs for examples
 
-## Export Process
+## Sparx EA Export Process
 - In Sparx select the domain root node  (e.g. Model/Sample )
 - Select the publish tab at the top
 - Select Publish As... from top menu
