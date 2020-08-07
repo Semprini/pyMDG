@@ -40,10 +40,21 @@ Indices and tables
 .. toctree::
    :hidden:
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Tutorials:
    :glob:
 
    tutorial*
+
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+   :caption: Reference:
+   :glob:
+   
+   metamodel
+   templates
+
 
 .. toctree::
    :hidden:

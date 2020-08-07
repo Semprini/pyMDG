@@ -85,11 +85,11 @@ def output_level_assoc(source_template: Template, dest_file_template: Template, 
 def output_model(package: UMLPackage) -> None:
     """ Loops through model templates in the settings and calls render functions
 
-    Each template consists of:
-        dest: The filename of the output
-        level: Do we generate a file for each package/class/enumeration/association or root
-        source: Path to the jinja2 template
-        filter: If supplied, If supplied The template must output "True" for a file to be generated
+        Each template consists of:
+            dest: The filename of the output
+            level: Do we generate a file for each package/class/enumeration/association or root
+            source: Path to the jinja2 template
+            filter: If supplied, If supplied The template must output "True" for a file to be generated
                 E.g.: "{% if package.classes %}True{% else %}False{% endif %}"
     """
     print("Generating model output for package {}".format(package.path))
