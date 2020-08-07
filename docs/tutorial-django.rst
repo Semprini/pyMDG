@@ -16,7 +16,7 @@ File -> Open Library From -> URL and enter::
 
 This will result in the pyMDG library being added to the sidebar:
 
-.. image:: _static/image/MDGUML.jpg
+.. image:: https://raw.githubusercontent.com/Semprini/pyMDG/master/docs/_static/image/MDGUML.JPG
 
 UML packages are set up as Frames in the library. This mimics the hierarchy found in full modelling tools like Sparx. Add 3 nested frames to the canvas and rename each:
 
@@ -24,13 +24,13 @@ UML packages are set up as Frames in the library. This mimics the hierarchy foun
 * 2nd level is the model container (test container can be added later)
 * 3rd level is a data domain/app
 
-.. image:: _static/image/Package.jpg
+.. image:: https://raw.githubusercontent.com/Semprini/pyMDG/master/docs/_static/image/Package.JPG
 
 We can then start modelling classes. Each class must have an attribute with {id} except where the {id} is in a parent class.
 
 Drag 2 'Class Basic' objects into the TestDomain package. Rename classes and set the {id} attribute of each class. Drag on an Association and link the classes:
 
-.. image:: _static/image/Class.jpg
+.. image:: https://raw.githubusercontent.com/Semprini/pyMDG/master/docs/_static/image/Class.JPG
 
 There are 5 templates for classes:
 
