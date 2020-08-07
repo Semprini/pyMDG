@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',{% for app in package.children %}
+    'django.contrib.staticfiles',
+    'rest_framework',{% for app in package.children %}
     '{{ app.name }}',{% endfor %}
 ]
 

@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from rest_framework import permissions, viewsets
 
-# Create your views here.
+{% for cls in package.classes %}
+from {{ package.name }}.models import {{ cls.name }}
+from {{ package.name }}.serializers import {{ cls.name }}Serializer{% endfor %}
+
+
+{% for cls in package.classes %}{% if not cls.is_abstract %}
+class {{ cls.name }}ViewSet(viewsets.ModelViewSet):
+    queryset = {{ cls.name }}.objects.all()
+    serializer_class = {{ cls.name }}Serializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+{% endif %}{% endfor %}

@@ -16,6 +16,18 @@ model_templates:
   level: package
   source: Django/app/admin.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: "{{package.path}}/serializers.py"
+  level: package
+  source: Django/app/serializers.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: "{{package.path}}/urls.py"
+  level: package
+  source: Django/app/urls.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: "{{package.path}}/views.py"
+  level: package
+  source: Django/app/views.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
 - dest: "{{package.path}}/__init__.py"
   level: package
   source: Django/app/__init__.py
@@ -43,6 +55,9 @@ model_templates:
 - dest: "{{ package.path }}/manage.py"
   level: root
   source: Django/manage.py.jinja
+- dest: "{{ package.path }}/requirements.txt"
+  level: root
+  source: Django/requirements.txt.jinja
 test_templates:
 - dest: ./build/sample_sparx_django/json{{ins.package.path}}/{{ins.stereotype}}.json
   format: json

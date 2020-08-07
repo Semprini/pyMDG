@@ -1,0 +1,15 @@
+from rest_framework import serializers
+from drf_nest.serializer_fields import TypeField
+
+{% for cls in package.classes %}
+from .models import {{ cls.name }}{% endfor %}
+
+{% for cls in package.classes %}
+class {{ cls.name }}Serializer(serializers.HyperlinkedModelSerializer):
+    type = TypeField()
+
+    class Meta:
+        model = {{ cls.name }}
+        fields = ('type', 'url', 
+                    {% for attr in cls.attributes %}'{{ attr.name | snakecase }}',{% endfor %})
+{% endfor %}

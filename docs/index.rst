@@ -21,7 +21,7 @@ Generation::
    
 Run the app::
 
-   pip install django
+   pip install -r requirements.txt
    cd build/sample_drawio_django/SampleIndustry
    python manage.py makemigrations TestDomain TestDomain2
    python manage.py migrate

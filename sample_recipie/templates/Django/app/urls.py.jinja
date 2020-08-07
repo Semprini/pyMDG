@@ -1,0 +1,17 @@
+"""{{ package.name }} URL Configuration
+
+"""
+from django.conf.urls import include, url
+
+from drf_nest.routers import AppRouter
+
+import {{ package.name }}.views as AppViews
+
+router = AppRouter(root_view_name='app-{{ package.name }}')
+{% for cls in package.classes %}{% if not cls.is_abstract %}
+router.register(r'{{ cls.name }}', AppViews.{{ cls.name }}ViewSet){% endif %}{% endfor %}
+
+urlpatterns = [
+    url(r'^api/{{ package.name }}/', include(router.urls)),
+]
+
