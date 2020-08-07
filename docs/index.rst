@@ -28,7 +28,7 @@ Run the app::
    python manage.py createsuperuser
    python manage.py runserver
 
-And browse to http://127.0.0.1:8000/admin/
+And browse to http://127.0.0.1:8000/admin/ or http://127.0.0.1:8000/api/
 
 Indices and tables
 ==================
