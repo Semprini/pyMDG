@@ -1,4 +1,4 @@
-![Test](https://github.com/Semprini/pyMDG/workflows/Test/badge.svg) ![PyPI](https://github.com/Semprini/pyMDG/workflows/PyPI/badge.svg)
+![Test](https://github.com/Semprini/pyMDG/workflows/Test/badge.svg) ![PyPI](https://github.com/Semprini/pyMDG/workflows/PyPI/badge.svg) [![Documentation Status](https://readthedocs.org/projects/pymdg/badge/?version=latest)](https://pymdg.readthedocs.io/en/latest/?badge=latest)
 # pyMDG
 
 ## Overview
