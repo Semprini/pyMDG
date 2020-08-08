@@ -75,7 +75,8 @@ Copy the following from the github project pyMDG/sample_recipie folder:
 * templates/Django/*
 
 The dir structure now looks like:
-<image>
+
+.. image:: https://raw.githubusercontent.com/Semprini/pyMDG/master/sample_recipie/images/django-tut-structure.JPG
 
 Edit config-drawio-django.yaml and update the following:
 
