@@ -14,10 +14,13 @@ from mdg.uml import (
 
 
 def find_label_name(element, name):
-    ret = element.find('object[@label="<div>{}</div>"]'.format(name))
-    if ret is None:
-        ret = element.find('object[@label="{}"]'.format(name))
-    return ret
+    objects = element.findall('object')
+
+    for object in objects:
+        label = object.get('label')
+        if name in label:
+            return object
+    return None
 
 
 def get_label_name(element):
