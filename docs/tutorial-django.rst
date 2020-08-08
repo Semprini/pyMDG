@@ -50,26 +50,63 @@ pyMDG supports 2 relation types:
 
 * Generalization: Defines a parent/child inheritance
 
-Save file by File -> Save as -> drop down XML file (.xml) or export the diagram by File -> Export As -> XML
+Export the diagram by File -> Export As -> XML and unselect Compressed
 
 Generate
 ^^^^^^^^
 
-The recipie tells pyMDG about your model and what files to output.
+The recipie tells pyMDG about your model and what files to output. 
+This tutorial uses the sample templates and config which you can find in the 
+sample_recipie folder from the project on gitgub: https://github.com/Semprini/pyMDG
 
 Recipie - Django
 ----------------
 
-A complete django app (soon with django rest api) can be created from the model.
+A complete django app with django rest api can be created from the model.
 
-Into a new project folder, copy the following from the pyMDG sample_recipie folder:
+cd into a new project folder (I called mine django-tut)::
 
-* config-drawio-python.yaml
+   django-tut> virtualenv venv
+   django-tut> pip install pymdg
+
+Copy the following from the github project pyMDG/sample_recipie folder:
+
+* config-drawio-django.yaml
 * templates/Django/*
 
-Edit config-drawio-python.yaml and update the following:
+The dir structure now looks like:
+<image>
 
-* root_package: Quickstart (matches the top level package)
+Edit config-drawio-django.yaml and update the following:
+
+* root_package: QuickStart (matches the top level package)
 * model_package: model (matches the middle package)
 * source: the path to your saved model file
-* templates_folder: '' (assuming your dir structure has project/Django/)
+* templates_folder: ''
+* dest_root: ./build
+
+We can now build the project::
+
+   > django-tut> mdg_generate .\config-drawio-django.yaml
+   Config file loaded: .\config-drawio-django.yaml
+   Base Model Package: model
+   Generating model output for package /QuickStart/
+   Generating model output for package /QuickStart/TestDomain/
+   Generating test case output
+
+And then run the generated django app::
+
+   > cd build/QuickStart/
+   > pip install -r .\requirements.txt
+   > python manage.py makemigrations TestDomain    <- matches the inner package
+   Migrations for 'TestDomain':
+   TestDomain\migrations\0001_initial.py
+    - Create model AnotherClass
+    - Create model MyCoolClass
+
+   > python manage.py migrate
+   > python manage.py createsuperuser
+   > python manage.py runserver
+
+You can now browse to http://127.0.0.1:8000/admin/ and http://127.0.0.1:8000/api/
+
