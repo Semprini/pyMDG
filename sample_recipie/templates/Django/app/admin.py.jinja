@@ -9,7 +9,8 @@ class {{ cls.name }}Inline(admin.TabularInline):
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}
 class {{ cls.name}}Admin(admin.ModelAdmin):
-	inlines = [{% for rel in cls.associations_from %}{% if rel.association_type == "OneToMany" %}{{ rel.destination.name }}Inline,{% endif %}{% endfor %}]
+	inlines = [{% for rel in cls.associations_from %}{% if rel.association_type == "OneToMany" %}{{ rel.destination.name }}Inline,{% endif %}{% endfor %}
+	{% for rel in cls.associations_to %}{% if rel.association_type == "ManyToOne" %}{{ rel.source.name }}Inline,{% endif %}{% endfor %}]
 
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}
