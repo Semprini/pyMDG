@@ -20,11 +20,17 @@ from django.db import models
 {% for attr in cls.attributes %}
 {% if attr.classification %}    {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name}}.choices, blank=True, null=True )
 {% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %} )
-{% endif %}{% endfor %}{% for rel in cls.associations_from %}
-    {% if rel.association_type == "OneToMany" %}{{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True )
-    {% elif rel.association_type == "OneToOne" %}{{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True )
+{% endif %}{% endfor %}
+
+{% for rel in cls.associations_from %}
+    {% if rel.association_type == "OneToOne" %}{{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True )
+    {% elif rel.association_type == "ManyToOne" %}{{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', on_delete=models.CASCADE, related_name='{{ rel.source_name }}', blank=True, null=True )
     {% elif rel.association_type == "ManyToMany" %}{{ rel.destination_name | snakecase }} = models.ManyToManyField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', blank=True ){% endif %}
 {% endfor %}
+{% for rel in cls.associations_to %}
+    {% if rel.association_type == "OneToMany" %}{{ rel.source_name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name }}.{{ rel.source.name }}', related_name='{{ rel.destination_name }}', on_delete=models.CASCADE, blank=True, null=True ){% endif %}
+{% endfor %}
+
 {% if cls.is_abstract %}    class Meta:
         abstract = True
 {% endif %}{% endif %}

@@ -1,8 +1,8 @@
 root_package: SampleIndustry
 model_package: Model
 test_package: Test
-source: ./sample_recipie/test_domain.xml
-parser: drawio
+source: ./sample_recipie/sample_industry.xmi
+parser: sparx
 dest_root: ./build/sample_sparx_django
 templates_folder: ./sample_recipie/templates
 generation_type: django

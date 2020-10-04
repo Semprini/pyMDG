@@ -76,6 +76,29 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissions'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+}
+
+MQ_FRAMEWORK = {
+    'TYPE': 'stdout',
+    'HOST': 'None',
+    'USER': 'None',
+    'PASSWORD': 'None',
+    'EXCHANGE_PREFIX': 'notify.',
+    'HTTP_REST_CONTEXT': {
+        'SERVER_NAME': '127.0.0.1',
+        'SERVER_PORT': 8000,
+        'SERVER_PROTOCOL': 'http',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

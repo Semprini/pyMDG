@@ -300,8 +300,7 @@ def association_parse(package, source_element, dest_element, source, dest):
             dest_upper = '*'
         association.destination_multiplicity = (dest_lower, dest_upper)
 
-    # print( '{}:{} to {}:{}'.format(self.source.name, self.source_multiplicity, self.dest.name,
-    # self.destination_multiplicity))
+    print('{} {} to {}'.format(association.source.name, association.association_type, association.destination.name ))
 
     # If it's an association to or from a multiple then pluralize the name
     # TODO: Allow pluralized name to be specified in UML

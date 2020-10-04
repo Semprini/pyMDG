@@ -1,0 +1,12 @@
+{
+ "namespace": "{{ cls.package.name }}",
+ "type": "record",
+ "name": "{{ cls.name }}",
+ "fields": [
+{% if cls.attributes|length != 0 %}{% for attr in cls.attributes[:-1] %}
+	{ "name": "{{ attr.name }}", "type": "{{attr.dest_type}}" },{% endfor %}
+	{ "name": "{{ cls.attributes[-1].name }}", "type": "{{cls.attributes[-1].dest_type}}" }{% if cls.associations_from|length != 0 %},{% endif %}{% endif %}
+{% if cls.associations_from|length != 0 %}{% for assoc in cls.associations_from[:-1] %}
+	{ "name": "{{ assoc.destination_name }}", "type": {% if assoc.destination_multiplicity[1] == '*' %}{ "type": "array", "items": "string" }{% else %}"string"{% endif %} },{% endfor %}
+	{ "name": "{{ cls.associations_from[-1].destination_name }}", "type": {% if cls.associations_from[-1].destination_multiplicity[1] == '*' %}{ "type": "array", "items": "string" }{% else %}"string"{% endif %} } {% endif %}
+}

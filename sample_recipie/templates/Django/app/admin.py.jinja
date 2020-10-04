@@ -1,7 +1,18 @@
 from django.contrib import admin
-
 {% for cls in package.classes %}{% if not cls.is_abstract %}
 from {{ package.name }}.models import {{ cls.name }}
-admin.site.register({{ cls.name }})
+{% endif %}{% endfor %}
+
+{% for cls in package.classes %}{% if not cls.is_abstract %}
+class {{ cls.name }}Inline(admin.TabularInline):
+    model = {{ cls.name }}
+{% endif %}{% endfor %}
+{% for cls in package.classes %}{% if not cls.is_abstract %}
+class {{ cls.name}}Admin(admin.ModelAdmin):
+	inlines = [{% for rel in cls.associations_from %}{% if rel.association_type == "OneToMany" %}{{ rel.destination.name }}Inline,{% endif %}{% endfor %}]
+
+{% endif %}{% endfor %}
+{% for cls in package.classes %}{% if not cls.is_abstract %}
+admin.site.register({{ cls.name }}, {{ cls.name }}Admin)
 {% endif %}{% endfor %}
 
