@@ -62,6 +62,16 @@ model_templates:
 - dest: "{{ package.path }}/requirements.txt"
   level: root
   source: Django/requirements.txt.jinja
+# Python: Templates
+- dest: "{{ package.path }}/templates/admin/base_site.html"
+  level: copy
+  source: Django/templates/admin/base_site.html
+- dest: "{{ package.path }}/templates/drf-yasg/swagger-ui.html"
+  level: copy
+  source: Django/templates/drf-yasg/swagger-ui.html
+- dest: "{{ package.path }}/templates/rest_framework/api.html"
+  level: copy
+  source: Django/templates/rest_framework/api.html
 test_templates:
 - dest: ./build/sample_sparx_django/json{{ins.package.path}}/{{ins.stereotype}}.json
   format: json

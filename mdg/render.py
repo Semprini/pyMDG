@@ -12,6 +12,26 @@ from .util import camelcase, snakecase, titlecase, sentencecase
 from .uml import UMLPackage, UMLInstance
 
 
+def output_level_copy(source_filename: str, dest_file_template: Template, package: UMLPackage) -> None:
+    """ Render a jinja template as pass a UML package as data
+    """
+
+    # Render template for UML Package
+    dest_filename: str = os.path.abspath(dest_file_template.render(package=package))
+    dirname: str = os.path.dirname(dest_filename)
+
+    # make sure computed distination path exists
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+
+    print( source_filename )
+    print( dest_filename )
+
+    with open(source_filename) as source_fh:
+        with open(dest_filename, 'w') as dest_fh:
+            dest_fh.write(source_fh.read())
+
+
 def output_level_package(source_template: Template, dest_file_template: Template, package: UMLPackage) -> None:
     """ Render a jinja template as pass a UML package as data
     """
@@ -109,28 +129,33 @@ def output_model(package: UMLPackage) -> None:
     # Loop through all template definitions in the config file
     template_definition: Dict
     for template_definition in settings['model_templates']:
-        # Create jinja2 teemplates for the source file and dest file name
-        source_template: Template = source_env.get_template(template_definition['source'])
         dest_file_template: Template = Template(os.path.join(settings['dest_root'], template_definition['dest']))
         dest_file_template.environment.filters = {**dest_file_template.environment.filters, **filters}
 
-        # Filter template is optional and used to skip a file generation.
-        filter_template: Optional[Template] = None
-        if 'filter' in template_definition.keys():
-            filter_template = Template(template_definition['filter'])
+        if template_definition['level'] == 'copy':
+            if package.parent is None:
+                output_level_copy(os.path.join(settings['templates_folder'], template_definition['source']), dest_file_template, package)
+        else:
+            # Create jinja2 teemplates for the source file and dest file name
+            source_template: Template = source_env.get_template(template_definition['source'])
 
-        # Select the output renderer based on the level requested
-        if template_definition['level'] == 'package':
-            if filter_template is None or filter_template.render(package=package) == "True":
+            # Filter template is optional and used to skip a file generation.
+            filter_template: Optional[Template] = None
+            if 'filter' in template_definition.keys():
+                filter_template = Template(template_definition['filter'])
+
+            # Select the output renderer based on the level requested
+            if template_definition['level'] == 'package':
+                if filter_template is None or filter_template.render(package=package) == "True":
+                    output_level_package(source_template, dest_file_template, package)
+            elif template_definition['level'] == 'class':
+                output_level_class(source_template, dest_file_template, filter_template, package)
+            elif template_definition['level'] == 'enumeration':
+                output_level_enum(source_template, dest_file_template, filter_template, package)
+            elif template_definition['level'] == 'assocication':
+                output_level_assoc(source_template, dest_file_template, filter_template, package)
+            elif template_definition['level'] == 'root' and package.parent is None:
                 output_level_package(source_template, dest_file_template, package)
-        elif template_definition['level'] == 'class':
-            output_level_class(source_template, dest_file_template, filter_template, package)
-        elif template_definition['level'] == 'enumeration':
-            output_level_enum(source_template, dest_file_template, filter_template, package)
-        elif template_definition['level'] == 'assocication':
-            output_level_assoc(source_template, dest_file_template, filter_template, package)
-        elif template_definition['level'] == 'root' and package.parent is None:
-            output_level_package(source_template, dest_file_template, package)
 
     # Walk through the package hierarchy and recurse output
     child: UMLPackage

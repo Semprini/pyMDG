@@ -1,5 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 {% for enum in package.enumerations %}class ENUM_{{ enum.name }}(models.TextChoices):
@@ -30,6 +31,9 @@ from django.db import models
 {% for rel in cls.associations_to %}
     {% if rel.association_type == "OneToMany" %}{{ rel.source_name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name }}.{{ rel.source.name }}', related_name='{{ rel.destination_name }}', on_delete=models.CASCADE, blank=True, null=True ){% endif %}
 {% endfor %}
+
+{% if 'auditable' in cls.stereotypes %}
+    history = HistoricalRecords(){% endif%}
 
 {% if cls.is_abstract %}    class Meta:
         abstract = True

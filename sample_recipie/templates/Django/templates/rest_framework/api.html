@@ -1,0 +1,11 @@
+{% extends "rest_framework/base.html" %}
+
+{% block title %}{% if name %}{{ name }} – API{% endif %}{% endblock %}
+
+{% block branding %}
+<div class="navbar-brand">
+  <a href="/swagger">API</a> |
+  <a href="/admin">Data Management</a> |
+  <a href="/swagger">Schema</a>
+</div>
+{% endblock %}
