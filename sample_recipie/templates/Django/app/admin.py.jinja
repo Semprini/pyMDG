@@ -1,4 +1,5 @@
 from django.contrib import admin
+from simple_history.admin import SimpleHistoryAdmin
 {% for cls in package.classes %}{% if not cls.is_abstract %}
 from {{ package.name }}.models import {{ cls.name }}
 {% endif %}{% endfor %}
@@ -8,7 +9,7 @@ class {{ cls.name }}Inline(admin.TabularInline):
     model = {{ cls.name }}
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}
-class {{ cls.name}}Admin(admin.ModelAdmin):
+class {{ cls.name}}Admin({% if 'auditable' in cls.stereotypes %}SimpleHistoryAdmin{% else %}admin.ModelAdmin{% endif %}):
 	inlines = [{% for rel in cls.associations_from %}{% if rel.association_type == "OneToMany" %}{{ rel.destination.name }}Inline,{% endif %}{% endfor %}
 	{% for rel in cls.associations_to %}{% if rel.association_type == "ManyToOne" %}{{ rel.source.name }}Inline,{% endif %}{% endfor %}]
 

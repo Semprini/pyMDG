@@ -24,6 +24,7 @@ def generate():
 
     # Call the parser
     model_package, test_cases = PARSERS[settings['parser']]()
+    model_package.name = settings['root_package']
     print("Base Model Package: " + model_package.name)
 
     # Validate the parsed model package

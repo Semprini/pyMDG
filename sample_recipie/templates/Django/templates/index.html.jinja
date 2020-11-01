@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>{{ package.name }}</title>
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/login.css">
+
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+
+        <meta name="robots" content="NONE,NOARCHIVE">
+    </head>
+    <body class=" login" data-admin-utc-offset="0">
+        <div id="container">
+            <div id="header">
+                <div id="branding">
+                    <h1 id="site-name"><a href="/">{{ package.name }} Operational Data Platform</a></h1>
+                </div>
+            </div>
+            <div id="content" class="colM">
+                <br class="clear">
+                <div><a href="/admin">Data Management Interface</a></div>
+                <br class="clear">
+                <div><a href="/api">Browsable API Interface</a></div>
+                <br class="clear">
+                <div><a href="/swagger">OpenAPI Documentation</a></div>
+                <br class="clear">
+            </div>
+        </div>
+    </body>
+</html>
