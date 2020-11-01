@@ -50,6 +50,9 @@ model_templates:
 - dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/__init__.py"
   level: root
   source: Django/project/__init__.py
+- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/views.py"
+  level: root
+  source: Django/project/views.py
 - dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/wsgi.py"
   level: root
   source: Django/project/wsgi.py.jinja
@@ -62,10 +65,19 @@ model_templates:
 - dest: "{{ package.path }}/requirements.txt"
   level: root
   source: Django/requirements.txt.jinja
+- dest: "{{ package.path }}/.azure/config"
+  level: root
+  source: Django//.azure/config.jinja
+- dest: "{{ package.path }}/.azure/setup.ps1"
+  level: root
+  source: Django//.azure/setup.ps1.jinja
 # Python: Templates
 - dest: "{{ package.path }}/templates/admin/base_site.html"
   level: copy
   source: Django/templates/admin/base_site.html
+- dest: "{{ package.path }}/templates/index.html"
+  level: copy
+  source: Django/templates/index.html.jinja
 - dest: "{{ package.path }}/templates/drf-yasg/swagger-ui.html"
   level: copy
   source: Django/templates/drf-yasg/swagger-ui.html
