@@ -34,7 +34,7 @@ See the sample_recipie configs for examples
 ## Wiki documentation upload
 If your generation recipie has created a file for your wiki (Confluence) then an uploader utilitity can be used. This assumes that you have done the XMI export from Sparx EA with export diagrams and generate diagram images. 
 To generate a confluence token please see: https://confluence.atlassian.com/cloud/api-tokens-938839638.html
-> python confluence.py {your email} {your confluence token} {confluence page id} {path to images}
+> python confluence.py {your email} {your confluence token} {confluence page id} {path to images} {doc filename}
 
 ## Nomenclature:
 This diagram shows all the features and how to model in UML
