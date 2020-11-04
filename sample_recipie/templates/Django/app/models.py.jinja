@@ -2,6 +2,8 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from simple_history.models import HistoricalRecords
 
+from {{ package.root_package.name | snakecase }}.validators import validate_even
+
 
 {% for enum in package.enumerations %}class ENUM_{{ enum.name }}(models.TextChoices):
 {% for attr in enum.values %}
@@ -20,7 +22,7 @@ from simple_history.models import HistoricalRecords
 {% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name }}( {% if cls.supertype %}{{ cls.supertype.name }}{% else %}models.Model{% endif %} ):
 {% for attr in cls.attributes %}
 {% if attr.classification %}    {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name}}.choices, blank=True, null=True )
-{% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %} )
+{% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )
 {% endif %}{% endfor %}
 
 {% for rel in cls.associations_from %}

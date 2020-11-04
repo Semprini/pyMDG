@@ -178,6 +178,7 @@ class UMLAttribute(object):
         self.visibility: bool = True
         self.is_id: bool = False
         self.length: int = 0
+        self.validations = []
 
     def __str__(self) -> str:
         return f"{self.name}"

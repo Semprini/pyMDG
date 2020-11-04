@@ -218,10 +218,16 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
     value = element.get("value").strip("<div>").strip("</div>").strip("<br")
     # height = int(element.find("mxGeometry").get("y"))
 
+    dq = []
+    if "{dq_even}" in value:
+        dq.append('even')
+        value = value.replace("{dq_even}","").strip()
+        print(dq)
+
     is_id = False
     if "{id}" in value:
         is_id = True
-        value = value.strip("{id}").strip()
+        value = value.replace("{id}","").strip()
 
     visibility: bool = False
     if value.startswith("+"):
@@ -236,6 +242,8 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
         attr.is_id = is_id
         parent.id_attribute = attr
     attr.visibility = visibility
+
+    attr.validations = dq
 
     attr.type = attr_type
     if attr.type == 'string':
