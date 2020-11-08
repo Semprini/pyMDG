@@ -13,21 +13,20 @@ from mdg.uml import (
 )
 
 
+def get_label_name(element):
+    label = element.get("label")
+    label = label.strip("<div>").strip("</div>")
+    return label
+
+
 def find_label_name(element, name):
     objects = element.findall('object')
 
     for object in objects:
-        label = object.get('label')
+        label = get_label_name(object)
         if name in label:
             return object
     return None
-
-
-def get_label_name(element):
-    label = element.get("label")
-    if "div>" in label:
-        label = label.split("div>")[1].split("</")[0]
-    return label
 
 
 def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
@@ -41,7 +40,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
 
     element = find_label_name(model, settings['root_package'])
     if element is None:
-        raise ValueError("Root packaged element not found. Settings has:{}".format(settings['root_package']))
+        raise ValueError("Root package element not found. Settings has:{}".format(settings['root_package']))
 
     model_element = find_label_name(model, settings['model_package'])
     if model_element is None:
@@ -163,14 +162,18 @@ def association_parse(package: UMLPackage, element, root):
 
 
 def class_parse(package: UMLPackage, element, root) -> UMLClass:
-    label = element.get("label").split(",")[-1].split("div>")
+    stereotypes = []
+    label = element.get("label").split("<div>")
     if len(label) == 1:
-        name = label[0].strip("<b>").strip("</b>").strip("i>").strip("</i")
+        name = label[0].strip("<b>").strip("</b>").strip("i>").strip("</i").strip('<br').strip()
     else:
-        name = label[-2].strip("<b>").strip("</b></").strip("i>").strip("</i")
+        name = label[-1].strip("</div>").strip("<b>").strip("</b></").strip("i>").strip("</i").strip('<br').strip()
+        stereotypes = label[-2].split('&lt;&lt;')[-1].split('&gt;&gt;')[0].split(',')
 
     id = element.get("id")
     cls = UMLClass(package, name, id)
+    for stereotype in stereotypes:
+        cls.stereotypes.append(stereotype.strip())
 
     abstract = element.get("Abstract")
     if abstract is not None and abstract == "True":
@@ -215,10 +218,16 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
     value = element.get("value").strip("<div>").strip("</div>").strip("<br")
     # height = int(element.find("mxGeometry").get("y"))
 
+    dq = []
+    if "{dq_even}" in value:
+        dq.append('even')
+        value = value.replace("{dq_even}","").strip()
+        print(dq)
+
     is_id = False
     if "{id}" in value:
         is_id = True
-        value = value.strip("{id}").strip()
+        value = value.replace("{id}","").strip()
 
     visibility: bool = False
     if value.startswith("+"):
@@ -233,6 +242,8 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
         attr.is_id = is_id
         parent.id_attribute = attr
     attr.visibility = visibility
+
+    attr.validations = dq
 
     attr.type = attr_type
     if attr.type == 'string':
