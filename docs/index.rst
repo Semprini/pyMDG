@@ -23,7 +23,7 @@ Run the app::
 
    pip install -r requirements.txt
    cd build/sample_drawio_django/SampleIndustry
-   python manage.py makemigrations TestDomain TestDomain2
+   python manage.py makemigrations TestDomain
    python manage.py migrate
    python manage.py createsuperuser
    python manage.py runserver

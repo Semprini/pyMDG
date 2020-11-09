@@ -122,6 +122,10 @@ class UMLAssociation(object):
             output = ("0", "1")
         elif value == "1..1":
             output = ("1", "1")
+        elif value == "*..1":
+            output = ("*", "1")
+        elif value == "*..0":
+            output = ("*", "0")
 
         return output
 
@@ -178,6 +182,7 @@ class UMLAttribute(object):
         self.visibility: bool = True
         self.is_id: bool = False
         self.length: int = 0
+        self.validations: List[str] = []
 
     def __str__(self) -> str:
         return f"{self.name}"
