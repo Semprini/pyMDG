@@ -165,9 +165,9 @@ def class_parse(package: UMLPackage, element, root) -> UMLClass:
     stereotypes = []
     label = element.get("label").split("<div>")
     if len(label) == 1:
-        name = label[0].strip("<b>").strip("</b>").strip("i>").strip("</i")
+        name = label[0].strip("<b>").strip("</b>").strip("i>").strip("</i").strip('<br').strip()
     else:
-        name = label[-1].strip("</div>").strip("<b>").strip("</b></").strip("i>").strip("</i")
+        name = label[-1].strip("</div>").strip("<b>").strip("</b></").strip("i>").strip("</i").strip('<br').strip()
         stereotypes = label[-2].split('&lt;&lt;')[-1].split('&gt;&gt;')[0].split(',')
 
     id = element.get("id")
