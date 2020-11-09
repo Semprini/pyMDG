@@ -149,7 +149,9 @@ def snakecase(string: str) -> str:
         string: Snake cased string.
 
     """
-
+    if '_' in string:
+        return lowercase(string)
+        
     string = re.sub(r"[\-\.\s]", '_', str(string))
     if not string:
         return string
