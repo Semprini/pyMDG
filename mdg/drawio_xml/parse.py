@@ -67,6 +67,8 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
     model = root_element.find('./diagram/mxGraphModel/root')
     child_elements = model.findall('object/mxCell[@parent="{}"]'.format(id))
 
+    print("{}".format(package.name))
+
     # Parse classes
     for element in child_elements:
         object_element = element.find("..")
@@ -165,9 +167,9 @@ def class_parse(package: UMLPackage, element, root) -> UMLClass:
     stereotypes = []
     label = element.get("label").split("<div>")
     if len(label) == 1:
-        name = label[0].strip("<b>").strip("</b>").strip("i>").strip("</i").strip('<br').strip()
+        name = label[0].replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace('<br>', "").strip()
     else:
-        name = label[-1].strip("</div>").strip("<b>").strip("</b></").strip("i>").strip("</i").strip('<br').strip()
+        name = label[-1].replace("</div>", "").replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace('<br>', "").strip()
         stereotypes = label[-2].split('&lt;&lt;')[-1].split('&gt;&gt;')[0].split(',')
 
     id = element.get("id")
@@ -178,6 +180,8 @@ def class_parse(package: UMLPackage, element, root) -> UMLClass:
     abstract = element.get("Abstract")
     if abstract is not None and abstract == "True":
         cls.is_abstract = True
+
+    print("    {}".format(cls.name))
 
     children = root.findall('./diagram/mxGraphModel/root/mxCell[@parent="{}"]'.format(id))
     # Grab a list of the attribute stereotypes and their heights
@@ -221,13 +225,12 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
     dq = []
     if "{dq_even}" in value:
         dq.append('even')
-        value = value.replace("{dq_even}","").strip()
-        print(dq)
+        value = value.replace("{dq_even}", "").strip()
 
     is_id = False
     if "{id}" in value:
         is_id = True
-        value = value.replace("{id}","").strip()
+        value = value.replace("{id}", "").strip()
 
     visibility: bool = False
     if value.startswith("+"):

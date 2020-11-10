@@ -24,9 +24,6 @@ def output_level_copy(source_filename: str, dest_file_template: Template, packag
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
-    print( source_filename )
-    print( dest_filename )
-
     with open(source_filename) as source_fh:
         with open(dest_filename, 'w') as dest_fh:
             dest_fh.write(source_fh.read())
