@@ -154,13 +154,23 @@ def association_parse(package: UMLPackage, element, root):
             association.source_multiplicity = association.string_to_multiplicity(label)
             break
 
-    # Set association names
-    association.destination_name = target.name
-    if association.destination_multiplicity[1] == '*':
-        association.destination_name += 's'
-    association.source_name = source.name
-    if association.source_multiplicity[1] == '*':
-        association.source_name += 's'
+    # Set association destination name
+    destination_name = element.get("destination_name")
+    if destination_name is not None:
+        association.destination_name = destination_name
+        if association.source_multiplicity[1] == '*':
+            association.destination_name += 's'
+    else:
+        association.destination_name = target.name
+
+    # Set association source name
+    source_name = element.get("source_name")
+    if source_name is not None:
+        association.source_name = source_name
+    else:
+        association.source_name = source.name
+        if association.destination_multiplicity[1] == '*':
+            association.source_name += 's'
 
 
 def class_parse(package: UMLPackage, element, root) -> UMLClass:

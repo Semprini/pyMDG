@@ -8,14 +8,16 @@ from {{ package.name }}.models import {{ cls.name }}
 class {{ cls.name }}Inline(admin.TabularInline):
     model = {{ cls.name }}
 
-{% for rel in cls.associations_from %}{% if rel.association_type == "OneToMany" %}{% if rel.destination.package != cls.package %}from {{ rel.destination.package.name }}.admin import {{ rel.destination.name }}Inline{% endif %}{% endif %}{% endfor %}
-{% for rel in cls.associations_to %}{% if rel.association_type == "ManyToOne" %}{% if rel.destination.package != cls.package %}from {{ rel.destination.package.name }}.admin import {{ rel.destination.name }}Inline{% endif %}{% endif %}{% endfor %}
+{% for rel in cls.associations_to %}{% if rel.association_type == "OneToMany" %}{% if rel.source.package != cls.package %}from {{ rel.source.package.name }}.admin import {{ rel.source.name }}Inline{% endif %}{% endif %}
+{% endfor %}
+{% for rel in cls.associations_from %}{% if rel.association_type == "ManyToOne" %}{% if rel.destination.package != cls.package %}from {{ rel.destination.package.name }}.admin import {{ rel.destination.name }}Inline{% endif %}{% endif %}
+{% endfor %}
     
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}
 class {{ cls.name}}Admin({% if 'auditable' in cls.stereotypes %}SimpleHistoryAdmin{% else %}admin.ModelAdmin{% endif %}):
-	inlines = [{% for rel in cls.associations_from %}{% if rel.association_type == "OneToMany" %}{{ rel.destination.name }}Inline,{% endif %}{% endfor %}
-	{% for rel in cls.associations_to %}{% if rel.association_type == "ManyToOne" %}{{ rel.source.name }}Inline,{% endif %}{% endfor %}]
+	inlines = [{% for rel in cls.associations_to %}{% if rel.association_type == "OneToMany" %}{{ rel.source.name }}Inline,{% endif %}{% endfor %}
+	{% for rel in cls.associations_from %}{% if rel.association_type == "ManyToOne" %}{{ rel.destination.name }}Inline,{% endif %}{% endfor %}]
 
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}

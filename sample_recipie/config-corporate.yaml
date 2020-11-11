@@ -74,13 +74,16 @@ model_templates:
 - dest: "{{ package.path }}/.azure/setup.ps1"
   level: root
   source: Django//.azure/setup.ps1.jinja
-# Python: Templates
+# Python: Templates - Must be copy as templates contain django tags which will interfere with Jinja2
 - dest: "{{ package.path }}/templates/admin/base_site.html"
   level: copy
   source: Django/templates/admin/base_site.html
 - dest: "{{ package.path }}/templates/index.html"
   level: copy
-  source: Django/templates/index.html.jinja
+  source: Django/templates/index.html
+- dest: "{{ package.path }}/templates/streams.html"
+  level: copy
+  source: Django/templates/streams.html
 - dest: "{{ package.path }}/templates/drf-yasg/swagger-ui.html"
   level: copy
   source: Django/templates/drf-yasg/swagger-ui.html

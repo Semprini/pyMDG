@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Home | {{ site_title|default:_('ODP') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name" style="display:inline;"><a href="/">Operational Data Platform</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+        <div id="container">
+            <div id="header">
+                <div id="branding">
+                    <h1 id="site-name"><a href="/">Customer Data Governance Domain</a></h1>
+                </div>
+            </div>
+            <div id="content" class="colM">
+                <br class="clear">
+                <div><a href="/admin">Data Management Interface</a></div>
+                <br class="clear">
+                <div><a href="/api">Browsable API Interface</a></div>
+                <br class="clear">
+                <div><a href="/streams">Streaming Dashboard</a></div>
+                <br class="clear">
+                <div><a href="/swagger">OpenAPI Documentation</a></div>
+                <br class="clear">
+            </div>
+        </div>
+{% endblock %}

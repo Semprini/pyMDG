@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Streams | {{ site_title|default:_('ODP') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name" style="display:inline;"><a href="/">Operational Data Platform</a></h1><h2 style="display:inline;"><a href="{% url 'admin:index' %}">Data Management</a> | <a href="/api">Browsable API</a> | <a href="/streams">Streaming Dashboard</a> | <a href="/swagger">Schema</a></h2>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+
+        <div class=" login" data-admin-utc-offset="0" style="display:inline;">
+            <div id="header">
+                <div id="branding">
+                    <h1 id="site-name"><a href="/">Customer</a></h1>
+                </div>
+            </div>
+            <div id="content" class="colM">
+                <br class="clear">
+                <div>notify.Common.Individual.created</div>
+                <div>notify.Common.Individual.updated</div>
+                <br class="clear">
+                <div>notify.Common.Organisation.created</div>
+                <div>notify.Common.Organisation.updated</div>
+                <br class="clear">
+            </div>
+        </div>
+		
+        <div class=" login" data-admin-utc-offset="0" style="display:inline;">
+            <div id="header">
+                <div id="branding">
+                    <h1 id="site-name"><a href="/">CustomerRole</a></h1>
+                </div>
+            </div>
+            <div id="content" class="colM">
+                <br class="clear">
+                <div>notify.CustomerRole.Customer.created</div>
+                <div>notify.CustomerRole.Customer.updated</div>
+                <br class="clear">
+                <div>notify.CustomerRole.Account.created</div>
+                <div>notify.CustomerRole.Account.updated</div>
+                <br class="clear">
+                <div>notify.CustomerRole.Payment.created</div>
+                <div>notify.CustomerRole.Payment.updated</div>
+            </div>
+        </div>		
+
+
+{% endblock %}

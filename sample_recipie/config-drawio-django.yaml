@@ -47,9 +47,15 @@ model_templates:
 - dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/urls.py"
   level: root
   source: Django/project/urls.py.jinja
+- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/validators.py"
+  level: root
+  source: Django/project/validators.py.jinja
 - dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/__init__.py"
   level: root
   source: Django/project/__init__.py
+- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/views.py"
+  level: root
+  source: Django/project/views.py
 - dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/wsgi.py"
   level: root
   source: Django/project/wsgi.py.jinja
@@ -62,6 +68,28 @@ model_templates:
 - dest: "{{ package.path }}/requirements.txt"
   level: root
   source: Django/requirements.txt.jinja
+- dest: "{{ package.path }}/.azure/config"
+  level: root
+  source: Django//.azure/config.jinja
+- dest: "{{ package.path }}/.azure/setup.ps1"
+  level: root
+  source: Django//.azure/setup.ps1.jinja
+# Python: Templates - Must be copy as templates contain django tags which will interfere with Jinja2
+- dest: "{{ package.path }}/templates/admin/base_site.html"
+  level: copy
+  source: Django/templates/admin/base_site.html
+- dest: "{{ package.path }}/templates/index.html"
+  level: copy
+  source: Django/templates/index.html
+- dest: "{{ package.path }}/templates/streams.html"
+  level: copy
+  source: Django/templates/streams.html
+- dest: "{{ package.path }}/templates/drf-yasg/swagger-ui.html"
+  level: copy
+  source: Django/templates/drf-yasg/swagger-ui.html
+- dest: "{{ package.path }}/templates/rest_framework/api.html"
+  level: copy
+  source: Django/templates/rest_framework/api.html
 test_templates:
-- dest: ./build/sample_sparx_django/json{{ins.package.path}}/{{ins.stereotype}}.json
+- dest: ./build/Corprate/json{{ins.package.path}}/{{ins.stereotype}}.json
   format: json
