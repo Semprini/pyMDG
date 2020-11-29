@@ -12,5 +12,7 @@ class {{ cls.name }}Serializer(serializers.HyperlinkedModelSerializer):
         model = {{ cls.name }}
         fields = ('type', 'url', 
                     {% for attr in cls.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% if cls.supertype != None %}{% for attr in cls.supertype.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% endif %}
-					{% for assoc in cls.associations_from %}'{{ assoc.destination_name | snakecase }}{% if assoc.association_type == 'ManyToOne' %}{% endif %}',{% endfor %}{% for assoc in cls.associations_to %}'{{ assoc.source_name | snakecase }}{% if assoc.association_type != 'OneToOne' %}{% endif %}',{% endfor %})
+					{% for assoc in cls.associations_from %}'{{ assoc.destination_name | snakecase }}',{% endfor %}
+                    {% for assoc in cls.associations_to %}'{{ assoc.source_name | snakecase }}',{% endfor %}
+                )
 {% endfor %}

@@ -1,6 +1,6 @@
 import unittest
 
-from mdg.uml import UMLClass, UMLPackage, UMLAssociation
+from mdg.uml import UMLClass, UMLPackage, UMLAssociation, Cardinality, UMLAssociationType
 
 
 class TestUMLModel(unittest.TestCase):
@@ -27,17 +27,27 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual(assoc.string_to_multiplicity("0..*"), ("0", "*"))
         self.assertEqual(assoc.string_to_multiplicity("*..1"), ("*", "1"))
 
-    def test_association_type(self):
+    def test_association_cardinality(self):
         assoc = UMLAssociation(self.root_package, self.root_package.children[0].classes[0], self.root_package.children[0].classes[0], 1)
 
         assoc.source_multiplicity = ("0", "1")
         assoc.destination_multiplicity = ("0", "*")
-        self.assertEqual(assoc.association_type, "OneToMany")
+        self.assertEqual(assoc.cardinality, Cardinality.ONE_TO_MANY)
 
         assoc.source_multiplicity = ("0", "1")
         assoc.destination_multiplicity = ("0", "1")
-        self.assertEqual(assoc.association_type, "OneToOne")
+        self.assertEqual(assoc.cardinality, Cardinality.ONE_TO_ONE)
 
         assoc.source_multiplicity = ("0", "*")
         assoc.destination_multiplicity = ("0", "1")
-        self.assertEqual(assoc.association_type, "ManyToOne")
+        self.assertEqual(assoc.cardinality, Cardinality.MANY_TO_ONE)
+
+        assoc.source_multiplicity = ("0", "*")
+        assoc.destination_multiplicity = ("0", "*")
+        self.assertEqual(assoc.cardinality, Cardinality.MANY_TO_MANY)
+
+    def test_association_type(self):
+        assoc = UMLAssociation(self.root_package, self.root_package.children[0].classes[0], self.root_package.children[0].classes[0], 1)
+        self.assertEqual(assoc.association_type, UMLAssociationType.ASSOCIATION)
+        assoc = UMLAssociation(self.root_package, self.root_package.children[0].classes[0], self.root_package.children[0].classes[0], 1, UMLAssociationType.COMPOSITION)
+        self.assertEqual(assoc.association_type, UMLAssociationType.COMPOSITION)

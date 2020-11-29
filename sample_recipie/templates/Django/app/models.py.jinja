@@ -27,13 +27,16 @@ from {{ cls.supertype.package.name }}.models import {{ cls.supertype.name }}{% e
 {% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.dest_type == "DecimalField" %}max_digits=10, decimal_places=2, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )
 {% endif %}{% endfor %}
 
-{% for rel in cls.associations_from %}
-    {% if rel.association_type == "OneToOne" %}{{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True )
-    {% elif rel.association_type == "OneToMany" %}{{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', related_name='{{ rel.source_name | snakecase }}', on_delete=models.CASCADE, blank=True, null=True )
-    {% elif rel.association_type == "ManyToMany" %}{{ rel.destination_name | snakecase }} = models.ManyToManyField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', blank=True ){% endif %}
-{% endfor %}
+{% for rel in cls.associations_from %}{% if rel.association_type.name == "ASSOCIATION" %}
+    {% if rel.cardinality.name == "ONE_TO_ONE" %}{{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True )
+    {% elif rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', related_name='{{ rel.source_name | snakecase }}', on_delete=models.CASCADE, blank=True, null=True )
+    {% elif rel.cardinality.name == "MANY_TO_MANY" %}{{ rel.destination_name | snakecase }} = models.ManyToManyField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', blank=True ){% endif %}
+{% endif %}{% endfor %}
 {% for rel in cls.associations_to %}
-    {% if rel.association_type == "ManyToOne" %}{{ rel.source_name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name }}.{{ rel.source.name }}', on_delete=models.CASCADE, related_name='{{ rel.destination_name | snakecase }}', blank=True, null=True ){% endif %}
+    {% if rel.cardinality.name == "MANY_TO_ONE" %}{{ rel.source_name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name }}.{{ rel.source.name }}', on_delete=models.CASCADE, related_name='{{ rel.destination_name | snakecase }}', blank=True, null=True ){% endif %}
+{% if rel.association_type.name == "COMPOSITION" %}
+    {% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.source.name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name }}.{{ rel.source.name }}', related_name='{{ rel.destination_name | snakecase }}', on_delete=models.CASCADE ){% endif %}
+{% endif %}
 {% endfor %}
 
 {% if 'auditable' in cls.stereotypes %}

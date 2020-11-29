@@ -5,6 +5,7 @@ from mdg import generation_fields
 from mdg.config import settings
 from mdg.uml import (
     UMLAssociation,
+    UMLAssociationType,
     UMLAttribute,
     UMLClass,
     UMLEnumeration,
@@ -95,6 +96,8 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
             generalization_parse(package, object_element, root_element)
         elif element_type == "Association":
             association_parse(package, object_element, root_element)
+        elif element_type == "Composition":
+            association_parse(package, object_element, root_element)
 
     return package
 
@@ -135,8 +138,9 @@ def association_parse(package: UMLPackage, element, root):
     cell = element.find("mxCell")
     source: UMLClass = package.find_by_id(cell.get("source"))
     target: UMLClass = package.find_by_id(cell.get("target"))
+    element_type = element.get("UMLType")
 
-    association = UMLAssociation(package, source, target, id)
+    association = UMLAssociation(package, source, target, id, UMLAssociationType[element_type.upper()])
 
     # Extract multiplicities
     ret = root.findall('.//object[@UMLType="DestinationMultiplicity"]')
@@ -158,10 +162,12 @@ def association_parse(package: UMLPackage, element, root):
     destination_name = element.get("destination_name")
     if destination_name is not None:
         association.destination_name = destination_name
-        if association.source_multiplicity[1] == '*':
-            association.destination_name += 's'
     else:
         association.destination_name = target.name
+        if association.source_multiplicity[1] == '*' and association.association_type == UMLAssociationType.ASSOCIATION:
+            association.destination_name += 's'
+        elif association.destination_multiplicity[1] == '*' and association.association_type == UMLAssociationType.COMPOSITION:
+            association.destination_name += 's'
 
     # Set association source name
     source_name = element.get("source_name")
@@ -169,7 +175,9 @@ def association_parse(package: UMLPackage, element, root):
         association.source_name = source_name
     else:
         association.source_name = source.name
-        if association.destination_multiplicity[1] == '*':
+        if association.destination_multiplicity[1] == '*' and association.association_type == UMLAssociationType.ASSOCIATION:
+            association.source_name += 's'
+        if association.source_multiplicity[1] == '*' and association.association_type == UMLAssociationType.COMPOSITION:
             association.source_name += 's'
 
 

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from __future__ import annotations
 from typing import List, Union, Optional, Any, Tuple
+from enum import Enum
 
 from mdg.config import settings
 
@@ -78,10 +79,23 @@ class UMLInstance(object):
         return f"{self.name}"
 
 
+class UMLAssociationType(Enum):
+    ASSOCIATION = 1
+    COMPOSITION = 2
+
+
+class Cardinality(Enum):
+    MANY_TO_ONE = 1
+    ONE_TO_MANY = 2
+    MANY_TO_MANY = 3
+    ONE_TO_ONE = 4
+
+
 class UMLAssociation(object):
-    def __init__(self, package: UMLPackage, source: Union[UMLClass, UMLInstance], destination: Union[UMLClass, UMLInstance], id):
+    def __init__(self, package: UMLPackage, source: Union[UMLClass, UMLInstance], destination: Union[UMLClass, UMLInstance], id: Union[int, str], assoc_type=UMLAssociationType.ASSOCIATION):
         self.package: UMLPackage = package
 
+        self.association_type: UMLAssociationType = assoc_type
         self.source: Union[UMLClass, UMLInstance] = source
         self.source_name: Optional[str] = None
         self.source_multiplicity: Tuple[str, str] = ('0', '0')
@@ -98,19 +112,19 @@ class UMLAssociation(object):
         return f"{self.source_name}({self.source_multiplicity}) -> {self.destination_name}({self.destination_multiplicity})"
 
     @property
-    def association_type(self):
-        association_type = None
-        # Use multiplicities to calculate the type of association
+    def cardinality(self):
+        cardinality = None
+        # Use multiplicities to calculate the CARDINALITY of THYE association
         if self.source_multiplicity[1] == '*' and self.destination_multiplicity[1] in ('0', '1'):
-            association_type = 'ManyToOne'
+            cardinality = Cardinality.MANY_TO_ONE
         elif self.destination_multiplicity[1] == '*' and self.source_multiplicity[1] in ('0', '1'):
-            association_type = 'OneToMany'
+            cardinality = Cardinality.ONE_TO_MANY
         elif self.destination_multiplicity[1] == '*' and self.source_multiplicity[1] == '*':
-            association_type = 'ManyToMany'
+            cardinality = Cardinality.MANY_TO_MANY
         elif self.destination_multiplicity[1] in ('0', '1') and self.source_multiplicity[1] in ('0', '1'):
-            association_type = 'OneToOne'
+            cardinality = Cardinality.ONE_TO_ONE
 
-        return association_type
+        return cardinality
 
     def string_to_multiplicity(self, value):
         output = ('', '')

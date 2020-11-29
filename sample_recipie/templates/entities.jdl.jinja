@@ -6,7 +6,7 @@ entity {{ entity.name }} {
 }
 {% endfor %}
 {% for relationship in package.associations %}
-relationship {{relationship.association_type}}{
+relationship {{relationship.cardinality.name}}{
     {{relationship.source.name}}{%raw%}{{%endraw%}{{relationship.source_name}}{%raw%}}{%endraw%} to {{relationship.destination.name}}{%raw%}{{%endraw%}{{relationship.dest_name}}{%raw%}}{%endraw%}
 }
 {% endfor %}
