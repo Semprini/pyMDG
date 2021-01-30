@@ -1,0 +1,12 @@
+{
+ "namespace": "Test_Domain",
+ "type": "record",
+ "name": "JobHistory",
+ "fields": [
+
+	{ "name": "id", "type": "IntegerField" },
+	{ "name": "language", "type": "Language" },
+	{ "name": "startDate", "type": "DateField" },
+
+	{ "name": "employee", "type": "string" } 
+}

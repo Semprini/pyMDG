@@ -1,0 +1,36 @@
+
+entity TestAbstract {
+
+    test int
+}
+
+entity Department {
+
+    departmentName String
+    id int
+}
+
+entity Location {
+
+    name String
+}
+
+entity Country {
+
+    name String
+}
+
+entity Employee {
+
+    firstName String
+    lastName String
+    id int
+}
+
+entity JobHistory {
+
+    start_date Date
+    id int
+    language Language
+}
+

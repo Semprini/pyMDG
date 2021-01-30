@@ -1,0 +1,10 @@
+{
+ "namespace": "Location",
+ "type": "record",
+ "name": "Region",
+ "fields": [
+
+	{ "name": "code", "type": "CharField" },
+	{ "name": "name", "type": "CharField" }
+
+}

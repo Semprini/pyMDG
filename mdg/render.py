@@ -3,11 +3,11 @@ import json
 import os
 from typing import Dict, Optional, List, Any
 
-from jinja2 import Environment, FileSystemLoader, Template
+from jinja2 import Environment, FileSystemLoader, Template, BaseLoader
 
 
 from .config import settings
-from .util import camelcase, snakecase, titlecase, sentencecase
+from .filters import get_filters
 
 from .uml import UMLPackage, UMLInstance
 
@@ -112,22 +112,18 @@ def output_model(package: UMLPackage) -> None:
     print("Generating model output for package {}".format(package.path))
 
     # Create jinja2 filter dict to pass into templates
-    filters = {
-        'camelcase': camelcase,
-        'snakecase': snakecase,
-        'titlecase': titlecase,
-        'sentencecase': sentencecase,
-    }
+    filters = get_filters()
 
     # Create jinja2 environmeent with filters
     source_env = Environment(loader=FileSystemLoader(settings['templates_folder']))
     source_env.filters = {**source_env.filters, **filters}
+    dest_env = Environment(loader=BaseLoader())
+    dest_env.filters = {**source_env.filters, **filters}
 
     # Loop through all template definitions in the config file
     template_definition: Dict
     for template_definition in settings['model_templates']:
-        dest_file_template: Template = Template(os.path.join(settings['dest_root'], template_definition['dest']))
-        dest_file_template.environment.filters = {**dest_file_template.environment.filters, **filters}
+        dest_file_template: Template = dest_env.from_string(template_definition['dest'])
 
         if template_definition['level'] == 'copy':
             if package.parent is None:

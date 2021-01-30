@@ -1,0 +1,11 @@
+{
+ "namespace": "Location",
+ "type": "record",
+ "name": "Country",
+ "fields": [
+
+	{ "name": "code", "type": "CharField" },
+	{ "name": "name", "type": "CharField" },
+
+	{ "name": "Regions", "type": { "type": "array", "items": "string" } } 
+}

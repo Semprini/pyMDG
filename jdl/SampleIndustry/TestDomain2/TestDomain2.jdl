@@ -1,0 +1,6 @@
+
+entity Region {
+
+    name String
+}
+

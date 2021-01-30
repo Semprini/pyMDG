@@ -1,0 +1,14 @@
+# SampleIndustry
+====================
+## Packages:
+- Test_Domain
+
+### Classes:
+- Country
+- Department
+- Employee
+- JobHistory
+- Location
+- Region
+- TestAbstract
+

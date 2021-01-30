@@ -1,0 +1,9 @@
+{
+ "namespace": "Location",
+ "type": "record",
+ "name": "TestAbstract",
+ "fields": [
+
+	{ "name": "test", "type": "IntegerField" }
+
+}

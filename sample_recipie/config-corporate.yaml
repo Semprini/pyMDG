@@ -6,90 +6,93 @@ parser: drawio
 dest_root: ./build/Corporate
 templates_folder: ./sample_recipie/templates
 generation_type: django
+case_package: CamelCase
+case_class: CamelCase
+case_attribute: snake_case
 model_templates:
 # Avro Schema
-- dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
+- dest: "avro/{{ cls.package.name | case_package }}.{{ cls.name | case_class }}.avsc"
   level: class
   source: "avro.avsc.jinja"
 # Python: Django App
-- dest: "{{package.path}}/models.py"
+- dest: "{{package.path | case_package}}/models.py"
   level: package
   source: Django/app/models.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
-- dest: "{{package.path}}/admin.py"
+- dest: "{{package.path | case_package}}/admin.py"
   level: package
   source: Django/app/admin.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
-- dest: "{{package.path}}/serializers.py"
+- dest: "{{package.path | case_package}}/serializers.py"
   level: package
   source: Django/app/serializers.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
-- dest: "{{package.path}}/urls.py"
+- dest: "{{package.path | case_package}}/urls.py"
   level: package
   source: Django/app/urls.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
-- dest: "{{package.path}}/views.py"
+- dest: "{{package.path | case_package}}/views.py"
   level: package
   source: Django/app/views.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
-- dest: "{{package.path}}/__init__.py"
+- dest: "{{package.path | case_package}}/__init__.py"
   level: package
   source: Django/app/__init__.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
-- dest: "{{package.path}}/apps.py"
+- dest: "{{package.path | case_package}}/apps.py"
   level: package
   source: Django/app/apps.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
 # Python: Django Project
-- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/settings.py"
+- dest: "{{ package.path | case_package }}{{ package.path.split('/')[1] | snakecase }}/settings.py"
   level: root
   source: Django/project/settings.py.jinja
-- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/urls.py"
+- dest: "{{ package.path | case_package }}{{ package.path.split('/')[1] | snakecase }}/urls.py"
   level: root
   source: Django/project/urls.py.jinja
-- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/validators.py"
+- dest: "{{ package.path | case_package }}{{ package.path.split('/')[1] | snakecase }}/validators.py"
   level: root
   source: Django/project/validators.py.jinja
-- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/__init__.py"
+- dest: "{{ package.path | case_package }}{{ package.path.split('/')[1] | snakecase }}/__init__.py"
   level: root
   source: Django/project/__init__.py
-- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/views.py"
+- dest: "{{ package.path | case_package }}{{ package.path.split('/')[1] | snakecase }}/views.py"
   level: root
   source: Django/project/views.py
-- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/wsgi.py"
+- dest: "{{ package.path | case_package }}{{ package.path.split('/')[1] | snakecase }}/wsgi.py"
   level: root
   source: Django/project/wsgi.py.jinja
-- dest: "{{ package.path }}{{ package.path.split('/')[1] | snakecase }}/asgi.py"
+- dest: "{{ package.path | case_package }}{{ package.path.split('/')[1] | snakecase }}/asgi.py"
   level: root
   source: Django/project/asgi.py.jinja
-- dest: "{{ package.path }}/manage.py"
+- dest: "{{ package.path | case_package }}/manage.py"
   level: root
   source: Django/manage.py.jinja
-- dest: "{{ package.path }}/requirements.txt"
+- dest: "{{ package.path | case_package }}/requirements.txt"
   level: root
   source: Django/requirements.txt.jinja
-- dest: "{{ package.path }}/.azure/config"
+- dest: "{{ package.path | case_package }}/.azure/config"
   level: root
   source: Django//.azure/config.jinja
-- dest: "{{ package.path }}/.azure/setup.ps1"
+- dest: "{{ package.path | case_package }}/.azure/setup.ps1"
   level: root
   source: Django//.azure/setup.ps1.jinja
 # Python: Templates - Must be copy as templates contain django tags which will interfere with Jinja2
-- dest: "{{ package.path }}/templates/admin/base_site.html"
+- dest: "{{ package.path | case_package }}/templates/admin/base_site.html"
   level: copy
   source: Django/templates/admin/base_site.html
-- dest: "{{ package.path }}/templates/index.html"
+- dest: "{{ package.path | case_package }}/templates/index.html"
   level: copy
   source: Django/templates/index.html
-- dest: "{{ package.path }}/templates/streams.html"
+- dest: "{{ package.path | case_package }}/templates/streams.html"
   level: copy
   source: Django/templates/streams.html
-- dest: "{{ package.path }}/templates/drf-yasg/swagger-ui.html"
+- dest: "{{ package.path | case_package }}/templates/drf-yasg/swagger-ui.html"
   level: copy
   source: Django/templates/drf-yasg/swagger-ui.html
-- dest: "{{ package.path }}/templates/rest_framework/api.html"
+- dest: "{{ package.path | case_package }}/templates/rest_framework/api.html"
   level: copy
   source: Django/templates/rest_framework/api.html
 test_templates:
-- dest: ./build/Corprate/json{{ins.package.path}}/{{ins.stereotype}}.json
+- dest: ./build/Corprate/json{{ins.package.path | case_package}}/{{ins.stereotype}}.json
   format: json

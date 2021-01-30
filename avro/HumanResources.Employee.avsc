@@ -1,0 +1,12 @@
+{
+ "namespace": "HumanResources",
+ "type": "record",
+ "name": "Employee",
+ "fields": [
+
+	{ "name": "firstName", "type": "CharField" },
+	{ "name": "lastName", "type": "CharField" },
+	{ "name": "id", "type": "IntegerField" },
+
+	{ "name": "Department", "type": { "type": "array", "items": "string" } } 
+}
