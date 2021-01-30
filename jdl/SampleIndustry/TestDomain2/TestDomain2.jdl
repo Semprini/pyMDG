@@ -1,6 +1,0 @@
-
-entity Region {
-
-    name String
-}
-

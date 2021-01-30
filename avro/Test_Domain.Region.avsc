@@ -1,9 +1,0 @@
-{
- "namespace": "Test_Domain",
- "type": "record",
- "name": "Region",
- "fields": [
-
-	{ "name": "regionName", "type": "CharField" }
-
-}
