@@ -1,12 +1,12 @@
 {% for entity in package.classes %}
-entity {{ entity.name }} {
+entity {{ entity.name | case_class }} {
 {% for attr in entity.attributes[:-1] %}
-    {{attr.name}} {{attr.dest_type}}{% endfor %}{% for attr in entity.attributes[-1:] %}
-    {{attr.name}} {{attr.dest_type}}{% endfor %}
+    {{attr.name | case_attribute}} {{attr.dest_type}}{% endfor %}{% for attr in entity.attributes[-1:] %}
+    {{attr.name | case_attribute}} {{attr.dest_type}}{% endfor %}
 }
 {% endfor %}
 {% for relationship in package.associations %}
 relationship {{relationship.cardinality.name}}{
-    {{relationship.source.name}}{%raw%}{{%endraw%}{{relationship.source_name}}{%raw%}}{%endraw%} to {{relationship.destination.name}}{%raw%}{{%endraw%}{{relationship.dest_name}}{%raw%}}{%endraw%}
+    {{relationship.source.name | case_attribute}}{%raw%}{{%endraw%}{{relationship.source_name}}{%raw%}}{%endraw%} to {{relationship.destination.name | case_attribute}}{%raw%}{{%endraw%}{{relationship.dest_name | case_attribute}}{%raw%}}{%endraw%}
 }
 {% endfor %}

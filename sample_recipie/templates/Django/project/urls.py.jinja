@@ -15,7 +15,7 @@ from drf_yasg import openapi
 from drf_nest.routers import AppRouter
 
 {% for child in package.children %}
-from {{ child.name }}.urls import urlpatterns as {{ child.name }}Urls{% endfor %}
+from {{ child.name | case_package }}.urls import urlpatterns as {{ child.name | case_package }}Urls{% endfor %}
 
 admin.site.site_title = '{{ package.name }}'
 admin.site.site_header = '{{ package.name }} Admin'
@@ -34,7 +34,7 @@ schema_view = get_schema_view(
 )
 
 apps={  
-    {% for child in package.children %}'{{ child.name }}':'app-{{ child.name }}',{% endfor %}
+    {% for child in package.children %}'{{ child.name | case_package }}':'app-{{ child.name | case_package }}',{% endfor %}
 }
 router = AppRouter( apps=apps )
 

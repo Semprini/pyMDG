@@ -1,1 +1,1 @@
-default_app_config = '{{ package.name }}.apps.{{ package.name }}Config'
+default_app_config = '{{ package.name | case_package }}.apps.{{ package.name | case_package }}Config'

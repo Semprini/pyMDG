@@ -2,14 +2,14 @@ from rest_framework import serializers
 from drf_nest.serializer_fields import TypeField
 
 {% for cls in package.classes %}
-from .models import {{ cls.name }}{% endfor %}
+from .models import {{ cls.name | case_class }}{% endfor %}
 
 {% for cls in package.classes %}
-class {{ cls.name }}Serializer(serializers.HyperlinkedModelSerializer):
+class {{ cls.name | case_class }}Serializer(serializers.HyperlinkedModelSerializer):
     type = TypeField()
 
     class Meta:
-        model = {{ cls.name }}
+        model = {{ cls.name | case_class }}
         fields = ('type', 'url', 
                     {% for attr in cls.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% if cls.supertype != None %}{% for attr in cls.supertype.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% endif %}
 					{% for assoc in cls.associations_from %}'{{ assoc.destination_name | snakecase }}',{% endfor %}

@@ -5,13 +5,13 @@ from simple_history.models import HistoricalRecords
 from {{ package.root_package.name | snakecase }}.validators import validate_even
 
 {% for cls in package.classes %}{% if cls.supertype != None %}{% if cls.supertype.package != package %}
-from {{ cls.supertype.package.name }}.models import {{ cls.supertype.name }}{% endif %}{% endif %}{% endfor %}
+from {{ cls.supertype.package.name | case_package }}.models import {{ cls.supertype.name | case_class }}{% endif %}{% endif %}{% endfor %}
 
-{% for enum in package.enumerations %}class ENUM_{{ enum.name }}(models.TextChoices):
+{% for enum in package.enumerations %}class ENUM_{{ enum.name | case_class }}(models.TextChoices):
 {% for attr in enum.values %}
     {{ attr.upper() }} = '{{ attr }}', _('{{ attr }}'){% endfor %}
 {% endfor %}
-{% for cls in package.classes %}{% if cls.is_abstract %}class {{ cls.name }}( models.Model ):
+{% for cls in package.classes %}{% if cls.is_abstract %}class {{ cls.name | case_class }}( models.Model ):
 {% for attr in cls.attributes %}
 {% if attr.classification %}    {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name}}.choices, blank=True, null=True )
 {% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %} )
@@ -21,21 +21,21 @@ from {{ cls.supertype.package.name }}.models import {{ cls.supertype.name }}{% e
 {% endif %}{% endif %}
 {% endfor %}
 
-{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name }}( {% if cls.supertype %}{{ cls.supertype.name }}{% else %}models.Model{% endif %} ):
+{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}( {% if cls.supertype %}{{ cls.supertype.name }}{% else %}models.Model{% endif %} ):
 {% for attr in cls.attributes %}
 {% if attr.classification %}    {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name}}.choices, blank=True, null=True )
 {% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.dest_type == "DecimalField" %}max_digits=10, decimal_places=2, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )
 {% endif %}{% endfor %}
 
 {% for rel in cls.associations_from %}{% if rel.association_type.name == "ASSOCIATION" %}
-    {% if rel.cardinality.name == "ONE_TO_ONE" %}{{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', on_delete=models.CASCADE, blank=True, null=True )
-    {% elif rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', related_name='{{ rel.source_name | snakecase }}', on_delete=models.CASCADE, blank=True, null=True )
-    {% elif rel.cardinality.name == "MANY_TO_MANY" %}{{ rel.destination_name | snakecase }} = models.ManyToManyField( '{{ rel.destination.package.name }}.{{ rel.destination.name }}', blank=True ){% endif %}
+    {% if rel.cardinality.name == "ONE_TO_ONE" %}{{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.package.name | case_package }}.{{ rel.destination.name | case_class }}', on_delete=models.CASCADE, blank=True, null=True )
+    {% elif rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.package.name | case_package }}.{{ rel.destination.name | case_class }}', related_name='{{ rel.source_name | snakecase }}', on_delete=models.CASCADE, blank=True, null=True )
+    {% elif rel.cardinality.name == "MANY_TO_MANY" %}{{ rel.destination_name | snakecase }} = models.ManyToManyField( '{{ rel.destination.package.name | case_package }}.{{ rel.destination.name | case_class }}', blank=True ){% endif %}
 {% endif %}{% endfor %}
 {% for rel in cls.associations_to %}
-    {% if rel.cardinality.name == "MANY_TO_ONE" %}{{ rel.source_name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name }}.{{ rel.source.name }}', on_delete=models.CASCADE, related_name='{{ rel.destination_name | snakecase }}', blank=True, null=True ){% endif %}
+    {% if rel.cardinality.name == "MANY_TO_ONE" %}{{ rel.source_name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name | case_package }}.{{ rel.source.name | case_class }}', on_delete=models.CASCADE, related_name='{{ rel.destination_name | snakecase }}', blank=True, null=True ){% endif %}
 {% if rel.association_type.name == "COMPOSITION" %}
-    {% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.source.name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name }}.{{ rel.source.name }}', related_name='{{ rel.destination_name | snakecase }}', on_delete=models.CASCADE ){% endif %}
+    {% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.source.name | snakecase }} = models.ForeignKey( '{{ rel.source.package.name | case_package }}.{{ rel.source.name | case_class }}', related_name='{{ rel.destination_name | snakecase }}', on_delete=models.CASCADE ){% endif %}
 {% endif %}
 {% endfor %}
 

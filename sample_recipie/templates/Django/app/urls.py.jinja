@@ -5,13 +5,13 @@ from django.conf.urls import include, url
 
 from drf_nest.routers import AppRouter
 
-import {{ package.name }}.views as AppViews
+import {{ package.name | case_package }}.views as AppViews
 
-router = AppRouter(root_view_name='app-{{ package.name }}')
+router = AppRouter(root_view_name='app-{{ package.name | case_package }}')
 {% for cls in package.classes %}{% if not cls.is_abstract %}
-router.register(r'{{ cls.name }}', AppViews.{{ cls.name }}ViewSet){% endif %}{% endfor %}
+router.register(r'{{ cls.name | case_class }}', AppViews.{{ cls.name | case_class }}ViewSet){% endif %}{% endfor %}
 
 urlpatterns = [
-    url(r'^api/{{ package.name }}/', include(router.urls)),
+    url(r'^api/{{ package.name | case_package }}/', include(router.urls)),
 ]
 

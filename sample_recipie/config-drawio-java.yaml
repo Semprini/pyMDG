@@ -8,14 +8,14 @@ templates_folder: ./sample_recipie/templates
 generation_type: spring data rest
 model_templates:
 # Java: JHipster
-- dest: jdl{{package.path}}{{package.name}}.jdl
+- dest: jdl{{package.path}}{{package.name | case_package}}.jdl
   level: package
   source: entities.jdl.jinja
 # Java: Spring Data Rest
-- dest: java/entities{{cls.package.path}}{{cls.name}}.java
+- dest: java/entities{{cls.package.path}}{{cls.name | case_class}}.java
   level: class
   source: pojos.java.jinja
-- dest: java/enums{{enum.package.path}}{{enum.name}}.java
+- dest: java/enums{{enum.package.path}}{{enum.name | case_class}}.java
   level: enumeration
   source: enums.java.jinja
 # Documentation

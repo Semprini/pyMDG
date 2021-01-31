@@ -1,13 +1,13 @@
 from rest_framework import permissions, viewsets
 
 {% for cls in package.classes %}
-from {{ package.name }}.models import {{ cls.name }}
-from {{ package.name }}.serializers import {{ cls.name }}Serializer{% endfor %}
+from {{ package.name | case_package }}.models import {{ cls.name | case_class }}
+from {{ package.name | case_package }}.serializers import {{ cls.name | case_class }}Serializer{% endfor %}
 
 
 {% for cls in package.classes %}{% if not cls.is_abstract %}
-class {{ cls.name }}ViewSet(viewsets.ModelViewSet):
-    queryset = {{ cls.name }}.objects.all()
-    serializer_class = {{ cls.name }}Serializer
+class {{ cls.name | case_class }}ViewSet(viewsets.ModelViewSet):
+    queryset = {{ cls.name | case_class }}.objects.all()
+    serializer_class = {{ cls.name | case_class }}Serializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 {% endif %}{% endfor %}

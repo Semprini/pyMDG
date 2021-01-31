@@ -1,27 +1,27 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 {% for cls in package.classes %}{% if not cls.is_abstract %}
-from {{ package.name }}.models import {{ cls.name }}
+from {{ package.name | case_package }}.models import {{ cls.name | case_class }}
 {% endif %}{% endfor %}
 
 {% for cls in package.classes %}{% if not cls.is_abstract %}
-class {{ cls.name }}Inline(admin.TabularInline):
-    model = {{ cls.name }}
+class {{ cls.name | case_class }}Inline(admin.TabularInline):
+    model = {{ cls.name | case_class }}
 
-{% for rel in cls.associations_to %}{% if rel.cardinality.name == "ONE_TO_MANY" %}{% if rel.source.package != cls.package %}from {{ rel.source.package.name }}.admin import {{ rel.source.name }}Inline{% endif %}{% endif %}
+{% for rel in cls.associations_to %}{% if rel.cardinality.name == "ONE_TO_MANY" %}{% if rel.source.package != cls.package %}from {{ rel.source.package.name | case_package }}.admin import {{ rel.source.name | case_class }}Inline{% endif %}{% endif %}
 {% endfor %}
-{% for rel in cls.associations_from %}{% if rel.cardinality.name == "MANY_TO_ONE" %}{% if rel.destination.package != cls.package %}from {{ rel.destination.package.name }}.admin import {{ rel.destination.name }}Inline{% endif %}{% endif %}
+{% for rel in cls.associations_from %}{% if rel.cardinality.name == "MANY_TO_ONE" %}{% if rel.destination.package != cls.package %}from {{ rel.destination.package.name | case_package }}.admin import {{ rel.destination.name | case_class }}Inline{% endif %}{% endif %}
 {% endfor %}
     
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}
-class {{ cls.name}}Admin({% if 'auditable' in cls.stereotypes %}SimpleHistoryAdmin{% else %}admin.ModelAdmin{% endif %}):
-	inlines = [{% for rel in cls.associations_to %}{% if rel.association_type.name == "ASSOCIATION" %}{% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.source.name }}Inline,{% endif %}{% endif %}{% endfor %}
+class {{ cls.name | case_class }}Admin({% if 'auditable' in cls.stereotypes %}SimpleHistoryAdmin{% else %}admin.ModelAdmin{% endif %}):
+	inlines = [{% for rel in cls.associations_to %}{% if rel.association_type.name == "ASSOCIATION" %}{% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.source.name | case_class }}Inline,{% endif %}{% endif %}{% endfor %}
 	{% for rel in cls.associations_from %}{% if rel.cardinality.name == "MANY_TO_ONE" %}{{ rel.destination.name }}Inline,{% endif %}{% endfor %}
-	{% for rel in cls.associations_from %}{% if rel.association_type.name == "COMPOSITION" %}{% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.destination.name }}Inline,{% endif %}{% endif %}{% endfor %}]
+	{% for rel in cls.associations_from %}{% if rel.association_type.name == "COMPOSITION" %}{% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.destination.name | case_class }}Inline,{% endif %}{% endif %}{% endfor %}]
 
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}
-admin.site.register({{ cls.name }}, {{ cls.name }}Admin)
+admin.site.register({{ cls.name | case_class }}, {{ cls.name | case_class }}Admin)
 {% endif %}{% endfor %}
 
