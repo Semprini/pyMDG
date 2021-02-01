@@ -1,5 +1,5 @@
-from .config import settings
-from .util import camelcase, snakecase, titlecase, sentencecase
+from ..config import settings
+from .case import camelcase, snakecase, titlecase, sentencecase
 
 
 def get_filters():

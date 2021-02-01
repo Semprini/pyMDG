@@ -39,10 +39,6 @@ class TestXMIAttributeParse(unittest.TestCase):
         attr = attr_parse(self.parent, element, self.tree)
         self.assertIsNotNone(attr)
         self.assertEqual(attr.classification_id, None)
-        self.assertEqual(attr.dest_type, "int")
-
-    # TODO: Test classification enum
-    # TODO: Test dest type override
 
 
 class TestXMIClassParse(unittest.TestCase):

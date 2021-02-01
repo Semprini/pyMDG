@@ -20,7 +20,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='pymdg',
-    version='0.2a1',
+    version='0.3a1',
     author='Paul Atkin',
     author_email='dont@contact.me',
     description='Model driven genration - from UML to Code & Docs',
@@ -30,7 +30,8 @@ setuptools.setup(
     packages=["mdg", ] + pymdg_packages,
     entry_points={
         'console_scripts': [
-            'mdg_generate=mdg.generate:main',
+            'mdg_generate=mdg.tools.mdg_generate:main',
+            'mdg_validate=mdg.tools.mdg_validate:main',
         ]
     },
     classifiers=[

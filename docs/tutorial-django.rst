@@ -12,7 +12,7 @@ pyMDG has a specific UML nomenclature. This needs to be added into diagrams.net 
 
 File -> Open Library From -> URL and enter::
 
-   https://raw.githubusercontent.com/Semprini/pyMDG/master/tools/DrawIO%20MDG%20UML%20Library.xml
+   https://raw.githubusercontent.com/Semprini/pyMDG/master/mdg/tools/DrawIO%20MDG%20UML%20Library.xml
 
 This will result in the pyMDG library being added to the sidebar:
 

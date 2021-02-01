@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader, Template, BaseLoader
 
 
 from .config import settings
-from .filters import get_filters
+from .tools.filters import get_filters
 
 from .uml import UMLPackage, UMLInstance
 

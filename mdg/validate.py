@@ -1,4 +1,6 @@
 #!/usr/bin/python
+from .parse import parse
+
 
 class ClassValidationError(object):
     def __init__(self, package, cls, error):
@@ -38,5 +40,22 @@ def validate_package(package):
 
     for child in package.children:
         errors += validate_package(child)
+
+    return errors
+
+
+def validate():
+    """ Loads XMI file from settings as an etree
+        Calls XMI parser to turn model and tests into python native (see UML metamodel)
+        Calls output functions to render for model and tests
+    """
+
+    model_package, test_cases = parse()
+
+    errors = validate_package(model_package)
+    if len(errors) > 0:
+        print("Validation Errors:")
+        for error in errors:
+            print("    {}".format(error))
 
     return errors

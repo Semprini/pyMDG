@@ -1,6 +1,6 @@
 import unittest
 
-from mdg.util import camelcase, snakecase
+from mdg.tools.case import camelcase, snakecase
 
 
 class TestUMLModel(unittest.TestCase):
