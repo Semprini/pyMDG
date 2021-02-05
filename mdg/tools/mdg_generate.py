@@ -5,8 +5,6 @@
 import sys
 import os
 
-from ..generate import generate
-
 
 def main():
     if len(sys.argv) == 1:
@@ -14,9 +12,9 @@ def main():
     else:
         recipie_path = str(sys.argv[1])
 
-    config_filename = recipie_path
-    os.environ.setdefault("PYMDG_SETTINGS_MODULE", config_filename)
+    os.environ.setdefault("PYMDG_SETTINGS_MODULE", recipie_path)
 
+    from ..generate import generate
     generate()
 
 

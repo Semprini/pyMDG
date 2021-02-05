@@ -16,16 +16,17 @@ defaults: Dict = {
 
 
 def load():
+    config_filename = os.environ.get('PYMDG_SETTINGS_MODULE', "")
     try:
-        with open(os.environ.get('PYMDG_SETTINGS_MODULE', ""), 'r') as config_file:
+        with open(config_filename, 'r') as config_file:
             loaded_settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
         settings = {**defaults, **loaded_settings}
-        print("Config file loaded: " + os.environ.get('PYMDG_SETTINGS_MODULE', ""))
+        print("Config file loaded: " + config_filename)
         return settings
-    except TypeError:
-        print("WARN: Config file could not be parsed. Using default settings")
+    except TypeError as e:
+        print("WARN: Config file {} could not be parsed. Using default settings. Reason: {}".format(config_filename, e.message))
     except FileNotFoundError:
-        print("WARN: Config file not found. Using default settings")
+        print("WARN: Config file {} not found. Using default settings".format(config_filename))
     return defaults
 
 
