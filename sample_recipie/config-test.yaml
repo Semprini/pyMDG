@@ -1,0 +1,31 @@
+root_package: SampleIndustry
+model_package: Model
+test_package: Test
+source: ./sample_recipie/sample.xml
+parser: drawio
+dest_root: ./build/test
+templates_folder: ./sample_recipie/templates
+generation_type: django
+case_package: CamelCase
+case_class: CamelCase
+case_attribute: snake_case
+model_templates:
+- dest: "{{ cls.name | case_class }}.avsc"
+  level: class
+  source: "avro.avsc.jinja"
+- dest: "models.py"
+  level: package
+  source: Django/app/models.py.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+- dest: "settings.py"
+  level: root
+  source: Django/project/settings.py.jinja
+- dest: "base_site.html"
+  level: copy
+  source: Django/templates/admin/base_site.html
+- dest: "fail.html"
+  level: "fail"
+  source: Django/app/models.py.jinja
+test_templates:
+- dest: ./build/Corprate/json{{ins.package.path | case_package}}/{{ins.stereotype}}.json
+  format: json

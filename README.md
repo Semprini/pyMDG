@@ -9,8 +9,8 @@ Used to parse model files to native classes (see metamodel below) which are pass
 Quickstart and docs can be found here: [readthedocs](https://pymdg.readthedocs.io/en/latest/index.html)
 
 ## Test
-Standard testing:
- > python -m unittest
+Testing:
+ > python test.py
 
 To generate code call the generate script and pass in the recipie folder. A sample recipie folder is provided in the github repo:
  > python generate.py ./sample_recipie/config-drawio-django.yaml

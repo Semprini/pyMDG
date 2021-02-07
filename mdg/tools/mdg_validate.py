@@ -2,6 +2,7 @@
 import sys
 import os
 
+
 def main():
     if len(sys.argv) == 1:
         recipie_path = './config.yaml'
