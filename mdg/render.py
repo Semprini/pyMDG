@@ -147,10 +147,11 @@ def output_model(package: UMLPackage) -> None:
                 output_level_enum(source_template, dest_file_template, filter_template, package)
             elif template_definition['level'] == 'assocication':
                 output_level_assoc(source_template, dest_file_template, filter_template, package)
-            elif template_definition['level'] == 'root' and package.parent is None:
-                output_level_package(source_template, dest_file_template, package)
+            elif template_definition['level'] == 'root':
+                if package.parent is None:
+                    output_level_package(source_template, dest_file_template, package)
             else:
-                raise ValueError("{} is not a valid template level".format(template_definition['level']))
+                raise ValueError("'{}' is not a valid template level".format(template_definition['level']))
 
     # Walk through the package hierarchy and recurse output
     child: UMLPackage
