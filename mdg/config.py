@@ -1,6 +1,10 @@
 import os
 import yaml
 from typing import Dict, List
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 model_templates: List[Dict] = []
 
@@ -21,12 +25,12 @@ def load():
         with open(config_filename, 'r') as config_file:
             loaded_settings = yaml.load(config_file.read(), Loader=yaml.SafeLoader)
         settings = {**defaults, **loaded_settings}
-        print("Config file loaded: " + config_filename)
+        logger.info("Config file loaded: " + config_filename)
         return settings
     except TypeError as e:
-        print("WARN: Config file {} could not be parsed. Using default settings. Reason: {}".format(config_filename, e.message))
+        logger.warn("Config file {} could not be parsed. Using default settings. Reason: {}".format(config_filename, e.message))
     except FileNotFoundError:
-        print("WARN: Config file {} not found. Using default settings".format(config_filename))
+        logger.warn("WARN: Config file {} not found. Using default settings".format(config_filename))
     return defaults
 
 

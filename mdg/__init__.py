@@ -1,15 +1,16 @@
+# Default is JSON Schema Specification
 generation_fields = {
     "default": {
-        "boolean": "boolean",
-        "date": "Date",
-        "dateTime": "DateTime",
-        "decimal": "Double",
-        "enum": "String",
-        "int": "int",
-        "bigint": "int",
-        "integer": "int",
-        "long": "int",
-        "string": "String",
+        "bool": "boolean",
+        "Date": "date",
+        "dateTime": "date-time",
+        "decimal": "number",
+        "enum": "enum",
+        "int": "integer",
+        "bigint": "integer",
+        "Integer": "integer",
+        "long": "integer",
+        "String": "string",
     },
     "spring data rest": {
         "boolean": "boolean",

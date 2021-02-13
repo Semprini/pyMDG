@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import json
 import os
+import logging
 from typing import Dict, Optional, List, Any
 
 from jinja2 import Environment, FileSystemLoader, Template, BaseLoader
@@ -10,6 +11,9 @@ from .config import settings
 from .tools.filters import get_filters
 
 from .uml import UMLPackage, UMLInstance
+
+
+logger = logging.getLogger(__name__)
 
 
 def output_level_copy(source_filename: str, dest_file_template: Template, package: UMLPackage) -> None:
@@ -28,6 +32,8 @@ def output_level_copy(source_filename: str, dest_file_template: Template, packag
         with open(dest_filename, 'w') as dest_fh:
             dest_fh.write(source_fh.read())
 
+    logger.debug(f"Created {dest_filename}")
+
 
 def output_level_package(source_template: Template, dest_file_template: Template, package: UMLPackage) -> None:
     """ Render a jinja template as pass a UML package as data
@@ -44,6 +50,8 @@ def output_level_package(source_template: Template, dest_file_template: Template
     with open(dest_filename, 'w') as fh:
         fh.write(source_template.render(package=package))
 
+    logger.debug(f"Created {dest_filename}")
+
 
 def output_level_enum(source_template: Template, dest_file_template: Template, filter_template: Optional[Template], package: UMLPackage) -> None:
     """ Render a jinja template for each enumeration in the supplied package
@@ -52,15 +60,17 @@ def output_level_enum(source_template: Template, dest_file_template: Template, f
     # Loop through all enumerations in the UML Package, cheeck the filter result and output if True
     for enum in package.enumerations:
         if filter_template is None or filter_template.render(enum=enum) == "True":
-            filename = os.path.abspath(dest_file_template.render(enum=enum))
-            dirname = os.path.dirname(filename)
+            dest_filename = os.path.abspath(dest_file_template.render(enum=enum))
+            dirname = os.path.dirname(dest_filename)
 
             # make sure computed distination path exists
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
 
-            with open(filename, 'w') as fh:
+            with open(dest_filename, 'w') as fh:
                 fh.write(source_template.render(enum=enum))
+
+            logger.debug(f"Created {dest_filename}")
 
 
 def output_level_class(source_template: Template, dest_file_template: Template, filter_template: Optional[Template], package: UMLPackage) -> None:
@@ -70,15 +80,17 @@ def output_level_class(source_template: Template, dest_file_template: Template, 
     # Loop through all classes in the UML Package, cheeck the filter result and output if True
     for cls in package.classes:
         if filter_template is None or filter_template.render(cls=cls) == "True":
-            filename = os.path.abspath(dest_file_template.render(cls=cls))
-            dirname = os.path.dirname(filename)
+            dest_filename = os.path.abspath(dest_file_template.render(cls=cls))
+            dirname = os.path.dirname(dest_filename)
 
             # make sure computed distination path exists
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
 
-            with open(filename, 'w') as fh:
+            with open(dest_filename, 'w') as fh:
                 fh.write(source_template.render(cls=cls))
+
+            logger.debug(f"Created {dest_filename}")
 
 
 def output_level_assoc(source_template: Template, dest_file_template: Template, filter_template: Optional[Template], package: UMLPackage):
@@ -88,15 +100,17 @@ def output_level_assoc(source_template: Template, dest_file_template: Template, 
     # Loop through all associations in the UML Package, cheeck the filter result and output if True
     for assoc in package.associations:
         if filter_template is None or filter_template.render(association=assoc) == "True":
-            filename = os.path.abspath(dest_file_template.render(association=assoc))
-            dirname = os.path.dirname(filename)
+            dest_filename = os.path.abspath(dest_file_template.render(association=assoc))
+            dirname = os.path.dirname(dest_filename)
 
             # make sure computed distination path exists
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
 
-            with open(filename, 'w') as fh:
+            with open(dest_filename, 'w') as fh:
                 fh.write(source_template.render(association=assoc))
+
+            logger.debug(f"Created {dest_filename}")
 
 
 def output_model(package: UMLPackage) -> None:
@@ -109,7 +123,7 @@ def output_model(package: UMLPackage) -> None:
             filter: If supplied, If supplied The template must output "True" for a file to be generated
                 E.g.: "{% if package.classes %}True{% else %}False{% endif %}"
     """
-    print("Generating model output for package {}".format(package.path))
+    logger.info("Generating model output for package {}".format(package.path))
 
     # Create jinja2 filter dict to pass into templates
     filters = get_filters()
@@ -163,10 +177,10 @@ def output_test_cases(test_cases: List[UMLInstance]) -> None:
     """ Test cases are parse into a list of UML instances. Loop through list and serialise
     """
     if settings['test_templates'] is None:
-        print("No test templates")
+        logger.warn("No test templates")
         return
 
-    print("Generating test case output")
+    logger.info("Generating test case output")
 
     for case in test_cases:
         serialised = json.dumps(serialize_instance(case), indent=2)

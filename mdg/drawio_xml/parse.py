@@ -1,5 +1,6 @@
 from typing import List, Tuple, Optional
 from lxml import etree
+import logging
 
 from mdg import generation_fields
 from mdg.config import settings
@@ -12,6 +13,9 @@ from mdg.uml import (
     UMLInstance,
     UMLPackage,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_label_name(element):
@@ -68,7 +72,7 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
     model = root_element.find('./diagram/mxGraphModel/root')
     child_elements = model.findall('object/mxCell[@parent="{}"]'.format(id))
 
-    print("{}".format(package.name))
+    logger.debug("Added UMLPackage {}".format(package.path))
 
     # Parse classes
     for element in child_elements:
@@ -199,7 +203,7 @@ def class_parse(package: UMLPackage, element, root) -> UMLClass:
     if abstract is not None and abstract == "True":
         cls.is_abstract = True
 
-    print("    {}".format(cls.name))
+    logger.debug("Added UMLClass {}".format(cls.name))
 
     children = root.findall('./diagram/mxGraphModel/root/mxCell[@parent="{}"]'.format(id))
     # Grab a list of the attribute stereotypes and their heights
@@ -232,6 +236,8 @@ def enumeration_parse(package: UMLPackage, element, root) -> UMLEnumeration:
     children = root.findall('./diagram/mxGraphModel/root/mxCell[@parent="{}"]'.format(id))
     for child in children:
         enum.values.append(child.get('value'))
+
+    logger.debug("Added UMLEnumeration {}".format(enum.name))
 
     return enum
 

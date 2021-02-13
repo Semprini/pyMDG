@@ -45,7 +45,7 @@ components:
       type: object
       properties:{% for attr in cls.attributes %}
         {{ attr.name }}:
-          type: {% if attr.dest_type == "String" %}string{% else %}{% if attr.dest_type == "int" %}integer{% else %}{% if attr.dest_type == "Date" %}string
-          format: date{% else %}{% if attr.classification %}string
+          type: {% if attr.dest_type in ["date","date-time"] %}string
+          format: {{ attr.dest_type }}{% elif attr.classification %}string
           enum:{% for enum in attr.classification.values %}
-          - {{ enum }}{% endfor %}{% else %}{{ attr.dest_type }}{% endif %}{% endif %}{% endif %}{% endif %}{% endfor %}{% endif %}{% endfor %}
+          - {{ enum }}{% endfor %}{% else %}{{ attr.dest_type }}{% endif %}{% endfor %}{% endif %}{% endfor %}

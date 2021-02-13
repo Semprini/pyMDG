@@ -1,6 +1,7 @@
 import re
 from typing import List, Tuple
 from lxml import etree
+import logging
 
 from mdg import generation_fields
 from mdg.config import settings
@@ -13,6 +14,8 @@ from mdg.uml import (
     UMLPackage,
 )
 
+
+logger = logging.getLogger(__name__)
 
 ns = {
     'uml': 'http://schema.omg.org/spec/UML/2.1',
@@ -36,7 +39,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     element = root_package[0]
 
     # Find the element that is the root for models
-    print("Parsing models")
+    logger.info("Parsing models")
     model_element = element.xpath("//packagedElement[@name='%s']" % settings['model_package'], namespaces=ns)
     if len(model_element) == 0:
         raise ValueError("Model packaged element not found. Settings has:{}".format(settings['model_package']))
@@ -52,7 +55,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
         raise ValueError('Error - Non uml:Package element provided to packagedElement parser')
 
     if 'test_package' in settings.keys():
-        print("Parsing test cases")
+        logger.info("Parsing test cases")
 
         # Find the element that is the root for test data
         test_element = element.xpath("//packagedElement[@name='%s']" % settings['test_package'], namespaces=ns)
@@ -122,6 +125,8 @@ def package_parse(element, root_element, parent_package):
         diagram = diagram_model.getparent()
         package.diagrams.append(diagram.get('{%s}id' % ns['xmi']))
 
+    logger.debug("Added UMLPackage {}".format(package.path))
+
     package_parse_children(element, package)
     return package
 
@@ -150,7 +155,7 @@ def package_parse_children(element, package):
             enumeration = enumeration_parse(package, child)
             if enumeration.name is not None:
                 package.enumerations.append(enumeration)
-            # print(f"Enum: {package.path}{enumeration}") # TODO: Logging debug
+            # print(f"Enum: {package.path}{enumeration}")
 
 
 def package_parse_associations(package, element, root_element):
@@ -197,7 +202,7 @@ def package_parse_associations(package, element, root_element):
                                     root_element.xpath("//ownedAttribute[@xmi:id='%s']" % assoc_idref,
                                                        namespaces=ns)[0]
                             except IndexError as e:
-                                print("Failed to find member end association destination. Id: {}".format(assoc_idref))
+                                logger.warn("Failed to find member end association destination. Id: {}".format(assoc_idref))
                                 raise e
                             assoc_dest_type_elem = assoc_dest_elem.find('type')
                             assoc_dest_id = assoc_dest_type_elem.get('{%s}idref' % ns['xmi'])
@@ -213,7 +218,7 @@ def package_parse_associations(package, element, root_element):
                 association = association_parse(package, assoc_source_elem, assoc_dest_elem, source, dest)
                 package.associations.append(association)
             else:
-                print("Unable to create association id={}".format(e_id))
+                logger.warn("Unable to create association id={}".format(e_id))
 
     for package_child in package.children:
         element = element.xpath("//packagedElement[@xmi:id='%s']" % package_child.id, namespaces=ns)[0]
@@ -226,7 +231,7 @@ def package_parse_inheritance(package):
         if cls.supertype_id is not None:
             cls.supertype = package.root_package.find_by_id(cls.supertype_id)
             if cls.supertype is None:
-                print("Cannot find supertype node id={}".format(cls.supertype_id))
+                logger.warn("Cannot find supertype node id={}".format(cls.supertype_id))
             else:
                 cls.supertype.is_supertype = True
                 if cls.id_attribute is None:
@@ -236,7 +241,7 @@ def package_parse_inheritance(package):
             if attr.classification_id is not None:
                 attr.classification = package.root_package.find_by_id(attr.classification_id)
                 if attr.classification is None:
-                    print("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
+                    logger.warn("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
                     # print(package.root_package.name)
                     # for p in package.root_package.children:
                     #     print("    " + p.name)
@@ -269,8 +274,9 @@ def instance_parse(package, source_element, root):
                 attr = UMLAttribute(ins, variable.split('=')[1], value.split('=')[1])
                 attr.value = value.split('=')[1]
                 ins.attributes.append(attr)
-    # else: #TODO: logging debug
-    #     print(f"No runstate found for instance {ins.name} | {ins.id}")
+    else:
+        logger.debug(f"No runstate found for instance {ins.name} | {ins.id}")
+    logger.debug(f"Added UMLInstance {ins.name}")
     return ins
 
 
@@ -300,7 +306,7 @@ def association_parse(package, source_element, dest_element, source, dest):
             dest_upper = '*'
         association.destination_multiplicity = (dest_lower, dest_upper)
 
-    print('{} {} to {}'.format(association.source.name, association.association_type, association.destination.name ))
+    # print('{} {} to {}'.format(association.source.name, association.association_type, association.destination.name))
 
     # If it's an association to or from a multiple then pluralize the name
     # TODO: Allow pluralized name to be specified in UML
@@ -333,6 +339,7 @@ def enumeration_parse(package, element):
         e_type = child.get('{%s}type' % ns['xmi'])
         if e_type == 'uml:EnumerationLiteral':
             enumeration.values.append(child.get('name'))
+    logger.debug(f"Added UMLEnumeration {enumeration.name}")
     return enumeration
 
 
@@ -374,6 +381,7 @@ def class_parse(package, element, root):
     if value is not None:
         cls.stereotypes = re.findall('@STEREO;Name=(.*?);', value)
 
+    logger.debug(f"Added UMLClass {cls.name}")
     return cls
 
 
