@@ -8,6 +8,8 @@ import re
 
 
 def camelcase(string):
+    if string is None or string == "":
+        return string
     words = re.split(' |_', string)
     return "".join(word[0].upper() + word[1:] for word in words)
 
@@ -126,27 +128,9 @@ def sentencecase(string: str) -> str:
         re.sub(r"[A-Z]", lambda matched: joiner + lowercase(matched.group(0)), string)))
 
 
-def snakecaseX(string: str) -> str:
-    """Convert string into snake case.
-    Join punctuation with underscore
-
-    Args:
-        string: String to convert.
-
-    Returns:
-        string: Snake cased string.
-
-    """
-    if '_' in string:
-        return lowercase(string)
-
-    string = re.sub(r"[\-\.\s]", '_', str(string))
-    if not string:
-        return string
-    return lowercase(string[0]) + re.sub(r"[A-Z]", lambda matched: '_' + lowercase(matched.group(0)), string[1:])
-
-
 def snakecase(string):
+    if string is None or string == "":
+        return string
     val = re.sub(r"[A-Z]", lambda matched: '_' + lowercase(matched.group(0)), string)
     words = re.split(' |_', val)
     while("" in words):

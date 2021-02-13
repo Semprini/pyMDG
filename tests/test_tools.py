@@ -20,3 +20,4 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual("test_case", snakecase("TestCase"))
         self.assertEqual("test_case", snakecase("test case"))
         self.assertEqual("test_case", snakecase("Test Case"))
+        self.assertEqual(None, snakecase(None))
