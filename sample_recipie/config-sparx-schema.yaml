@@ -1,0 +1,19 @@
+root_package: SampleIndustry
+model_package: Model
+test_package: Test
+source: ./sample_recipie/sample_industry.xmi
+parser: sparx
+dest_root: ./build/sample_sparx_schema
+templates_folder: ./sample_recipie/templates
+generation_type: default
+model_templates:
+# Avro Schema
+- dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
+  level: class
+  source: "avro.avsc.jinja"
+# OpenAPI Schema
+- dest: "openapi/{{ package.name }}.yaml"
+  level: package
+  source: openapi.yaml.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+test_templates:

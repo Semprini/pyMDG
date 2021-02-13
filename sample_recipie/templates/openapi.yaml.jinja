@@ -1,0 +1,51 @@
+---
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Test description
+servers:
+- url: http://127.0.0.1:8000/{env}/api
+  variables:
+    env:
+      enum:
+        - dev
+        - test
+        - prod
+      default: dev
+paths:{% for cls in package.classes %}{% if cls.is_abstract == False %}
+  "{{ package.path }}{{ cls.name }}/":
+    get:
+      operationId: {{ package.path[1:] | replace('/', '_') }}{{ cls.name | snakecase }}_list
+      description: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/{{ cls.name }}s"
+  "{{ package.path }}{{ cls.name }}/{% raw %}{{% endraw %}{{ cls.id_attribute.name }}{% raw %}}{% endraw %}/":
+    get:
+      operationId: {{ package.path[1:] | replace('/', '_') }}{{ cls.name | snakecase }}_entity
+      description: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/{{ cls.name }}"{% endif %}{% endfor %}
+components:
+  schemas:{% for cls in package.classes %}{% if cls.is_abstract == False %}
+    {{ cls.name }}s:
+      type: array
+      items:
+        $ref: "#/components/schemas/{{ cls.name }}"
+    {{ cls.name }}:
+      type: object
+      properties:{% for attr in cls.attributes %}
+        {{ attr.name }}:
+          type: {% if attr.dest_type == "String" %}string{% else %}{% if attr.dest_type == "int" %}integer{% else %}{% if attr.dest_type == "Date" %}string
+          format: date{% else %}{% if attr.classification %}string
+          enum:{% for enum in attr.classification.values %}
+          - {{ enum }}{% endfor %}{% else %}{{ attr.dest_type }}{% endif %}{% endif %}{% endif %}{% endif %}{% endfor %}{% endif %}{% endfor %}
