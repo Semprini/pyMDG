@@ -27,9 +27,8 @@ def validate_package(package):
     errors = []
 
     for cls in package.classes:
-        if cls.id_attribute is None:
-            if cls.supertype is None:
-                errors.append(ClassValidationError(package, cls, "no primary key"))
+        if cls.id_attribute is None and cls.supertype is None and not cls.is_abstract:
+            errors.append(ClassValidationError(package, cls, "no primary key"))
         elif cls.supertype is not None:
             if cls.supertype.id_attribute is not None and cls.supertype.id_attribute != cls.id_attribute:
                 errors.append(ClassValidationError(package, cls, "primary key in both class and supertype"))
