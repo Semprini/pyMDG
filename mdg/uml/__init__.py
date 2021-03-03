@@ -6,6 +6,14 @@ from enum import Enum
 from mdg.config import settings
 
 
+class UMLStatuses(Enum):
+    Proposed = 1
+    Approved = 2
+    Implemented = 3
+    Mandatory = 4
+    Validated = 5
+
+
 class UMLPackage(object):
     def __init__(self, id: Union[int, str], name: str, parent: Optional[UMLPackage] = None, stereotype: Optional[str] = None):
         self.classes: List[UMLClass] = []
@@ -22,6 +30,7 @@ class UMLPackage(object):
         self.documentation: str = ""
         self.element: Any = None
         self.root_element: Any = None
+        self.status: Optional[UMLStatuses] = None
 
         if self.parent is None:
             self.root_package: UMLPackage = self
@@ -74,6 +83,7 @@ class UMLInstance(object):
         self.name: str = name
         self.id: Union[int, str] = id
         self.documentation: str = ""
+        self.status: Optional[UMLStatuses] = None
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -151,6 +161,7 @@ class UMLEnumeration(object):
         self.name: str = name
         self.id: Union[int, str] = id
         self.documentation: str = ""
+        self.status: Optional[UMLStatuses] = None
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -171,6 +182,7 @@ class UMLClass(object):
         self.id_attribute: Optional[UMLAttribute] = None
         self.documentation: str = ""
         self.is_abstract: bool = False
+        self.status: Optional[UMLStatuses] = None
 
         for inherited_stereotype, inherited_package in package.inherited_stereotypes:
             if not hasattr(self, inherited_stereotype):

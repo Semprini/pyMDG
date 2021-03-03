@@ -13,5 +13,5 @@ if __name__ == '__main__':
 
     test_loader = unittest.defaultTestLoader
     test_suite = test_loader.discover('.')
-    test_runner = unittest.TextTestRunner()
+    test_runner = unittest.TextTestRunner(verbosity=3)
     test_runner.run(test_suite)

@@ -67,3 +67,4 @@ class TestXMIClassParse(unittest.TestCase):
         clazz = class_parse(self.package, element, self.tree)
         self.assertIsNotNone(clazz)
         self.assertEqual(clazz.is_abstract, True)
+        self.assertEqual(clazz.status, "Proposed")

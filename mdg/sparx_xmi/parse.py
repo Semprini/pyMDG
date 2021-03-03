@@ -120,6 +120,9 @@ def package_parse(element, root_element, parent_package):
     if package.documentation is None:
         package.documentation = ""
 
+    project = detail.find('project')
+    package.status = project.get('status')
+
     diagram_elements = root_element.xpath("//diagrams/diagram/model[@package='%s']" % package.id)
     for diagram_model in diagram_elements:
         diagram = diagram_model.getparent()
@@ -262,6 +265,9 @@ def instance_parse(package, source_element, root):
     if ins.documentation is None:
         ins.documentation = ""
 
+    project = detail.find('project')
+    ins.status = project.get('status')
+
     # Create attributes for each item found in the runstate
     # TODO: Change this to using an re
     extended_properties = detail.find('extendedProperties')
@@ -373,6 +379,9 @@ def class_parse(package, element, root):
     cls.documentation = properties.get('documentation')
     if cls.documentation is None:
         cls.documentation = ""
+
+    project = detail.find('project')
+    cls.status = project.get('status')
 
     # Get stereotypes, when multiple are provided only the first is found in the stereotype tag but all are found in
     # xrefs
