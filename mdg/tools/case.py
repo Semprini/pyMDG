@@ -129,7 +129,7 @@ def sentencecase(string: str) -> str:
 
 
 def snakecase(string):
-    if string is None or string == "":
+    if string is None or f"{string}" == "":
         return string
     val = re.sub(r"[A-Z]", lambda matched: '_' + lowercase(matched.group(0)), string)
     words = re.split(' |_', val)
