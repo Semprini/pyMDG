@@ -131,11 +131,11 @@ def sentencecase(string: str) -> str:
 def snakecase(string):
     if string is None or f"{string}" == "":
         return string
-    val = re.sub(r"[A-Z]", lambda matched: '_' + lowercase(matched.group(0)), string)
-    words = re.split(' |_', val)
-    while("" in words):
-        words.remove("")
-    return "_".join(word.lower() for word in words)
+
+    word = re.sub(r"([A-Z]+)([A-Z][a-z])", r'\1_\2', string)
+    word = re.sub(r"([a-z\d])([A-Z])", r'\1_\2', word)
+    word = word.replace(" ", "_")
+    return word.lower()
 
 
 def spinalcase(string: str) -> str:
