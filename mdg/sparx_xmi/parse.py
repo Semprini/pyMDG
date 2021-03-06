@@ -12,6 +12,7 @@ from mdg.uml import (
     UMLEnumeration,
     UMLInstance,
     UMLPackage,
+    UMLAssociationType,
 )
 
 
@@ -289,6 +290,9 @@ def instance_parse(package, source_element, root):
 def association_parse(package, source_element, dest_element, source, dest):
     id = source_element.get('{%s}id' % ns['xmi'])
     association = UMLAssociation(package, source, dest, id)
+
+    if source_element.get("aggregation") == "composite":
+        association.association_type = UMLAssociationType.COMPOSITION
 
     # Extract multiplicity for source
     source_lower = source_element.find('lowerValue')

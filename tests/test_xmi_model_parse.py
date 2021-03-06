@@ -2,8 +2,8 @@ import unittest
 
 from lxml import etree
 
-from mdg.sparx_xmi.parse import attr_parse, class_parse
-from mdg.uml import UMLClass, UMLPackage
+from mdg.sparx_xmi.parse import attr_parse, class_parse, association_parse
+from mdg.uml import UMLClass, UMLPackage, Cardinality, UMLAssociationType
 
 
 class TestXMIAttributeParse(unittest.TestCase):
@@ -68,3 +68,33 @@ class TestXMIClassParse(unittest.TestCase):
         self.assertIsNotNone(clazz)
         self.assertEqual(clazz.is_abstract, True)
         self.assertEqual(clazz.status, "Proposed")
+
+
+class TestXMIAssociationParse(unittest.TestCase):
+    def setUp(self):
+        self.tree = etree.fromstring("""
+                    <xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:thecustomprofile="http://www.sparxsystems.com/profiles/thecustomprofile/1.0">
+                        <packagedElement xmi:type="uml:Association" xmi:id="EAID_3CFEE303_0F7B_46c6_81DE_D14F1BED8EA7" visibility="public">
+                            <memberEnd xmi:idref="EAID_dstFEE303_0F7B_46c6_81DE_D14F1BED8EA7"/>
+                            <memberEnd xmi:idref="EAID_srcFEE303_0F7B_46c6_81DE_D14F1BED8EA7"/>
+                            <ownedEnd xmi:type="uml:Property" xmi:id="EAID_srcFEE303_0F7B_46c6_81DE_D14F1BED8EA7" visibility="public" association="EAID_3CFEE303_0F7B_46c6_81DE_D14F1BED8EA7" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="composite">
+                                <type xmi:idref="EAID_DEFD1F62_622E_479b_8CB9_E219E818F917"/>
+                                <lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000003__0F7B_46c6_81DE_D14F1BED8EA7" value="0"/>
+                                <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000004__0F7B_46c6_81DE_D14F1BED8EA7" value="-1"/>
+                            </ownedEnd>
+                        </packagedElement>
+                    </xmi:XMI>""")
+        self.package = UMLPackage("id", "name")
+        self.source = UMLClass(self.package, "source", "id")
+        self.dest = UMLClass(self.package, "dest", "id")
+
+    def test_association_parse(self):
+        element = self.tree.find("packagedElement")
+        self.assertIsNotNone(element)
+
+        source_element = element.find("ownedEnd")
+        dest_element = element.find("ownedEnd")
+        assocation = association_parse(self.package, source_element, dest_element, self.source, self.dest)
+
+        self.assertEqual(assocation.cardinality, Cardinality.MANY_TO_MANY)
+        self.assertEqual(assocation.association_type, UMLAssociationType.COMPOSITION)
