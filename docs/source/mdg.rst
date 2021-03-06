@@ -10,6 +10,7 @@ Subpackages
    mdg.confluence
    mdg.drawio_xml
    mdg.sparx_xmi
+   mdg.tools
    mdg.uml
 
 Submodules
@@ -31,18 +32,18 @@ mdg.generate module
    :undoc-members:
    :show-inheritance:
 
-mdg.render module
------------------
+mdg.parse module
+----------------
 
-.. automodule:: mdg.render
+.. automodule:: mdg.parse
    :members:
    :undoc-members:
    :show-inheritance:
 
-mdg.util module
----------------
+mdg.render module
+-----------------
 
-.. automodule:: mdg.util
+.. automodule:: mdg.render
    :members:
    :undoc-members:
    :show-inheritance:

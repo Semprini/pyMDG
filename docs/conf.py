@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'pyMDG'
-copyright = '2020, Semprini'
+copyright = '2019, Semprini'
 author = 'Semprini'
 master_doc = 'index'
 
@@ -29,8 +29,8 @@ master_doc = 'index'
 # ones.
 extensions = [
     "sphinx_rtd_theme",
-    'sphinx.ext.todo', 
-    'sphinx.ext.viewcode', 
+    'sphinx.ext.todo',
+    'sphinx.ext.viewcode',
     'sphinx.ext.autodoc',
 ]
 

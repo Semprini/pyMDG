@@ -120,8 +120,7 @@ def output_model(package: UMLPackage) -> None:
             dest: The filename of the output
             level: Do we generate a file for each package/class/enumeration/association or root
             source: Path to the jinja2 template
-            filter: If supplied, If supplied The template must output "True" for a file to be generated
-                E.g.: "{% if package.classes %}True{% else %}False{% endif %}"
+            filter: If supplied, If supplied The template must output "True" for a file to be generated. E.g. "{% if package.classes %}True{% else %}False{% endif %}"
     """
     logger.info("Generating model output for package {}".format(package.path))
 

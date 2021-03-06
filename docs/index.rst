@@ -15,14 +15,14 @@ Generation::
    git clone https://github.com/Semprini/pyMDG
    cd pyMDG
    virtualenv venv
-   . venv/bin/activate
+   . venv/bin/activate or .\venv\Scripts\activate
    pip install -r requirements.txt
    python generate.py ./sample_recipie/config-drawio-django.yaml 
    
 Run the app::
 
-   pip install -r requirements.txt
    cd build/sample_drawio_django/SampleIndustry
+   pip install -r requirements.txt
    python manage.py makemigrations TestDomain
    python manage.py migrate
    python manage.py createsuperuser
