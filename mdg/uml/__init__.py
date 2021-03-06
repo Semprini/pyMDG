@@ -92,6 +92,7 @@ class UMLInstance(object):
 class UMLAssociationType(Enum):
     ASSOCIATION = 1
     COMPOSITION = 2
+    AGGREGATION = 3
 
 
 class Cardinality(Enum):

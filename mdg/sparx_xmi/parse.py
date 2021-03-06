@@ -291,8 +291,11 @@ def association_parse(package, source_element, dest_element, source, dest):
     id = source_element.get('{%s}id' % ns['xmi'])
     association = UMLAssociation(package, source, dest, id)
 
-    if source_element.get("aggregation") == "composite":
+    assoc_type = source_element.get("aggregation")
+    if assoc_type == "composite":
         association.association_type = UMLAssociationType.COMPOSITION
+    elif assoc_type == "shared":
+        association.association_type = UMLAssociationType.AGGREGATION
 
     # Extract multiplicity for source
     source_lower = source_element.find('lowerValue')
