@@ -41,14 +41,14 @@ To generate a confluence token please see: https://confluence.atlassian.com/clou
 
 ## Nomenclature:
 This diagram shows all the features and how to model in UML
-![Nomenclature](https://raw.githubusercontent.com/Semprini/pyMDG/master/sample_recipie/images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png)
+![Nomenclature](https://github.com/Semprini/pyMDG/raw/master/sample_recipies/images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png)
 
 ## Sample model
-![Sample model](https://raw.githubusercontent.com/Semprini/pyMDG/master/sample_recipie/images/EAID_96AC850E_2FD0_4e6c_B00E_C030EDA89F42.png)
+![Sample model](https://github.com/Semprini/pyMDG/raw/master/sample_recipies/images/EAID_96AC850E_2FD0_4e6c_B00E_C030EDA89F42.png)
 
 ## Metamodel
 This diagram shows the internal classes which are passed to the templates during generation.
-![Metamodel](https://raw.githubusercontent.com/Semprini/pyMDG/master/sample_recipie/images/EAID_B080F856_9EFB_46f2_8D69_1C79956D714A.png)
+![Metamodel](https://github.com/Semprini/pyMDG/raw/master/sample_recipies/images/EAID_B080F856_9EFB_46f2_8D69_1C79956D714A.png)
 
 ## Build the docs
 Install sphinx
