@@ -4,7 +4,7 @@ test_package: Test
 source: ./sample_recipies/sample.xml
 parser: drawio
 dest_root: ./build/test
-templates_folder: ./mdg/templates
+templates_folder: does_not_exist_so_will_use_default
 generation_type: django
 case_package: CamelCase
 case_class: CamelCase

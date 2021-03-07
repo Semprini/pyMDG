@@ -53,7 +53,11 @@ def main():
     parser_c.set_defaults(func=startproject)
 
     args = parser.parse_args()
-    args.func(args)
+    try:
+        func = args.func
+    except AttributeError:  # (https://bugs.python.org/issue16308)
+        parser.error("too few arguments")
+    func(args)
 
 
 if __name__ == '__main__':

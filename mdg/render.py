@@ -128,7 +128,9 @@ def output_model(package: UMLPackage) -> None:
     filters = get_filters()
 
     # Create jinja2 environmeent with filters
-    source_env = Environment(loader=FileSystemLoader(settings['templates_folder']))
+    import os
+    default_templates = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+    source_env = Environment(loader=FileSystemLoader([settings['templates_folder'], default_templates]))
     source_env.filters = {**source_env.filters, **filters}
     dest_env = Environment(loader=BaseLoader())
     dest_env.filters = {**source_env.filters, **filters}
@@ -140,7 +142,10 @@ def output_model(package: UMLPackage) -> None:
 
         if template_definition['level'] == 'copy':
             if package.parent is None:
-                output_level_copy(os.path.join(settings['templates_folder'], template_definition['source']), dest_file_template, package)
+                source_file = os.path.join(settings['templates_folder'], template_definition['source'])
+                if not os.path.isfile(source_file):
+                    source_file = os.path.join(default_templates, template_definition['source'])
+                output_level_copy(source_file, dest_file_template, package)
         else:
             # Create jinja2 teemplates for the source file and dest file name
             source_template: Template = source_env.get_template(template_definition['source'])
