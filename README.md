@@ -13,13 +13,10 @@ Testing:
  > python test.py
 
 To generate code call the generate script and pass in the recipie folder. A sample recipie folder is provided in the github repo:
- > python generate.py ./sample_recipie/config-drawio-django.yaml
+ > python mdg-tool.py generate ./sample_recipie/config-drawio-django.yaml
 
-Or once installed into site-packages via 'pip install pymdg', an executable is provided:
- > cd /my/recipie/folder
-
-And execute:
- > mdg_generate <my/config.yaml>
+Or once installed into site-packages execute:
+ > mdg-tool generate <my/config.yaml>
 
 See the sample_recipie configs for examples
 

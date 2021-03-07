@@ -88,7 +88,7 @@ Edit config-drawio-django.yaml and update the following:
 
 We can now build the project::
 
-   > django-tut> mdg_generate .\config-drawio-django.yaml
+   > django-tut> mdg-tool generate .\config-drawio-django.yaml
    Config file loaded: .\config-drawio-django.yaml
    Base Model Package: model
    Generating model output for package /QuickStart/

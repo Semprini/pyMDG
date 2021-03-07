@@ -10,6 +10,7 @@ Subpackages
    mdg.confluence
    mdg.drawio_xml
    mdg.sparx_xmi
+   mdg.tests
    mdg.tools
    mdg.uml
 
