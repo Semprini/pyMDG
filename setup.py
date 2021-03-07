@@ -28,6 +28,7 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/semprini/pyMDG',
     packages=["mdg", ] + pymdg_packages,
+    include_package_data=True,
     entry_points={
         'console_scripts': [
             'mdg_generate=mdg.tools.mdg_generate:main',

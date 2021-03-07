@@ -1,4 +1,0 @@
-include *.txt
-recursive-include mdg *.txt *.py *.jinja
-include LICENSE
-include MANIFEST.in
