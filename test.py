@@ -2,7 +2,7 @@ import unittest
 import os
 import shutil
 
-recipie_path = './sample_recipie' + "/config-test.yaml"
+recipie_path = './sample_recipies' + "/config-test.yaml"
 os.environ.setdefault("PYMDG_SETTINGS_MODULE", recipie_path)
 
 if __name__ == '__main__':
@@ -12,6 +12,6 @@ if __name__ == '__main__':
         shutil.rmtree(settings['dest_root'])
 
     test_loader = unittest.defaultTestLoader
-    test_suite = test_loader.discover('.')
+    test_suite = test_loader.discover('mdg')
     test_runner = unittest.TextTestRunner(verbosity=3)
     test_runner.run(test_suite)

@@ -1,10 +1,10 @@
 root_package: SampleIndustry
 model_package: Model
 test_package: Test
-source: ./sample_recipie/sample.xml
+source: ./sample_recipies/sample.xml
 parser: drawio
 dest_root: ./build/test
-templates_folder: ./sample_recipie/templates
+templates_folder: ./mdg/templates
 generation_type: django
 case_package: CamelCase
 case_class: CamelCase
@@ -12,7 +12,7 @@ case_attribute: snake_case
 model_templates:
 - dest: "{{ cls.name | case_class }}.avsc"
   level: class
-  source: "avro.avsc.jinja"
+  source: "Schema/avro.avsc.jinja"
 - dest: "models.py"
   level: package
   source: Django/app/models.py.jinja

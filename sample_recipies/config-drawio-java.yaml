@@ -1,27 +1,27 @@
 root_package: SampleIndustry
 model_package: Model
 test_package: Test
-source: ./sample_recipie/sample.xml
+source: ./sample_recipies/sample.xml
 parser: drawio
-dest_root: ./build/sample_drawio_output
-templates_folder: ./sample_recipie/templates
+dest_root: ./build/sample_drawio_java
+templates_folder: ./mdg/templates
 generation_type: spring data rest
 model_templates:
 # Java: JHipster
 - dest: jdl{{package.path}}{{package.name | case_package}}.jdl
   level: package
-  source: entities.jdl.jinja
+  source: Java/entities.jdl.jinja
 # Java: Spring Data Rest
 - dest: java/entities{{cls.package.path}}{{cls.name | case_class}}.java
   level: class
-  source: pojos.java.jinja
+  source: Java/pojos.java.jinja
 - dest: java/enums{{enum.package.path}}{{enum.name | case_class}}.java
   level: enumeration
-  source: enums.java.jinja
+  source: Java/enums.java.jinja
 # Documentation
 - dest: base.txt
   level: root
   source: base.txt.jinja
 test_templates:
-- dest: ./build/sample_output{{ins.package.path}}/{{ins.stereotype}}.json
+- dest: ./build/sample_drawio_java/json{{ins.package.path}}/{{ins.stereotype}}.json
   format: json
