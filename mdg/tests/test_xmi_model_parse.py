@@ -2,7 +2,7 @@ import unittest
 
 from lxml import etree
 
-from mdg.sparx_xmi.parse import attr_parse, class_parse, association_parse
+from mdg.sparx_xmi.parse import attr_parse, class_parse, association_parse, package_parse_inheritance
 from mdg.uml import UMLClass, UMLPackage, Cardinality, UMLAssociationType
 
 
@@ -98,3 +98,39 @@ class TestXMIAssociationParse(unittest.TestCase):
 
         self.assertEqual(assocation.cardinality, Cardinality.MANY_TO_MANY)
         self.assertEqual(assocation.association_type, UMLAssociationType.COMPOSITION)
+
+
+class TestXMIGeneralizationParse(unittest.TestCase):
+    def setUp(self):
+        self.tree = etree.fromstring("""
+                    <xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:thecustomprofile="http://www.sparxsystems.com/profiles/thecustomprofile/1.0">
+                        <packagedElement xmi:type="uml:Class" xmi:id="EAID_5A9CB912_F283_41ae_9E4D_D73598C576AE" name="ExternalReference" visibility="public">
+                            <generalization xmi:type="uml:Generalization" xmi:id="EAID_77E50BFE_0D46_43af_9C90_896E06269211" general="12345"/>
+                        </packagedElement>
+                        <element xmi:idref="EAID_5A9CB912_F283_41ae_9E4D_D73598C576AE" xmi:type="uml:Class" name="ExternalReference" scope="public">
+                            <model package="EAPK_EA154075_33FD_455d_B07A_FCBD08A7882D" tpos="0" ea_localid="664" ea_eleType="element"/>
+                            <properties isSpecification="false" sType="Class" nType="0" scope="public" isRoot="false" isLeaf="false" isActive="false"/>
+                            <project author="atkinp" version="1.0" phase="1.0" created="2019-07-24 08:42:52" modified="2020-06-23 19:23:20" complexity="1" status="Proposed"/>
+                            <code gentype="Java"/>
+                            <style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+                            <tags/>
+                            <xrefs/>
+                            <extendedProperties tagged="0" package_name="Common"/>
+                        </element>
+                    </xmi:XMI>""")
+        self.package = UMLPackage("id", "name")
+        self.generalization = UMLClass(self.package, "source", "12345")
+
+    def test_generalization_parse(self):
+        element = self.tree.find("packagedElement")
+        self.assertIsNotNone(element)
+
+        clazz = class_parse(self.package, element, self.tree)
+        self.assertIsNotNone(clazz)
+        self.assertIsNotNone(clazz.generalization_id)
+        self.assertIsNone(clazz.generalization)
+
+        self.package.classes.append(self.generalization)
+        self.package.classes.append(clazz)
+        package_parse_inheritance(self.package)
+        self.assertIsNotNone(clazz.generalization)

@@ -28,9 +28,9 @@ def load():
         logger.info("Config file loaded: " + config_filename)
         return settings
     except TypeError as e:
-        logger.warn("Config file {} could not be parsed. Using default settings. Reason: {}".format(config_filename, e.message))
+        logger.warning("Config file {} could not be parsed. Using default settings. Reason: {}".format(config_filename, e.message))
     except FileNotFoundError:
-        logger.warn("WARN: Config file {} not found. Using default settings".format(config_filename))
+        logger.warning("WARN: Config file {} not found. Using default settings".format(config_filename))
     return defaults
 
 
