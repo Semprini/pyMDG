@@ -134,7 +134,7 @@ def generalization_parse(package: UMLPackage, element, root):
     cell = element.find("mxCell")
     source: UMLClass = package.find_by_id(cell.get("source"))
     target: UMLClass = package.find_by_id(cell.get("target"))
-    source.supertype = target
+    source.generalization = target
 
 
 def association_parse(package: UMLPackage, element, root):

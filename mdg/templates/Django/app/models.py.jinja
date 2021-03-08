@@ -4,8 +4,8 @@ from simple_history.models import HistoricalRecords
 
 from {{ package.root_package.name | snakecase }}.validators import validate_even
 
-{% for cls in package.classes %}{% if cls.supertype != None %}{% if cls.supertype.package != package %}
-from {{ cls.supertype.package.name | case_package }}.models import {{ cls.supertype.name | case_class }}{% endif %}{% endif %}{% endfor %}
+{% for cls in package.classes %}{% if cls.generalization != None %}{% if cls.generalization.package != package %}
+from {{ cls.generalization.package.name | case_package }}.models import {{ cls.generalization.name | case_class }}{% endif %}{% endif %}{% endfor %}
 
 {% for enum in package.enumerations %}class ENUM_{{ enum.name | case_class }}(models.TextChoices):
 {% for attr in enum.values %}
@@ -21,7 +21,7 @@ from {{ cls.supertype.package.name | case_package }}.models import {{ cls.supert
 {% endif %}{% endif %}
 {% endfor %}
 
-{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}( {% if cls.supertype %}{{ cls.supertype.name }}{% else %}models.Model{% endif %} ):
+{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}( {% if cls.generalization %}{{ cls.generalization.name }}{% else %}models.Model{% endif %} ):
 {% for attr in cls.attributes %}
 {% if attr.classification %}    {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name}}.choices, blank=True, null=True )
 {% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.dest_type == "DecimalField" %}max_digits=10, decimal_places=2, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )

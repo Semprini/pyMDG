@@ -11,7 +11,7 @@ class {{ cls.name | case_class }}Serializer(serializers.HyperlinkedModelSerializ
     class Meta:
         model = {{ cls.name | case_class }}
         fields = ('type', 'url', 
-                    {% for attr in cls.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% if cls.supertype != None %}{% for attr in cls.supertype.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% endif %}
+                    {% for attr in cls.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% if cls.generalization != None %}{% for attr in cls.generalization.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% endif %}
 					{% for assoc in cls.associations_from %}'{{ assoc.destination_name | snakecase }}',{% endfor %}
                     {% for assoc in cls.associations_to %}'{{ assoc.source_name | snakecase }}',{% endfor %}
                 )

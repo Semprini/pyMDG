@@ -176,9 +176,9 @@ class UMLClass(object):
         self.associations_from: List[UMLAssociation] = []
         self.associations_to: List[UMLAssociation] = []
         self.package: UMLPackage = package
-        self.supertype: Optional[UMLClass] = None
-        self.supertype_id: Union[None, int, str] = None
-        self.is_supertype: bool = False
+        self.generalization: Optional[UMLClass] = None
+        self.generalization_id: Union[None, int, str] = None
+        self.specialized_by: List[UMLClass] = []
         self.stereotypes: List[str] = []
         self.id_attribute: Optional[UMLAttribute] = None
         self.documentation: str = ""

@@ -27,11 +27,11 @@ def validate_package(package):
     errors = []
 
     for cls in package.classes:
-        if cls.id_attribute is None and cls.supertype is None and not cls.is_abstract:
+        if cls.id_attribute is None and cls.generalization is None and not cls.is_abstract:
             errors.append(ClassValidationError(package, cls, "no primary key"))
-        elif cls.supertype is not None:
-            if cls.supertype.id_attribute is not None and cls.supertype.id_attribute != cls.id_attribute:
-                errors.append(ClassValidationError(package, cls, "primary key in both class and supertype"))
+        elif cls.generalization is not None:
+            if cls.generalization.id_attribute is not None and cls.generalization.id_attribute != cls.id_attribute:
+                errors.append(ClassValidationError(package, cls, "primary key in both class and generalization class"))
 
         for attr in cls.attributes:
             if attr.stereotype == "auto" and attr.type not in ("int", "bigint"):

@@ -230,16 +230,16 @@ def package_parse_associations(package, element, root_element):
 
 
 def package_parse_inheritance(package):
-    """ Looks for classes with a supertype and finds the correct object """
+    """ Looks for classes which are specializations of a supertype and finds the correct object """
     for cls in package.classes:
-        if cls.supertype_id is not None:
-            cls.supertype = package.root_package.find_by_id(cls.supertype_id)
-            if cls.supertype is None:
-                logger.warn("Cannot find supertype node id={}".format(cls.supertype_id))
+        if cls.generalization_id is not None:
+            cls.generalization = package.root_package.find_by_id(cls.generalization_id)
+            if cls.generalization is None:
+                logger.warn("Cannot find specialized class id={}".format(cls.generalization_id))
             else:
-                cls.supertype.is_supertype = True
+                cls.generalization.specialized_by.append(cls)
                 if cls.id_attribute is None:
-                    cls.id_attribute = cls.supertype.id_attribute
+                    cls.id_attribute = cls.generalization.id_attribute
 
         for attr in cls.attributes:
             if attr.classification_id is not None:
@@ -365,9 +365,9 @@ def class_parse(package, element, root):
 
     # If the class is inherited from a superclass then get the ID. The actual object will be found in a separate pass
     # as it may not have been parsed yet
-    supertype_element = element.find('generalization')
-    if supertype_element is not None:
-        cls.supertype_id = supertype_element.get('general')
+    generalization_element = element.find('generalization')
+    if generalization_element is not None:
+        cls.generalization_id = generalization_element.get('general')
 
     # Loop through class elements children for attributes.
     for child in element:
