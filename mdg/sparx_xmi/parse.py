@@ -324,7 +324,7 @@ def association_parse(package, source_element, dest_element, source, dest):
     # If it's an association to or from a multiple then pluralize the name
     # TODO: Allow pluralized name to be specified in UML
     if dest_element.get('name') is not None:
-        association.source_name = dest_element.get('name')
+        association.destination_name = dest_element.get('name')
     else:
         # Use opposing ends class name as attribute name for association
         association.destination_name = association.destination.name.lower()
@@ -332,7 +332,7 @@ def association_parse(package, source_element, dest_element, source, dest):
             association.destination_name += 's'
 
     if source_element.get('name') is not None:
-        association.destination_name = source_element.get('name')
+        association.source_name = source_element.get('name')
     else:
         # Use opposing ends class name as attribute name for association
         association.source_name = association.source.name.lower()

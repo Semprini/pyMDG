@@ -1,0 +1,36 @@
+import enum
+
+from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy.types import Enum
+
+from .database import Base
+
+# Required imports from other modules
+{% for cls in package.classes %}{% if cls.generalization != None %}{% if cls.generalization.package != package %}
+from {{ cls.generalization.package.name | case_package }}.models import {{ cls.generalization.name | case_class }}{% endif %}{% endif %}{% endfor %}
+
+# Enumerations
+{% for enum in package.enumerations %}class {{ enum.name | case_class }}(enum.Enum):{% for attr in enum.values %}
+    {{ attr | case_attribute | replace('-', '_') | replace('/', '_') }} = '{{ attr }}'{% endfor %}
+
+
+{% endfor %}
+
+# Abstract Classes
+{% for cls in package.classes %}{% if cls.is_abstract %}class {{ cls.name | case_class }}( Base ):
+    __abstract__ = True
+{% for attr in cls.attributes %}
+{% if attr.classification %}    {{ attr.name | case_attribute }} = Column( Enum({{ attr.classification.name | case_class }}) ){% else %}    {{ attr.name | case_attribute }} = Column( {{ attr.dest_type }}{% if attr.is_id %}, primary_key=True, index=True{% endif %} ){% endif %}{% endfor %}
+
+
+{% endif %}{% endfor %}
+
+# Concrete Classes (TODO: Do inherited classes first)
+{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}{% if not cls.generalization %}( Base ):{% else %}( {{ cls.generalization.name | case_class }} ):{% endif %}
+    __tablename__ = "{{ cls.name | snakecase }}" # TODO: upper filter
+{% for attr in cls.attributes %}
+{% if attr.classification %}    {{ attr.name | case_attribute }} = Column( Enum({{ attr.classification.name | case_class }}))
+{% else %}    {{ attr.name | case_attribute }} = Column( {{ attr.dest_type }}{% if attr.is_id %}, primary_key=True, index=True{% endif %} ){% endif %}{% endfor %}{% endif %}
+
+
+{% endfor %}
