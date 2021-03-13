@@ -3,7 +3,6 @@ from typing import List, Tuple
 from lxml import etree
 import logging
 
-from mdg import generation_fields
 from mdg.config import settings
 from mdg.uml import (
     UMLAssociation,
@@ -414,12 +413,7 @@ def attr_parse(parent: UMLClass, element, root):
     # TODO: Put modelling tool in settings and use tool specific parser here
     detail = root.xpath("//attribute[@xmi:idref='%s']" % attr.id, namespaces=ns)[0]
     properties = detail.find('properties')
-    attr.type = properties.get('type')
-
-    if properties.get('type') in generation_fields[settings['generation_type']].keys():
-        attr.dest_type = generation_fields[settings['generation_type']][properties.get('type')]
-    else:
-        attr.dest_type = properties.get('type')
+    attr.set_type(properties.get('type'))
 
     xrefs = detail.find('xrefs')
     if xrefs.get('value') is not None and 'NAME=isID' in xrefs.get('value'):
@@ -427,10 +421,6 @@ def attr_parse(parent: UMLClass, element, root):
         attr.parent.id_attribute = attr
     else:
         attr.is_id = False
-
-    # Todo: decide how to include string lengths in UML
-    if attr.type == 'string':
-        attr.length = 100
 
     stereotype = detail.find('stereotype')
     if stereotype is not None:

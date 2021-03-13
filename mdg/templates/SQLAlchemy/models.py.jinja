@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, Numeric
 from sqlalchemy.types import Enum
 
 from .database import Base
@@ -27,10 +27,10 @@ from {{ cls.generalization.package.name | case_package }}.models import {{ cls.g
 
 # Concrete Classes (TODO: Do inherited classes first)
 {% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}{% if not cls.generalization %}( Base ):{% else %}( {{ cls.generalization.name | case_class }} ):{% endif %}
-    __tablename__ = "{{ cls.name | snakecase }}" # TODO: upper filter
+    __tablename__ = "{{ cls.name | snakecase | uppercase }}" 
 {% for attr in cls.attributes %}
 {% if attr.classification %}    {{ attr.name | case_attribute }} = Column( Enum({{ attr.classification.name | case_class }}))
-{% else %}    {{ attr.name | case_attribute }} = Column( {{ attr.dest_type }}{% if attr.is_id %}, primary_key=True, index=True{% endif %} ){% endif %}{% endfor %}{% endif %}
+{% else %}    {{ attr.name | case_attribute }} = Column( {{ attr.dest_type }}{% if attr.length %}(length={{attr.length}}){% if attr.is_id %}, primary_key=True, index=True{% endif %}{% endif %}{% if attr.scale %}{{attr.precision, attr.scale}}{% endif %} ){% endif %}{% endfor %}{% endif %}
 
 
 {% endfor %}

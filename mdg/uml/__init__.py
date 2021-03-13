@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import List, Union, Optional, Any, Tuple
 from enum import Enum
 
+from mdg import generation_fields
 from mdg.config import settings
 
 
@@ -209,7 +210,37 @@ class UMLAttribute(object):
         self.visibility: bool = True
         self.is_id: bool = False
         self.length: int = 0
+        self.scale: Optional[int] = None
+        self.precision: Optional[int] = None
         self.validations: List[str] = []
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+    def get_type(self, translator: Optional[str] = None) -> str:
+        if not translator:
+            return f"{self.dest_type}"
+        if self.type in generation_fields[translator].keys():
+            return generation_fields[translator][f"{self.type}"]
+        return f"{self.type}"
+
+    def set_type(self, source_type: str):
+        # Allow setting of length or scale and precision either: <type> (<precision>,<scale>) or <type> (<length>)
+        split: List[str] = source_type.split('(')
+        if len(split) > 1:
+            source_type = split[0].strip()
+            split[1] = split[1].replace(')', '')
+            attrs = split[1].split(',')
+            if len(attrs) == 1:
+                self.length = int(attrs[0])
+            elif len(attrs) == 2:
+                self.precision = int(attrs[0])
+                self.scale = int(attrs[1])
+        elif source_type.lower() in ['string', 'str']:
+            self.length = 100
+
+        self.type = source_type
+        if source_type in generation_fields[settings['generation_type']].keys():
+            self.dest_type = generation_fields[settings['generation_type']][source_type]
+        else:
+            self.dest_type = source_type

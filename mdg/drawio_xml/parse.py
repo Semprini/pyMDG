@@ -2,7 +2,6 @@ from typing import List, Tuple, Optional
 from lxml import etree
 import logging
 
-from mdg import generation_fields
 from mdg.config import settings
 from mdg.uml import (
     UMLAssociation,
@@ -262,7 +261,6 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
     value = value.strip("+").strip("-").strip()
 
     name, attr_type = value.split(":")
-    attr_type = attr_type.strip()
 
     attr = UMLAttribute(parent, name, element.get('id'))
     if is_id:
@@ -272,13 +270,6 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
 
     attr.validations = dq
 
-    attr.type = attr_type
-    if attr.type == 'string':
-        attr.length = 100
-
-    if attr_type in generation_fields[settings['generation_type']].keys():
-        attr.dest_type = generation_fields[settings['generation_type']][attr_type]
-    else:
-        attr.dest_type = attr_type
+    attr.set_type(attr_type.strip())
 
     return attr

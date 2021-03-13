@@ -1,6 +1,6 @@
 import unittest
 
-from mdg.uml import UMLClass, UMLPackage, UMLAssociation, Cardinality, UMLAssociationType
+from mdg.uml import UMLClass, UMLPackage, UMLAssociation, Cardinality, UMLAssociationType, UMLAttribute
 
 
 class TestUMLModel(unittest.TestCase):
@@ -51,3 +51,20 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual(assoc.association_type, UMLAssociationType.ASSOCIATION)
         assoc = UMLAssociation(self.root_package, self.root_package.children[0].classes[0], self.root_package.children[0].classes[0], 1, UMLAssociationType.COMPOSITION)
         self.assertEqual(assoc.association_type, UMLAssociationType.COMPOSITION)
+
+    def test_attribute_type(self):
+        attr = UMLAttribute(None, "test", 123)
+        attr.set_type('String')
+        self.assertEqual(attr.dest_type, 'CharField')
+        attr.set_type('String (123)')
+        self.assertEqual(attr.dest_type, 'CharField')
+        self.assertEqual(attr.length, 123)
+        attr.set_type('decimal (12,2)')
+        self.assertEqual(attr.dest_type, 'DecimalField')
+        self.assertEqual(attr.precision, 12)
+        self.assertEqual(attr.scale, 2)
+
+    def test_attribute_get_type(self):
+        attr = UMLAttribute(None, "test", 123)
+        attr.set_type('String')
+        self.assertEqual(attr.get_type('default'), 'string')

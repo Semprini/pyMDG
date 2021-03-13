@@ -1,5 +1,5 @@
 from ..config import settings
-from .case import camelcase, snakecase, titlecase, sentencecase
+from .case import camelcase, snakecase, titlecase, sentencecase, uppercase
 
 
 def get_filters():
@@ -9,6 +9,7 @@ def get_filters():
         'snakecase': snakecase,
         'titlecase': titlecase,
         'sentencecase': sentencecase,
+        'uppercase': uppercase,
     }
 
     if settings['case_package'] == "CamelCase":
