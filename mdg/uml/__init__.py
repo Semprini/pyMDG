@@ -172,6 +172,7 @@ class UMLEnumeration(object):
 class UMLClass(object):
     def __init__(self, package: UMLPackage, name: str, id: Union[int, str]):
         self.name: str = name
+        self.alias: Optional[str] = None
         self.id: Union[int, str] = id
         self.attributes: List[UMLAttribute] = []
         self.associations_from: List[UMLAssociation] = []
@@ -198,6 +199,7 @@ class UMLAttribute(object):
     def __init__(self, parent: UMLClass, name: str, id: Union[int, str]):
         self.parent: UMLClass = parent
         self.name: str = name
+        self.alias: Optional[str] = None
         self.id: Union[int, str] = id
         self.is_unique: bool = False
         self.stereotype: Optional[str] = None

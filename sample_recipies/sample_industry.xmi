@@ -31,7 +31,7 @@
 						</ownedEnd>
 					</packagedElement>
 					<packagedElement xmi:type="uml:Class" xmi:id="EAID_B0571070_8C3C_4d08_B88B_D4D13A4966AA" name="Department" visibility="public">
-						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_421675C8_A367_4936_9DC0_D8F0FC6D3935" name="departmentName" visibility="private" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
+						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_421675C8_A367_4936_9DC0_D8F0FC6D3935" name="Department Name" visibility="private" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
 							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000007_A367_4936_9DC0_D8F0FC6D3935" value="1"/>
 							<upperValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000008_A367_4936_9DC0_D8F0FC6D3935" value="1"/>
 							<type xmi:idref="EAJava_string"/>
@@ -251,7 +251,7 @@
 					</packagedElement>
 					<packagedElement xmi:type="uml:Package" xmi:id="EAPK_0AA791AB_8E2C_405c_A13C_81699520B058" name="Test" visibility="public">
 						<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_E7214243_1C49_4abd_9EF6_3620E9F29565" name="department" visibility="public" classifier="EAID_B0571070_8C3C_4d08_B88B_D4D13A4966AA">
-							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000000_1C49_4abd_9EF6_3620E9F29565" definingClassifier="EAID_421675C8_A367_4936_9DC0_D8F0FC6D3935">
+							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000000_1C49_4abd_9EF6_3620E9F29565">
 								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000000_1C49_4abd_9EF6_3620E9F29565" body="=wibble"/>
 							</slot>
 							<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_dstB6C94E_AD31_4344_BCB1_02A60FCF1442" visibility="public" association="EAID_3AB6C94E_AD31_4344_BCB1_02A60FCF1442" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false" aggregation="none">
@@ -421,7 +421,7 @@
 				<xrefs value="$XREFPROP=$XID={BFD9B7C8-0CE5-4623-9270-4C5D059B9610}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=notifiable;GUID={ADC4E914-13DD-4f1b-A9DB-EDCB89896228};@ENDSTEREO;@STEREO;Name=auditable;GUID={C5DA655B-B862-4a27-96F8-FEB0B2EDD529};@ENDSTEREO;$DES;$CLT={B0571070-8C3C-4d08-B88B-D4D13A4966AA}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 				<extendedProperties tagged="0" package_name="Test_Domain"/>
 				<attributes>
-					<attribute xmi:idref="EAID_421675C8_A367_4936_9DC0_D8F0FC6D3935" name="departmentName" scope="Private">
+					<attribute xmi:idref="EAID_421675C8_A367_4936_9DC0_D8F0FC6D3935" name="Department Name" scope="Private">
 						<initial/>
 						<documentation/>
 						<model ea_localid="11" ea_guid="{421675C8-A367-4936-9DC0-D8F0FC6D3935}"/>
@@ -431,7 +431,7 @@
 						<stereotype/>
 						<bounds lower="1" upper="1"/>
 						<options/>
-						<style/>
+						<style value="dept name"/>
 						<styleex value="volatile=0;"/>
 						<tags/>
 						<xrefs/>
@@ -580,8 +580,8 @@
 			</element>
 			<element xmi:idref="EAID_C2E7E583_082B_4886_9233_5D9709412AD7" xmi:type="uml:Class" name="Location" scope="public">
 				<model package="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" tpos="0" ea_localid="42" ea_eleType="element"/>
-				<properties isSpecification="false" sType="Class" nType="0" scope="public" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
-				<project author="atkinp" version="1.0" phase="1.0" created="2019-12-10 15:08:59" modified="2021-02-08 00:38:06" complexity="1" status="Proposed"/>
+				<properties isSpecification="false" sType="Class" nType="0" alias="LCN" scope="public" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="atkinp" version="1.0" phase="1.0" created="2019-12-10 15:08:59" modified="2021-03-13 20:05:55" complexity="1" status="Proposed"/>
 				<code product_name="Python" gentype="Python"/>
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>

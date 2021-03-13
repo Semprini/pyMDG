@@ -382,6 +382,7 @@ def class_parse(package, element, root):
     # TODO: Put modelling tool in settings and use tool specific parser here
     detail = root.xpath("//element[@xmi:idref='%s']" % cls.id, namespaces=ns)[0]
     properties = detail.find('properties')
+    cls.alias = properties.get('alias')
     cls.documentation = properties.get('documentation')
     if cls.documentation is None:
         cls.documentation = ""
@@ -414,6 +415,9 @@ def attr_parse(parent: UMLClass, element, root):
     detail = root.xpath("//attribute[@xmi:idref='%s']" % attr.id, namespaces=ns)[0]
     properties = detail.find('properties')
     attr.set_type(properties.get('type'))
+
+    alias_node = detail.find('style')
+    attr.alias = alias_node.get('value')
 
     xrefs = detail.find('xrefs')
     if xrefs.get('value') is not None and 'NAME=isID' in xrefs.get('value'):

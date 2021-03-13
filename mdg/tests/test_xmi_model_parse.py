@@ -23,7 +23,7 @@ class TestXMIAttributeParse(unittest.TestCase):
                             <stereotype/>
                             <bounds lower="1" upper="1"/>
                             <options/>
-                            <style/>
+                            <style value="alias name"/>
                             <styleex value="volatile=0;"/>
                             <tags/>
                             <xrefs value="$XREFPROP=$XID={EA9F1375-D590-4c2b-8721-DC0B55BFE4A9}$XID;$NAM=CustomProperties$NAM;$TYP=attribute property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={47318F66-BBA6-4e9f-9045-83B2E12E25C8}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
@@ -40,6 +40,8 @@ class TestXMIAttributeParse(unittest.TestCase):
         self.assertIsNotNone(attr)
         self.assertEqual(attr.classification_id, None)
 
+        self.assertEqual("alias name", attr.alias)
+
 
 class TestXMIClassParse(unittest.TestCase):
     def setUp(self):
@@ -49,7 +51,7 @@ class TestXMIClassParse(unittest.TestCase):
                         </packagedElement>
                         <element xmi:idref="EAID_5A9CB912_F283_41ae_9E4D_D73598C576AE" xmi:type="uml:Class" name="ExternalReference" scope="public">
                             <model package="EAPK_EA154075_33FD_455d_B07A_FCBD08A7882D" tpos="0" ea_localid="664" ea_eleType="element"/>
-                            <properties isSpecification="false" sType="Class" nType="0" scope="public" isRoot="false" isLeaf="false" isAbstract="true" isActive="false"/>
+                            <properties isSpecification="false" alias="alias name" sType="Class" nType="0" scope="public" isRoot="false" isLeaf="false" isAbstract="true" isActive="false"/>
                             <project author="atkinp" version="1.0" phase="1.0" created="2019-07-24 08:42:52" modified="2020-06-23 19:23:20" complexity="1" status="Proposed"/>
                             <code gentype="Java"/>
                             <style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
@@ -64,10 +66,12 @@ class TestXMIClassParse(unittest.TestCase):
         element = self.tree.find("packagedElement")
         self.assertIsNotNone(element)
 
-        clazz = class_parse(self.package, element, self.tree)
-        self.assertIsNotNone(clazz)
-        self.assertEqual(clazz.is_abstract, True)
-        self.assertEqual(clazz.status, "Proposed")
+        cls = class_parse(self.package, element, self.tree)
+        self.assertIsNotNone(cls)
+        self.assertEqual(cls.is_abstract, True)
+        self.assertEqual(cls.status, "Proposed")
+
+        self.assertEqual("alias name", cls.alias)
 
 
 class TestXMIAssociationParse(unittest.TestCase):
