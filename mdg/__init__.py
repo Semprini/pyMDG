@@ -71,6 +71,7 @@ generation_fields = {
     "python": {
         "Integer": "int",
         "String": "str",
+        "string": "str",
         "Float": "float",
         "Numeric": "Decimal",
         "Boolean": "bool",

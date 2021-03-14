@@ -1,0 +1,32 @@
+from typing import Optional
+
+from pydantic import BaseModel
+
+
+# Base classes
+{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}Base(BaseModel):
+    title: str
+
+    description: Optional[str] = {% if cls.description %}{{ cls.description }}{% else %}None{% endif %}
+
+
+{% endif %}{% endfor %}
+
+# Create classes
+{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}Create({{ cls.name | case_class }}Base):
+    pass
+
+
+{% endif %}{% endfor %}
+
+# main classes
+{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}({{ cls.name | case_class }}Base):
+{% for attr in cls.attributes %}
+{% if attr.classification %}    {% if attr.alias %}{{ attr.alias | snakecase | uppercase }}{% else %}{{ attr.name | snakecase | uppercase }}{% endif %}: str
+{% else %}    {% if attr.alias %}{{ attr.alias | snakecase | uppercase }}{% else %}{{ attr.name | snakecase | uppercase }}{% endif %}: {{ attr.get_type('python') }}{% endif %}{% endfor %}
+
+    class Config:
+        orm_mode = True
+
+
+{% endif %}{% endfor %}
