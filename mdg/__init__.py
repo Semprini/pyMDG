@@ -75,5 +75,13 @@ generation_fields = {
         "Float": "float",
         "Numeric": "Decimal",
         "Boolean": "bool",
-    }
+    },
+    "ddl": {
+        "Integer": "NUMBER",
+        "int": "NUMBER",
+        "String": "VARCHAR2",
+        "string": "VARCHAR2",
+        "str": "VARCHAR2",
+        "decimal": "NUMBER",
+    },
 }
