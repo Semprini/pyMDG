@@ -35,7 +35,7 @@ INSTALLED_APPS = [
 	'simple_history',
 	'drf_yasg',
     'rest_framework',{% for app in package.children %}
-    '{{ app.name }}',{% endfor %}
+    '{{ app.name | case_package }}',{% endfor %}
 ]
 
 MIDDLEWARE = [
