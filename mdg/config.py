@@ -16,6 +16,7 @@ defaults: Dict = {
     "case_class": "CamelCase",
     "case_attribute": "snake_case",
     "parser": None,
+    "use_alias": True,
 }
 
 

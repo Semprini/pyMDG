@@ -194,6 +194,12 @@ class UMLClass(object):
     def __str__(self) -> str:
         return f"{self.name}"
 
+    def get_name(self) -> str:
+        if self.alias and settings['use_alias']:
+            return f"{self.alias}"
+        else:
+            return f"{self.name}"
+
 
 class UMLAttribute(object):
     def __init__(self, parent: UMLClass, name: str, id: Union[int, str]):
@@ -246,3 +252,9 @@ class UMLAttribute(object):
             self.dest_type = generation_fields[settings['generation_type']][source_type]
         else:
             self.dest_type = source_type
+
+    def get_name(self) -> str:
+        if self.alias and settings['use_alias']:
+            return f"{self.alias}"
+        else:
+            return f"{self.name}"
