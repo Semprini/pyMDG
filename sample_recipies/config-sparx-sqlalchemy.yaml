@@ -10,11 +10,11 @@ model_templates:
 # Python: SQL Alchemy
 - dest: "sqlalchemy{{package.path | case_package}}/models.py"
   level: package
-  source: sqlalchemy/models.py.jinja
+  source: SQLAlchemy/models.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
 - dest: "sqlalchemy{{package.path | case_package}}/schemas.py"
   level: package
-  source: sqlalchemy/schemas.py.jinja
+  source: SQLAlchemy/schemas.py.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
 test_templates:
 - dest: ./build/json{{ins.package.path}}/{{ins.stereotype}}.json

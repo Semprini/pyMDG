@@ -29,6 +29,10 @@ setuptools.setup(
     url='https://github.com/semprini/pyMDG',
     packages=["mdg", ] + pymdg_packages,
     include_package_data=True,
+    package_data={
+        # If any package contains *.txt or *.rst files, include them:
+        '': ['*.txt', '*.xml', '*.special', '*.jinja' ],
+    },
     entry_points={
         'console_scripts': [
             'mdg-tool=mdg.tools.mdg_tool:main',
