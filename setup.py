@@ -20,7 +20,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='pymdg',
-    version='0.5a3',
+    version='0.5a4',
     author='Semprini',
     author_email='dont@contact.me',
     description='Model driven genration - from UML to Code & Docs',
@@ -30,8 +30,7 @@ setuptools.setup(
     packages=["mdg", ] + pymdg_packages,
     include_package_data=True,
     package_data={
-        # If any package contains *.txt or *.rst files, include them:
-        '': ['*.txt', '*.xml', '*.special', '*.jinja' ],
+        '': ['*.txt', '*.xml', '*.special', '*.jinja'],
     },
     entry_points={
         'console_scripts': [
