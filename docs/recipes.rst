@@ -1,5 +1,5 @@
-recipes
-=========
+Recipes
+========
 
 The gitgub project has a sample_recipes which has some examples. Each recipe config is in yaml and has the following structure::
 
@@ -42,8 +42,8 @@ For example here is a django model template entry::
 
 The output file will be based on the package path and the filter will exclude any packages without classes.
 
-Template Levels
-^^^^^^^^^^^^^^^
+Model Template Levels
+^^^^^^^^^^^^^^^^^^^^^
 
 Package Mode
 ------------
