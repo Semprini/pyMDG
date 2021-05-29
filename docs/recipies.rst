@@ -50,13 +50,6 @@ Package Mode
 In package mode, each package is passed to the template and the template will 
 probably want to iterate over the classes in the package. This is used when 
 your output file has multiple data objects defined - like a django models.py
-for example::
-
-    {% for class in package %}
-        {{ class.name }}
-    {% endfor %}
-
-With the above hierarchy, the template will be called for 'my model package', 'sub package 1' and 'sub package 2'
 
 Class Mode
 ----------
