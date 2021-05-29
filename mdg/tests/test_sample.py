@@ -8,8 +8,8 @@ from mdg.render import output_model
 class TestSample_DrawIO_Django(unittest.TestCase):
     def setUp(self):
         # Env must be set before tests
-        # self.recipie_path = './sample_recipie' + "/config-test.yaml"
-        # os.environ.setdefault("PYMDG_SETTINGS_MODULE", self.recipie_path)
+        # self.recipe_path = './sample_recipe' + "/config-test.yaml"
+        # os.environ.setdefault("PYMDG_SETTINGS_MODULE", self.recipe_path)
 
         self.model_package, self.test_cases = parse()
 

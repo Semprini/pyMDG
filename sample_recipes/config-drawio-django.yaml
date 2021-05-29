@@ -1,9 +1,9 @@
 root_package: SampleIndustry
 model_package: Model
 test_package: Test
-source: ./sample_recipies/sample_industry.xmi
-parser: sparx
-dest_root: ./build/sample_sparx_django
+source: ./sample_recipes/sample.xml
+parser: drawio
+dest_root: ./build/sample_drawio_django
 templates_folder: ./mdg/templates
 generation_type: django
 model_templates:
@@ -91,5 +91,5 @@ model_templates:
   level: copy
   source: Django/templates/rest_framework/api.html
 test_templates:
-- dest: ./build/sample_sparx_django/json{{ins.package.path}}/{{ins.stereotype}}.json
+- dest: ./build/sample_drawio_django/json{{ins.package.path}}/{{ins.stereotype}}.json
   format: json

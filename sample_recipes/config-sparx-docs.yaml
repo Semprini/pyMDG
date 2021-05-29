@@ -1,7 +1,7 @@
 root_package: SampleIndustry
 model_package: Model
 test_package: Test
-source: ./sample_recipies/sample_industry.xmi
+source: ./sample_recipes/sample_industry.xmi
 parser: sparx
 dest_root: ./build/sample_sparx_docs
 templates_folder: ./mdg/templates

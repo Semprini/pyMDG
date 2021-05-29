@@ -1,7 +1,7 @@
 root_package: SampleIndustry
 model_package: Model
 test_package: Test
-source: ./sample_recipies/sample.xml
+source: ./sample_recipes/sample.xml
 parser: drawio
 dest_root: ./build/sample_drawio_java
 templates_folder: ./mdg/templates

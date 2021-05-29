@@ -3,7 +3,7 @@ Diagrams.net Django Tutorial
 
 To use pyMDG we need to build:
 * A UML model
-* A generation recipie
+* A generation recipe
 
 Modelling
 ^^^^^^^^^
@@ -55,11 +55,11 @@ Export the diagram by File -> Export As -> XML and unselect Compressed
 Generate
 ^^^^^^^^
 
-The recipie tells pyMDG about your model and what files to output. 
+The recipe tells pyMDG about your model and what files to output. 
 This tutorial uses the sample templates and config which you can find in the 
-sample_recipie folder from the project on gitgub: https://github.com/Semprini/pyMDG
+sample_recipe folder from the project on gitgub: https://github.com/Semprini/pyMDG
 
-Recipie - Django
+recipe - Django
 ----------------
 
 A complete django app with django rest api can be created from the model.
@@ -69,14 +69,14 @@ cd into a new project folder (I called mine django-tut)::
    django-tut> virtualenv venv
    django-tut> pip install pymdg
 
-Copy the following from the github project pyMDG/sample_recipie folder:
+Copy the following from the github project pyMDG/sample_recipe folder:
 
 * config-drawio-django.yaml
 * templates/Django/*
 
 The dir structure now looks like:
 
-.. image:: https://raw.githubusercontent.com/Semprini/pyMDG/master/sample_recipie/images/django-tut-structure.JPG
+.. image:: https://raw.githubusercontent.com/Semprini/pyMDG/master/sample_recipe/images/django-tut-structure.JPG
 
 Edit config-drawio-django.yaml and update the following:
 

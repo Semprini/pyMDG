@@ -2,8 +2,8 @@ import unittest
 import os
 import shutil
 
-recipie_path = './sample_recipies' + "/config-test.yaml"
-os.environ.setdefault("PYMDG_SETTINGS_MODULE", recipie_path)
+recipe_path = './sample_recipes' + "/config-test.yaml"
+os.environ.setdefault("PYMDG_SETTINGS_MODULE", recipe_path)
 
 if __name__ == '__main__':
 

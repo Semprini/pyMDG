@@ -12,13 +12,13 @@ Quickstart and docs can be found here: [readthedocs](https://pymdg.readthedocs.i
 Testing:
  > python test.py
 
-To generate code call the generate script and pass in the recipie folder. A sample recipie folder is provided in the github repo:
- > python mdg-tool.py generate ./sample_recipie/config-drawio-django.yaml
+To generate code call the generate script and pass in the recipe folder. A sample recipe folder is provided in the github repo:
+ > python mdg-tool.py generate ./sample_recipe/config-drawio-django.yaml
 
 Or once installed into site-packages execute:
  > mdg-tool generate <my/config.yaml>
 
-See the sample_recipie configs for examples
+See the sample_recipe configs for examples
 
 ## Sparx EA Export Process
 The UML parser expects a specific package hierarchy, please see the sample EA file.
@@ -35,20 +35,20 @@ The UML parser expects a specific package layout which mimics the Sparx hierarch
 - Uncheck 'Compressed'
 
 ## Wiki documentation upload
-If your generation recipie has created a file for your wiki (Confluence) then an uploader utilitity can be used. This assumes that you have done the XMI export from Sparx EA with export diagrams and generate diagram images. 
+If your generation recipe has created a file for your wiki (Confluence) then an uploader utilitity can be used. This assumes that you have done the XMI export from Sparx EA with export diagrams and generate diagram images. 
 To generate a confluence token please see: https://confluence.atlassian.com/cloud/api-tokens-938839638.html
 > python confluence.py {your email} {your confluence token} {confluence page id} {path to images} {doc filename}
 
 ## Nomenclature:
 This diagram shows all the features and how to model in UML
-![Nomenclature](https://github.com/Semprini/pyMDG/raw/master/sample_recipies/images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png)
+![Nomenclature](https://github.com/Semprini/pyMDG/raw/master/sample_recipes/images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png)
 
 ## Sample model
-![Sample model](https://github.com/Semprini/pyMDG/raw/master/sample_recipies/images/EAID_96AC850E_2FD0_4e6c_B00E_C030EDA89F42.png)
+![Sample model](https://github.com/Semprini/pyMDG/raw/master/sample_recipes/images/EAID_96AC850E_2FD0_4e6c_B00E_C030EDA89F42.png)
 
 ## Metamodel
 This diagram shows the internal classes which are passed to the templates during generation.
-![Metamodel](https://github.com/Semprini/pyMDG/raw/master/sample_recipies/images/EAID_B080F856_9EFB_46f2_8D69_1C79956D714A.png)
+![Metamodel](https://github.com/Semprini/pyMDG/raw/master/sample_recipes/images/EAID_B080F856_9EFB_46f2_8D69_1C79956D714A.png)
 
 ## Build the docs
 Install sphinx
