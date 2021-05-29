@@ -4,7 +4,7 @@
 	<uml:Model xmi:type="uml:Model" name="EA_Model" visibility="public">
 		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_7AD4553C_4DDB_4c0d_A503_EFCBD33BF08F" name="SampleIndustry" visibility="public">
 			<packagedElement xmi:type="uml:Package" xmi:id="EAPK_AF8E1C4F_DB86_4417_AAEC_98D983BC2AFC" name="Model" visibility="public">
-				<packagedElement xmi:type="uml:Package" xmi:id="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" name="Test_Domain" visibility="public">
+				<packagedElement xmi:type="uml:Package" xmi:id="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" name="TestDomain" visibility="public">
 					<packagedElement xmi:type="uml:Class" xmi:id="EAID_0EB4DC23_21AD_45fc_A078_678183967F4A" name="Country" visibility="public">
 						<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_75B653B9_04E2_44b7_A225_44004C54CC71" name="countryName" visibility="private" isStatic="false" isReadOnly="false" isDerived="false" isOrdered="false" isUnique="true" isDerivedUnion="false">
 							<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000001_04E2_44b7_A225_44004C54CC71" value="1"/>
@@ -366,10 +366,10 @@
 				<times created="2019-05-27 14:00:10" modified="2019-05-22 09:44:42" lastloaddate="2019-05-27 14:00:10" lastsavedate="2019-05-27 14:00:10"/>
 				<flags iscontrolled="FALSE" isprotected="FALSE" batchsave="0" batchload="0" usedtd="FALSE" logxml="FALSE"/>
 			</element>
-			<element xmi:idref="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" xmi:type="uml:Package" name="Test_Domain" scope="public">
+			<element xmi:idref="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" xmi:type="uml:Package" name="TestDomain" scope="public">
 				<model package2="EAID_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" package="EAPK_AF8E1C4F_DB86_4417_AAEC_98D983BC2AFC" tpos="0" ea_localid="4" ea_eleType="package"/>
 				<properties isSpecification="false" sType="Package" nType="0" scope="public"/>
-				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:10" modified="2019-05-27 14:00:10" complexity="1" status="Proposed"/>
+				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:10" modified="2021-05-29 23:15:43" complexity="1" status="Proposed"/>
 				<code gentype="Java"/>
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
@@ -377,7 +377,7 @@
 				<extendedProperties tagged="0" package_name="Model"/>
 				<packageproperties version="1.0"/>
 				<paths/>
-				<times created="2019-05-27 14:00:10" modified="2019-05-25 16:40:44" lastloaddate="2019-05-27 14:00:10" lastsavedate="2019-05-27 14:00:10"/>
+				<times created="2019-05-27 14:00:10" modified="2021-05-29 23:15:43" lastloaddate="2019-05-27 14:00:10" lastsavedate="2019-05-27 14:00:10"/>
 				<flags iscontrolled="FALSE" isprotected="FALSE" batchsave="0" batchload="0" usedtd="FALSE" logxml="FALSE"/>
 			</element>
 			<element xmi:idref="EAID_0EB4DC23_21AD_45fc_A078_678183967F4A" xmi:type="uml:Class" name="Country" scope="public">
@@ -388,7 +388,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test_Domain"/>
+				<extendedProperties tagged="0" package_name="TestDomain"/>
 				<attributes>
 					<attribute xmi:idref="EAID_75B653B9_04E2_44b7_A225_44004C54CC71" name="countryName" scope="Private">
 						<initial/>
@@ -419,7 +419,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs value="$XREFPROP=$XID={BFD9B7C8-0CE5-4623-9270-4C5D059B9610}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=notifiable;GUID={ADC4E914-13DD-4f1b-A9DB-EDCB89896228};@ENDSTEREO;@STEREO;Name=auditable;GUID={C5DA655B-B862-4a27-96F8-FEB0B2EDD529};@ENDSTEREO;$DES;$CLT={B0571070-8C3C-4d08-B88B-D4D13A4966AA}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
-				<extendedProperties tagged="0" package_name="Test_Domain"/>
+				<extendedProperties tagged="0" package_name="TestDomain"/>
 				<attributes>
 					<attribute xmi:idref="EAID_421675C8_A367_4936_9DC0_D8F0FC6D3935" name="Department Name" scope="Private">
 						<initial/>
@@ -465,7 +465,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test_Domain"/>
+				<extendedProperties tagged="0" package_name="TestDomain"/>
 				<attributes>
 					<attribute xmi:idref="EAID_B0713B5F_5D8C_4b7e_A27D_AB32DBDBDBBD" name="firstName" scope="Private">
 						<initial/>
@@ -526,7 +526,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test_Domain"/>
+				<extendedProperties tagged="0" package_name="TestDomain"/>
 				<attributes>
 					<attribute xmi:idref="EAID_9FAB63E2_9CBD_4d44_9C92_3BB93E614815" name="id" scope="Private">
 						<initial/>
@@ -580,13 +580,13 @@
 			</element>
 			<element xmi:idref="EAID_C2E7E583_082B_4886_9233_5D9709412AD7" xmi:type="uml:Class" name="Location" scope="public">
 				<model package="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" tpos="0" ea_localid="42" ea_eleType="element"/>
-				<properties isSpecification="false" sType="Class" nType="0" alias="LCN" scope="public" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
-				<project author="atkinp" version="1.0" phase="1.0" created="2019-12-10 15:08:59" modified="2021-03-13 20:05:55" complexity="1" status="Proposed"/>
+				<properties isSpecification="false" sType="Class" nType="0" scope="public" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="atkinp" version="1.0" phase="1.0" created="2019-12-10 15:08:59" modified="2021-05-30 00:24:13" complexity="1" status="Proposed"/>
 				<code product_name="Python" gentype="Python"/>
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test_Domain"/>
+				<extendedProperties tagged="0" package_name="TestDomain"/>
 				<attributes>
 					<attribute xmi:idref="EAID_9D49FBC8_A215_484e_A03C_FDB7F4850A2B" name="name" scope="Private">
 						<initial/>
@@ -618,7 +618,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test_Domain"/>
+				<extendedProperties tagged="0" package_name="TestDomain"/>
 				<attributes>
 					<attribute xmi:idref="EAID_4E8D54DA_F938_47e0_8C65_7B213F5ADE89" name="regionName" scope="Private">
 						<initial/>
@@ -650,7 +650,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test_Domain"/>
+				<extendedProperties tagged="0" package_name="TestDomain"/>
 				<attributes>
 					<attribute xmi:idref="EAID_9A5D3269_1CFC_42b4_B437_2500258EB8A8" name="test" scope="Private">
 						<initial/>
@@ -680,7 +680,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test_Domain"/>
+				<extendedProperties tagged="0" package_name="TestDomain"/>
 				<attributes>
 					<attribute xmi:idref="EAID_C14A8892_C7A5_4743_B087_89A9EA1FA798" name="French" scope="Public">
 						<initial/>
@@ -4038,11 +4038,11 @@
 		<diagrams>
 			<diagram xmi:id="EAID_8B1CACEB_2CAB_458e_BED9_DA3ADD6F3F70">
 				<model package="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F" localID="1" owner="EAPK_3C90BBD3_D039_4f95_B5B9_7D40BC08E92F"/>
-				<properties name="Test_Domain" type="Logical"/>
-				<project author="atkinp" version="1.0" created="2019-05-27 14:00:11" modified="2021-03-09 17:11:52"/>
+				<properties name="TestDomain" type="Logical"/>
+				<project author="atkinp" version="1.0" created="2019-05-27 14:00:11" modified="2021-05-30 00:24:16"/>
 				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=795;DocSize.cy=1138;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;ShowShape=1;AllDockable=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLineClr=0;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;Theme=:119;SaveTag=AB6B46CB;"/>
-				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;tcol=15524833;ofCol=-1;ufCol=-1;hl=0;ufh=0;hh=0;cls=0;bw=0;hli=0;bro=0;SwimlaneFont=lfh:-10,lfw:0,lfi:0,lfu:0,lfs:0,lfface:Calibri,lfe:0,lfo:0,lfchar:1,lfop:0,lfcp:0,lfq:0,lfpf=0,lfWidth=0;"/>
+				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLineClr=0;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;Theme=:119;SaveTag=2ACE1A6D;"/>
+				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;tcol=12370374;ofCol=-1;ufCol=-1;hl=1;ufh=0;hh=0;cls=0;bw=0;hli=0;bro=0;SwimlaneFont=lfh:-10,lfw:0,lfi:0,lfu:0,lfs:0,lfface:Calibri,lfe:0,lfo:0,lfchar:1,lfop:0,lfcp:0,lfq:0,lfpf=0,lfWidth=0;"/>
 				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;clrLine=0;"/>
 				<extendedProperties/>
 				<elements>

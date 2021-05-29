@@ -16,9 +16,8 @@ class {{ cls.name | case_class }}Inline(admin.TabularInline):
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}
 class {{ cls.name | case_class }}Admin({% if 'auditable' in cls.stereotypes %}SimpleHistoryAdmin{% else %}admin.ModelAdmin{% endif %}):
-	inlines = [{% for rel in cls.associations_to %}{% if rel.association_type.name == "ASSOCIATION" %}{% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.source.name | case_class }}Inline,{% endif %}{% endif %}{% endfor %}
-	{% for rel in cls.associations_from %}{% if rel.cardinality.name == "MANY_TO_ONE" %}{{ rel.destination.name }}Inline,{% endif %}{% endfor %}
-	{% for rel in cls.associations_from %}{% if rel.association_type.name == "COMPOSITION" %}{% if rel.cardinality.name == "ONE_TO_MANY" %}{{ rel.destination.name | case_class }}Inline,{% endif %}{% endif %}{% endfor %}]
+	inlines = [{% for rel in cls.associations_to %}{% if rel.association_type.name == "ASSOCIATION" %}{% if rel.cardinality.name == "MANY_TO_ONE" %}{{ rel.source.name | case_class }}Inline,{% endif %}{% endif %}{% endfor %}
+	]
 
 {% endif %}{% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract %}

@@ -8,11 +8,14 @@ from .models import {{ cls.name | case_class }}{% endfor %}
 class {{ cls.name | case_class }}Serializer(serializers.HyperlinkedModelSerializer):
     type = TypeField()
 
+    {% for assoc in cls.associations_to %}{% if assoc.association_type.name == "COMPOSITION" %}
+    {{ assoc.source_name | snakecase }} = {{ assoc.source.name | case_class }}Serializer(required=False{% if assoc.cardinality.name == "MANY_TO_ONE" %}, many=True{% endif %}){% endif %}{% endfor %}
+
     class Meta:
         model = {{ cls.name | case_class }}
         fields = ('type', 'url', 
                     {% for attr in cls.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% if cls.generalization != None %}{% for attr in cls.generalization.attributes %}'{{ attr.name | snakecase }}',{% endfor %}{% endif %}
-					{% for assoc in cls.associations_from %}'{{ assoc.destination_name | snakecase }}',{% endfor %}
+                    {% for assoc in cls.associations_from %}'{{ assoc.destination_name | snakecase }}',{% endfor %}
                     {% for assoc in cls.associations_to %}'{{ assoc.source_name | snakecase }}',{% endfor %}
                 )
 {% endfor %}

@@ -51,6 +51,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
         model_package = package_parse(model_element, tree, None)
         package_parse_inheritance(model_package)
         package_parse_associations(model_package, model_element, model_element)
+        package_sort_classes(model_package)
     else:
         raise ValueError('Error - Non uml:Package element provided to packagedElement parser')
 
@@ -253,6 +254,32 @@ def package_parse_inheritance(package):
         package_parse_inheritance(child)
 
 
+def package_sort_classes(package):
+    # print(f"SORT {package.name}")
+    unordered_list = package.classes
+    unordered_composed_list = []
+    for cls in unordered_list:
+        if cls.composed_of != []:
+            unordered_composed_list.append(cls)
+            package.classes.remove(cls)
+            # print(f"  REMOVE {cls.name}")
+
+    # This is crap, do some propper sorting
+    unordered_list = unordered_composed_list
+    composed_list = []
+    for cls1 in unordered_list:
+        for cls2 in cls1.composed_of:
+            if cls2 in unordered_composed_list:
+                unordered_composed_list.remove(cls2)
+                composed_list.append(cls2)
+
+    composed_list += unordered_composed_list
+    package.classes += composed_list
+
+    for child in package.children:
+        package_sort_classes(child)
+
+
 def instance_parse(package, source_element, root):
     ins = UMLInstance(package, source_element.get('name'), source_element.get('{%s}id' % ns['xmi']))
 
@@ -293,6 +320,7 @@ def association_parse(package, source_element, dest_element, source, dest):
     assoc_type = source_element.get("aggregation")
     if assoc_type == "composite":
         association.association_type = UMLAssociationType.COMPOSITION
+        dest.composed_of.append(source)
     elif assoc_type == "shared":
         association.association_type = UMLAssociationType.AGGREGATION
 

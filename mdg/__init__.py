@@ -40,6 +40,9 @@ generation_fields = {
         "float": "FloatField",
         "date": "DateField",
         "dateTime": "DateTimeField",
+        "datetime": "DateTimeField",
+        "date_time": "DateTimeField",
+        "json": "JSONField",
     },
     "marshmallow": {
         "boolean": "Boolean",

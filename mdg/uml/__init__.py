@@ -186,6 +186,7 @@ class UMLClass(object):
         self.documentation: str = ""
         self.is_abstract: bool = False
         self.status: Optional[UMLStatuses] = None
+        self.composed_of: List[UMLClass] = []
 
         for inherited_stereotype, inherited_package in package.inherited_stereotypes:
             if not hasattr(self, inherited_stereotype):
