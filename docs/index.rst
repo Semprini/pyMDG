@@ -1,9 +1,9 @@
 pyMDG's documentation
 =====================
 
-pyMDG is a library to allow you to create UML and other models and generate code and documentation. pyMDG currently supports 2 modelling tools: diagrams.net (drawio) and Sparx EA.
+Take UML models created in Sparx EA or DrawIO, export and use pyMDG to generate code, schema and documentation. Provided templates generate Django, OpenAPI, Avro, POJOs and more.
 
-Currently used for data systems so supports class diagrams.
+Currently used for generating data platforms via UML packages, classes & enumerations.
 
 Quickstart
 ==========
