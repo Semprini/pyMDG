@@ -3,7 +3,7 @@ Metamodel
 
 When pyMDG parses the source model file it parses into specific python classes.
 
-.. image:: https://raw.githubusercontent.com/Semprini/pyMDG/master/sample_recipie/images/EAID_B080F856_9EFB_46f2_8D69_1C79956D714A.png
+.. image:: https://github.com/Semprini/pyMDG/raw/master/sample_recipies/images/EAID_B080F856_9EFB_46f2_8D69_1C79956D714A.png
 
 This will form a hierarchy which looks like::
 
