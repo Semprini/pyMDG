@@ -1,7 +1,6 @@
 from typing import get_type_hints, Any
 import json
 from enum import Enum
-# from json import JSONEncoder
 from . import UMLPackage
 
 DEFAULT_TYPES = [str, list, dict, bool, int, type(None)]
