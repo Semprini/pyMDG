@@ -66,7 +66,7 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
     id = element.get('id')
 
     package = UMLPackage(id, name, parent_package)
-    package.root_element = root_element
+    package._root_element = root_element
 
     model = root_element.find('./diagram/mxGraphModel/root')
     child_elements = model.findall('object/mxCell[@parent="{}"]'.format(id))
@@ -87,7 +87,7 @@ def package_parse(element, root_element, parent_package: Optional[UMLPackage]) -
             package.enumerations.append(enum)
 
         elif element_type == "Package":
-            pkg = package_parse(object_element, package.root_element, package)
+            pkg = package_parse(object_element, package._root_element, package)
             package.children.append(pkg)
 
     # Classes are needed to parse generalisations and associations

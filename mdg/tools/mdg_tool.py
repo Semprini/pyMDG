@@ -28,6 +28,15 @@ def validate(args):
     validate()
 
 
+def dumps(args):
+    os.environ.setdefault("PYMDG_SETTINGS_MODULE", args.recipe_path)
+    from ..uml.io import dumps
+    from ..parse import parse
+
+    model_package, test_cases = parse()
+    dumps(model_package)
+
+
 def startproject(args):
     print('Not Implemented Yet')
     print('Val:((%s))' % args)
@@ -46,6 +55,10 @@ def main():
     parser_b = subparsers.add_parser('validate', help='Validate files for a model using a recipe')
     parser_b.add_argument('recipe_path', type=str, help='The path to the recipe config file')
     parser_b.set_defaults(func=validate)
+
+    parser_a = subparsers.add_parser('dumps', help='Outputs parsed model as JSON')
+    parser_a.add_argument('recipe_path', type=str, help='The path to the recipe config file')
+    parser_a.set_defaults(func=dumps)
 
     parser_c = subparsers.add_parser('startproject', help='Create project with recipe and templates')
     parser_c.add_argument('project_type', choices=['django', 'schema', 'java'], help='The type of project')

@@ -106,8 +106,8 @@ def package_parse(element, root_element, parent_package):
     id = element.get('{%s}id' % ns['xmi'])
 
     package = UMLPackage(id, name, parent_package)
-    package.element = element
-    package.root_element = root_element
+    package._element = element
+    package._root_element = root_element
 
     # Detail is Sparx specific
     # TODO: Put modelling tool in settings and use tool specific parser here

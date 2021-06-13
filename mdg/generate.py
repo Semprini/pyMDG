@@ -30,6 +30,7 @@ def generate():
         # Generate files from the native python UML
         output_model(model_package)
         output_test_cases(test_cases)
+
     except ParseError as e:
         logger.error(e)
     logger.debug("generate end")
