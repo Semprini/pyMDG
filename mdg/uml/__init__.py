@@ -2,9 +2,11 @@
 from __future__ import annotations
 from typing import List, Union, Optional, Any, Tuple
 from enum import Enum
+import json
 
 from mdg import generation_fields
 from mdg.config import settings
+from mdg.tools.io import obj_to_dict
 
 
 class UMLStatuses(Enum):
@@ -365,3 +367,8 @@ class UMLAttribute:
             return f"{self.alias}"
         else:
             return f"{self.name}"
+
+
+def dumps(package: UMLPackage) -> str:
+    output = obj_to_dict(package)
+    return json.dumps(output)
