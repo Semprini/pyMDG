@@ -142,16 +142,16 @@ def package_parse_children(element, package):
         e_type = child.get('{%s}type' % ns['xmi'])
 
         if e_type == 'uml:Package':
-            pkg = package_parse(child, package.root_element, package)
+            pkg = package_parse(child, package._root_element, package)
             package.children.append(pkg)
 
         elif e_type == 'uml:Class':
-            cls = class_parse(package, child, package.root_element)
+            cls = class_parse(package, child, package._root_element)
             if cls.name is not None:
                 package.classes.append(cls)
 
         elif e_type == 'uml:InstanceSpecification':
-            ins = instance_parse(package, child, package.root_element)
+            ins = instance_parse(package, child, package._root_element)
             if ins.name is not None:
                 package.instances.append(ins)
 
@@ -441,6 +441,10 @@ def attr_parse(parent: UMLClass, element, root):
     detail = root.xpath("//attribute[@xmi:idref='%s']" % attr.id, namespaces=ns)[0]
     properties = detail.find('properties')
     attr.set_type(properties.get('type'))
+    doc = detail.find('documentation')
+    doc = doc.get('value')
+    if doc is not None:
+        attr.documentation = doc
 
     alias_node = detail.find('style')
     attr.alias = alias_node.get('value')

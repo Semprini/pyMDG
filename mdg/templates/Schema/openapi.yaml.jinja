@@ -2,7 +2,7 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: {{ package.documentation }}
+  title: '{{ package.documentation }}'
 servers:
 - url: http://127.0.0.1:8000/{env}/api
   variables:
@@ -72,7 +72,7 @@ components:
   schemas:{% for cls in package.classes %}
     {{ cls.get_name() | camelcase }}_list:
       type: object
-      description: 'List of {{ cls.get_name }}'
+      description: 'List of {{ cls.get_name() }}'
       properties:
         result:
           type: array
@@ -83,7 +83,7 @@ components:
 
     {{ cls.get_name() | camelcase }}_basic:
       type: object
-      description: 'Basic view of {{ cls.get_name }}'
+      description: 'Basic view of {{ cls.get_name() }}'
       properties:{% if cls.id_attribute %}
         object_url:
           type: string
@@ -95,7 +95,7 @@ components:
           description: "The name of this object type"
           readOnly: true{% endif %}{% for attr in cls.attributes %}
         {{ attr.name | snakecase }}:
-          description: {{ attr.documentation.replace("\n","|") }}
+          description: '{{ attr.documentation.replace("\n","|") }}'
           type: {% if attr.dest_type in ["date","date-time","datetime","date time"] %}string
           format: date-time{% elif attr.classification %}string
           enum:{% for enum in attr.classification.values %}
@@ -105,6 +105,7 @@ components:
 
     {{ cls.get_name() | camelcase }}:
       {% if not cls.supertype %}type: object
+      description: 'Basic view of {{ cls.get_name() }}'
       properties:
         object_url:
           type: string

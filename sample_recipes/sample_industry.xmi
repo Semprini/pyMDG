@@ -392,7 +392,7 @@
 				<attributes>
 					<attribute xmi:idref="EAID_75B653B9_04E2_44b7_A225_44004C54CC71" name="countryName" scope="Private">
 						<initial/>
-						<documentation/>
+						<documentation value="The name of the country unsurprisingly."/>
 						<model ea_localid="7" ea_guid="{75B653B9-04E2-44b7-A225-44004C54CC71}"/>
 						<properties type="string" derived="0" precision="0" collection="false" length="0" static="0" duplicates="0" changeability="changeable"/>
 						<coords ordered="0" scale="0"/>
