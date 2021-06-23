@@ -432,9 +432,12 @@ def attr_parse(parent: UMLClass, element, root):
 
     attr.visibility = element.get('visibility')
     type_elem = element.find('type')
-    type_id = type_elem.get('{%s}idref' % ns['xmi'])
-    if type_id[:4] == 'EAID':
-        attr.classification_id = type_id
+    if type_elem is not None:
+        type_id = type_elem.get('{%s}idref' % ns['xmi'])
+        if type_id[:4] == 'EAID':
+            attr.classification_id = type_id
+    else:
+        logging.error(f"Attribute {attr.name} of class {parent} does not have a type")
 
     # Detail is sparx sprecific
     # TODO: Put modelling tool in settings and use tool specific parser here
