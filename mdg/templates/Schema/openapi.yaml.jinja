@@ -1,8 +1,10 @@
 ---
 openapi: "3.0.0"
+
 info:
   version: 1.0.0
   title: '{{ package.documentation }}'
+
 servers:
 - url: http://127.0.0.1:8000/{env}/api
   variables:
@@ -12,6 +14,7 @@ servers:
         - test
         - prod
       default: dev
+
 paths:{% for cls in package.classes %}{% if cls.is_abstract == False and cls.id_attribute %}
   "{{ package.path | snakecase }}{{ cls.get_name() | snakecase }}/":
     get:
@@ -101,7 +104,6 @@ components:
           enum:{% for enum in attr.classification.values %}
           - {{ enum }}{% endfor %}{% elif attr.dest_type == "float" %}number
           format: float{% else %}{{ attr.dest_type }}{% endif %}{% endfor %}
-
 
     {{ cls.get_name() | camelcase }}:
       {% if not cls.supertype %}type: object

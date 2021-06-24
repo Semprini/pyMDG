@@ -9,7 +9,6 @@ import logging
 
 logger = logging.getLogger('mdg')
 logger.propagate = False
-logger.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s | %(name)s | %(levelname)s | %(message)s')
 ch.setFormatter(formatter)
@@ -46,6 +45,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description='Model Driven Generation Engine')
+    parser.add_argument('--verbose', '-v', action='count', default=0)
     subparsers = parser.add_subparsers(title='subcommands', description='valid subcommands', help='subcommand help')
 
     parser_a = subparsers.add_parser('generate', help='Generate files from a model using a recipe')
@@ -66,6 +66,10 @@ def main():
     parser_c.set_defaults(func=startproject)
 
     args = parser.parse_args()
+    if args.verbose == 0:
+        logger.setLevel(logging.INFO)
+    else:
+        logger.setLevel(logging.DEBUG)
     try:
         func = args.func
     except AttributeError:  # (https://bugs.python.org/issue16308)
