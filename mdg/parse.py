@@ -29,6 +29,7 @@ def parse():
     parser = None
     try:
         parser = PARSERS[settings['parser']]
+        logger.debug(f"{settings['parser']} parser selected")
     except KeyError:
         raise ParseError("Error: Could not find parser. Settings must specify sparx or drawio")
 

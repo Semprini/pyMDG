@@ -31,6 +31,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     test_cases: List[UMLInstance] = []
 
     # Parse into etree and grab root package
+    logger.debug(f"loading etree from {settings['source']}")
     tree = etree.parse(settings['source'])
     model = tree.find('uml:Model', ns)
     root_package = model.xpath("//packagedElement[@name='%s']" % settings['root_package'], namespaces=ns)
@@ -49,8 +50,11 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     e_type = model_element.get('{%s}type' % ns['xmi'])
     if e_type == 'uml:Package':
         model_package = package_parse(model_element, tree, None)
+        logger.debug("Parsing inheritance")
         package_parse_inheritance(model_package)
+        logger.debug("Parsing associations")
         package_parse_associations(model_package, model_element, model_element)
+        logger.debug("Sorting objects")
         package_sort_classes(model_package)
     else:
         raise ValueError('Error - Non uml:Package element provided to packagedElement parser')
@@ -221,6 +225,7 @@ def package_parse_associations(package, element, root_element):
                     and assoc_dest_elem is not None:
                 association = association_parse(package, assoc_source_elem, assoc_dest_elem, source, dest)
                 package.associations.append(association)
+                logger.debug(f"Created {association.cardinality.name} {association.association_type.name} from {association.source_name} to {association.destination_name}")
             else:
                 logger.warn("Unable to create association id={}".format(e_id))
 
