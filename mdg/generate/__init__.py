@@ -1,9 +1,9 @@
 #!/usr/bin/python
 import logging
 
-from .validate import validate_package
-from .render import output_model, output_test_cases
-from .parse import parse, ParseError
+from mdg.tools.validate import validate_package
+from mdg.generate.render import output_model, output_test_cases
+from mdg.parse import parse, ParseError
 
 
 logger = logging.getLogger('mdg')

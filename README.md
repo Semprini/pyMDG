@@ -52,8 +52,9 @@ This diagram shows the internal classes which are passed to the templates during
 
 ## Build the docs
 Install sphinx
-
+```
  > cd pyMDG
  > sphinx-apidoc -o docs\source mdg
  > cd docs
  > make html
+```

@@ -1,7 +1,7 @@
 import unittest
 
 from mdg.uml import UMLAttribute, UMLInstance, UMLPackage
-from mdg.render import serialize_instance
+from mdg.generate.render import serialize_instance
 
 
 class TestJSONOutput(unittest.TestCase):

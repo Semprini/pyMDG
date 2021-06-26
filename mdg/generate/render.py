@@ -7,10 +7,10 @@ from typing import Dict, Optional, List, Any
 from jinja2 import Environment, FileSystemLoader, Template, BaseLoader
 
 
-from .config import settings
-from .tools.filters import get_filters
+from mdg.config import settings
+from mdg.tools.filters import get_filters
 
-from .uml import UMLPackage, UMLInstance
+from mdg.uml import UMLPackage, UMLInstance
 
 
 logger = logging.getLogger(__name__)
@@ -129,7 +129,7 @@ def output_model(package: UMLPackage) -> None:
 
     # Create jinja2 environmeent with filters
     import os
-    default_templates = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+    default_templates = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'templates')
     source_env = Environment(loader=FileSystemLoader([settings['templates_folder'], default_templates]))
     source_env.filters = {**source_env.filters, **filters}
     dest_env = Environment(loader=BaseLoader())

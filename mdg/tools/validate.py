@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from .parse import parse
+from mdg.parse import parse
 
 
 class ClassValidationError(object):

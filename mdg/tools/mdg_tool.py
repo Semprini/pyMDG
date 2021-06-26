@@ -23,7 +23,7 @@ def generate(args):
 
 def validate(args):
     os.environ.setdefault("PYMDG_SETTINGS_MODULE", args.recipe_path)
-    from ..validate import validate
+    from mdg.tools.validate import validate
     validate()
 
 

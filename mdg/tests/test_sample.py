@@ -1,8 +1,8 @@
 import unittest
 
 from mdg.parse import parse
-from mdg.validate import validate_package
-from mdg.render import output_model
+from mdg.tools.validate import validate_package
+from mdg.generate.render import output_model
 
 
 class TestSample_DrawIO_Django(unittest.TestCase):

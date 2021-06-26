@@ -1,9 +1,9 @@
 #!/usr/bin/python
 import logging
 
-from .config import settings
-from .sparx_xmi.parse import parse_uml as sparx_parse_uml
-from .drawio_xml.parse import parse_uml as drawio_parse_uml
+from mdg.config import settings
+from .sparx_xmi import parse_uml as sparx_parse_uml
+from .drawio_xml import parse_uml as drawio_parse_uml
 
 
 logger = logging.getLogger(__name__)

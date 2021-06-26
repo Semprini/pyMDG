@@ -38,7 +38,6 @@ class UMLPackage:
     enumerations: List[UMLEnumeration]
     parent: Optional[UMLPackage] = None
     stereotype: Optional[str] = None
-    inherited_stereotypes: List[Tuple[str, UMLPackage]]
     name: str
     id: Union[int, str]
     diagrams: Any
@@ -47,7 +46,7 @@ class UMLPackage:
 
     class Meta:
         id_field = 'id'
-        owned_subobjects: List = ['classes', 'associations', 'children']
+        owned_subobjects: List = ['classes', 'associations', 'children', 'enumerations']
 
     def __init__(self, id: Union[int, str], name: str, parent: Optional[UMLPackage] = None, stereotype: Optional[str] = None) -> None:
         self.classes = []
@@ -57,7 +56,7 @@ class UMLPackage:
         self.enumerations = []
         self.parent = parent
         self.stereotype = stereotype
-        self.inherited_stereotypes = []
+        self.inherited_stereotypes: List[Tuple[str, UMLPackage]] = []
         self.name = name
         self.id = id
         self.diagrams = []
@@ -242,10 +241,8 @@ class UMLClass:
     associations_to: List[UMLAssociation]
     package: UMLPackage
     generalization: Optional[UMLClass]
-    generalization_id: Union[None, int, str]
     specialized_by: List[UMLClass]
     stereotypes: List[str]
-    id_attribute: Optional[UMLAttribute]
     documentation: str
     is_abstract: bool
     status: Optional[UMLStatuses]
@@ -264,10 +261,10 @@ class UMLClass:
         self.associations_to = []
         self.package = package
         self.generalization = None
-        self.generalization_id = None
+        self.generalization_id: Union[None, int, str] = None
         self.specialized_by = []
         self.stereotypes = []
-        self.id_attribute = None
+        self.id_attribute: Optional[UMLAttribute] = None
         self.documentation = ""
         self.is_abstract = False
         self.status = None
@@ -295,10 +292,8 @@ class UMLAttribute:
     is_unique: bool
     stereotype: Optional[str]
     classification: Optional[UMLClass]
-    classification_id: Union[None, int, str]
     documentation: str
     type: Optional[str]
-    dest_type: Optional[str]
     value: Optional[str]
     visibility: bool
     is_id: bool
@@ -319,10 +314,10 @@ class UMLAttribute:
         self.is_unique = False
         self.stereotype = None
         self.classification = None
-        self.classification_id = None
+        self.classification_id: Union[None, int, str] = None
         self.documentation = ""
         self.type = None
-        self.dest_type = None
+        self.dest_type: Optional[str] = None
         self.value = None
         self.visibility = True
         self.is_id = False

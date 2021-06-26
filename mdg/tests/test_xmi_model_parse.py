@@ -2,7 +2,7 @@ import unittest
 
 from lxml import etree
 
-from mdg.sparx_xmi.parse import attr_parse, class_parse, association_parse, package_parse_inheritance
+from mdg.parse.sparx_xmi import attr_parse, class_parse, association_parse, package_parse_inheritance
 from mdg.uml import UMLClass, UMLPackage, Cardinality, UMLAssociationType
 
 

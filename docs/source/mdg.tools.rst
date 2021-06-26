@@ -20,10 +20,34 @@ mdg.tools.filters module
    :undoc-members:
    :show-inheritance:
 
+mdg.tools.io module
+-------------------
+
+.. automodule:: mdg.tools.io
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mdg.tools.mdg\_tool module
 --------------------------
 
 .. automodule:: mdg.tools.mdg_tool
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mdg.tools.schema module
+-----------------------
+
+.. automodule:: mdg.tools.schema
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mdg.tools.validate module
+-------------------------
+
+.. automodule:: mdg.tools.validate
    :members:
    :undoc-members:
    :show-inheritance:

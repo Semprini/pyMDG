@@ -1,5 +1,5 @@
-mdg package
-===========
+mdg.generate package
+====================
 
 Subpackages
 -----------
@@ -7,19 +7,15 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   mdg.generate
-   mdg.parse
-   mdg.tests
-   mdg.tools
-   mdg.uml
+   mdg.generate.confluence
 
 Submodules
 ----------
 
-mdg.config module
------------------
+mdg.generate.render module
+--------------------------
 
-.. automodule:: mdg.config
+.. automodule:: mdg.generate.render
    :members:
    :undoc-members:
    :show-inheritance:
@@ -28,7 +24,7 @@ mdg.config module
 Module contents
 ---------------
 
-.. automodule:: mdg
+.. automodule:: mdg.generate
    :members:
    :undoc-members:
    :show-inheritance:

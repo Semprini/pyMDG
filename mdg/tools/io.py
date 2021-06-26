@@ -6,26 +6,7 @@ DEFAULT_TYPES = [str, list, dict, bool, int, type(None)]
 
 def obj_to_dict(obj: Any, base_dict={}) -> dict:
     """
-from typing import List
-from mdg.tools.io import *
-class foo:
-    z: int
-    class Meta:
-        id_field = 'z'
-
-class blort:
-    b: List[foo]
-    c: foo
-    class Meta:
-        owned_subobjects = 'b'
-
-a = foo()
-a.z = 2
-b = blort()
-b.b = [a,]
-b.c = a
-
-obj_to_dict(b)
+    Creates nested dictionaries from input object
     """
     # Attributes to convert are specified in object definition type hints
     type_dict: dict = get_type_hints(type(obj))
@@ -69,16 +50,7 @@ obj_to_dict(b)
 
 def dict_to_obj(input: dict, base_object_class) -> object:
     """
-from typing import List
-from mdg.uml.io import *
-class foo:
-    a: int
-
-class blort:
-    b: List[foo]
-
-input={'b':[{'a':1}]}
-dict_to_obj(input, blort)
+    Creates objects from input dictionary
     """
     # Instantiate the requested class & get the type hints
     obj = base_object_class()
