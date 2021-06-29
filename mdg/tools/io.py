@@ -1,4 +1,4 @@
-from typing import get_type_hints, Any
+from typing import get_type_hints, Any, Tuple
 from enum import Enum
 
 DEFAULT_TYPES = [str, list, dict, bool, int, type(None)]
@@ -48,9 +48,50 @@ def obj_to_dict(obj: Any, base_dict={}) -> dict:
     return output
 
 
-def dict_to_obj(input: dict, base_object_class) -> object:
+def dict_to_obj(input: dict, base_object_class, references: dict = {}) -> object:
+    obj, refs = dict_to_obj_pass1(input, base_object_class)
+    dict_to_obj_pass2(obj, refs)
+    return obj
+
+
+def dict_to_obj_pass2(obj: Any, references: dict) -> None:
     """
-    Creates objects from input dictionary
+    Pass 2 walks through objects and replaces attributes which are references with the actual class.
+    """
+    type_dict: dict = get_type_hints(type(obj))
+
+    # Loop through all type hints on object
+    for attr_name in type_dict.keys():
+        # Walk through all attributes of object
+        if hasattr(obj, attr_name):
+            value = getattr(obj, attr_name)
+            obj_attr_type = type_dict[attr_name]
+
+            if type(value) == list:
+                # We have a list if its supposed to be a list of classes then examine
+                if obj_attr_type.__args__[0] not in DEFAULT_TYPES:
+                    new_list = []
+                    for item in value:
+                        # If item is supposed to be a class but is actually a default type then must be reference
+                        if type(item) in DEFAULT_TYPES:
+                            new_list.append(references[value])
+                        else:
+                            dict_to_obj_pass2(item, references)
+                            new_list.append(item)
+                    setattr(obj, attr_name, new_list)
+
+            elif obj_attr_type not in DEFAULT_TYPES:
+                # If value is supposed to be a class but is actually a default type then must be reference
+                if type(value) in DEFAULT_TYPES:
+                    setattr(obj, attr_name, references[value])
+                # If value is a class then parse it
+                else:
+                    dict_to_obj_pass2(value, references)
+
+
+def dict_to_obj_pass1(input: dict, base_object_class, references: dict = {}) -> Tuple[Any, dict]:
+    """
+    Creates objects from input dictionary. Pass 1 keeps references and compiles a list of objects with ids used in pass 2.
     """
     # Instantiate the requested class & get the type hints
     obj = base_object_class()
@@ -59,19 +100,23 @@ def dict_to_obj(input: dict, base_object_class) -> object:
     for attr_name in type_dict.keys():
         if attr_name in input.keys():
             # The input has this item defined in the class so extract
-            attr_type = type(input[attr_name])  # type_dict[attr_name].__origin__ TODO: use definition rather than input
+            # dict_attr_type = type(input[attr_name])  # type_dict[attr_name].__origin__ TODO: use definition rather than input
+            obj_attr_type = type_dict[attr_name]
 
             if type(input[attr_name]) != list:
-                if attr_type in DEFAULT_TYPES:
+                if obj_attr_type in DEFAULT_TYPES:
                     # Value definition is standard type so just set the value
                     setattr(obj, attr_name, input[attr_name])
                 elif type(input[attr_name]) == dict:
-                    # Not a standard type, must be class so recurse to expand sub-object
-                    setattr(obj, attr_name, dict_to_obj(input[attr_name], type_dict[attr_name]))
+                    # Not a standard type, represented as dict. Recurse to expand sub-object
+                    new_obj, new_refs = dict_to_obj_pass1(input[attr_name], type_dict[attr_name], references)
+                    setattr(obj, attr_name, new_obj)
+                    # Store object in reference dictionary and add new object
+                    references.update(new_refs)
+                    references[getattr(new_obj, new_obj.Meta.id_field)] = new_obj
                 else:
-                    # TODO: Check Id field
                     # If definition is class and dict value has string then must be a reference using id_field value from Meta
-                    pass
+                    setattr(obj, attr_name, input[attr_name])
             else:
                 # Input has a list of something, loop through each element and extract
                 value = []
@@ -84,11 +129,13 @@ def dict_to_obj(input: dict, base_object_class) -> object:
                         # attr_class = type_dict[attr_name].__args__[0]
                         if type(item) == dict:
                             # Class definition has list of class instances and input has a dictionary so recurse to expand sub-object
-                            item_value = dict_to_obj(item, item_type)
-                            value.append(item_value)
+                            new_obj, new_refs = dict_to_obj_pass1(item, item_type)
+                            value.append(new_obj)
+                            # Store object in reference dictionary and add new object
+                            references.update(new_refs)
+                            references[getattr(new_obj, new_obj.Meta.id_field)] = new_obj
                         else:
-                            # TODO: Check Id field
                             # If definition is class and dict value has string then must be a reference using id_field value from Meta
-                            pass
+                            value.append(item)
                 setattr(obj, attr_name, value)
-    return obj
+    return obj, references

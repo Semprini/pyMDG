@@ -37,6 +37,7 @@ class blort:
     my_list: List[foo]
     basic_list: List[int]
     c: foo
+    d: dict
 
     class Meta:
         owned_subobjects = 'my_list'
@@ -50,12 +51,20 @@ class TestIO(unittest.TestCase):
         self.b = blort()
         self.b.my_list = [a, ]
         self.b.c = a
+        self.b.d = {"e": "f"}
 
     def test_to_dict(self):
         output = obj_to_dict(self.b)
         self.assertEqual(2, output['my_list'][0]['id'])
 
     def test_to_obj(self):
-        input = {'my_list': [{'id': 2}], 'basic_list': [1, 2, 3]}
+        input = {'c': {'id': 1}}
         obj = dict_to_obj(input, blort)
-        self.assertEqual(2, obj.my_list[0].id)
+        self.assertEqual(1, obj.c.id)
+
+        input = {'my_list': [{'id': 1}, ], 'c': 1, 'd': {"e": "f"}, 'basic_list': [1, 2, 3]}
+        obj = dict_to_obj(input, blort)
+        self.assertEqual(1, obj.c.id)
+        self.assertEqual('f', obj.d['e'])
+        self.assertEqual(2, obj.basic_list[1])
+        self.assertEqual(1, obj.my_list[0].id)
