@@ -208,22 +208,25 @@ def serialize_instance(instance: UMLInstance):
         Recurses through associations originaing from supplied instance to serialise sub-objects
     """
     ret: Dict = {}
+    filters = get_filters()
 
     # Extract attributes and their values
     for attr in instance.attributes:
-        ret[attr.name] = attr.value
+        name = filters['case_attribute'](attr.name)
+        ret[name] = attr.value
 
     # Loop through associations originating from this instance
     for assoc in instance.associations_from:
         dest: Any = assoc.destination
+        name = filters['case_attribute'](assoc.destination.name)
         # If the multiplicity is multiple then generate list
         if assoc.destination_multiplicity[1] == '*':
-            if assoc.destination.name not in ret.keys():
-                ret[assoc.destination.name] = [serialize_instance(dest), ]
+            if name not in ret.keys():
+                ret[name] = [serialize_instance(dest), ]
             else:
-                ret[assoc.destination.name].append(serialize_instance(dest))
+                ret[name].append(serialize_instance(dest))
         # If multiplicity is singular then generate dict
         else:
-            ret[assoc.destination.name] = serialize_instance(dest)
+            ret[name] = serialize_instance(dest)
 
     return ret
