@@ -4,7 +4,7 @@ from mdg.uml import UMLAttribute, UMLInstance, UMLPackage
 from mdg.generate.render import serialize_instance
 
 
-class TestJSONOutput(unittest.TestCase):
+class TestInstanceOutput(unittest.TestCase):
     def setUp(self):
         self.package = UMLPackage("id", "name")
         self.instance = UMLInstance(self.package, "test1", 1)

@@ -1,7 +1,7 @@
 from typing import get_type_hints, Any, Tuple
 from enum import Enum
 
-DEFAULT_TYPES = [str, list, dict, bool, int, type(None)]
+DEFAULT_TYPES = [str, list, tuple, dict, bool, int, type(None)]
 
 
 def obj_to_dict(obj: Any, base_dict={}) -> dict:
@@ -28,7 +28,7 @@ def obj_to_dict(obj: Any, base_dict={}) -> dict:
                     value = getattr(value, value.Meta.id_field)
 
             # If value is a list then examine the type of the list and convert each element
-            elif type(value) == list:
+            elif type(value) in [list, tuple]:
                 new_value: Any = []
                 for element in value:
                     # Check for base types as in non list mode above: TODO: Actual check for class
@@ -42,6 +42,9 @@ def obj_to_dict(obj: Any, base_dict={}) -> dict:
                     else:
                         new_value.append(element)
                 value = new_value
+
+            elif isinstance(value, Enum):
+                value = value.name
 
             # Value has been created so set the dictionary item
             output[attr_name] = value

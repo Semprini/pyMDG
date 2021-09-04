@@ -29,11 +29,11 @@ def validate(args):
 
 def dumps(args):
     os.environ.setdefault("PYMDG_SETTINGS_MODULE", args.recipe_path)
-    from ..uml import dumps
+    from ..uml import dumps as uml_dumps
     from ..parse import parse
 
     model_package, test_cases = parse()
-    print(dumps(model_package))
+    print(uml_dumps(model_package))
 
 
 def startproject(args):
