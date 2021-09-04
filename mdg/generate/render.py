@@ -185,13 +185,16 @@ def output_test_cases(test_cases: List[UMLInstance]) -> None:
         return
 
     logger.info("Generating test case output")
+    filters = get_filters()
+    env = Environment(loader=BaseLoader())
+    env.filters = {**env.filters, **filters}
 
     for case in test_cases:
         serialised = json.dumps(serialize_instance(case), indent=2)
 
         template_definition: Dict
         for template_definition in settings['test_templates']:
-            filename_template: Template = Template(template_definition['dest'])
+            filename_template: Template = env.from_string(template_definition['dest'])
             filename: str = os.path.abspath(filename_template.render(ins=case))
             dirname: str = os.path.dirname(filename)
 

@@ -179,21 +179,10 @@
 					</ownedComment>
 					<packagedElement xmi:type="uml:UseCase" xmi:id="EAID_484BB9C3_A7FA_49e3_96EC_44F381FAEB8D" name="GET" visibility="public">
 						<ownedBehavior xmi:type="uml:Activity" xmi:id="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" name="GET Bill_ActivityGraph" visibility="public" isReadOnly="false" isSingleExecution="false">
-							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" name="Given User is not authenticated" visibility="public" isReadOnly="false" isSingleExecution="false"/>
-							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_8A939427_AFEC_488f_9AA6_EA6F8DC4C986" visibility="public" source="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" target="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B"/>
-							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" name="Then System authenticates user" visibility="public" isReadOnly="false" isSingleExecution="false"/>
-							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_5785EA2F_60CC_4893_8F33_773B1669F5AA" visibility="public" source="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" target="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35"/>
 							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35" name="Then System queries data source" visibility="public" isReadOnly="false" isSingleExecution="false"/>
 							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_770CB014_41C0_474c_9FCD_7C24EA18A36B" visibility="public" source="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35" target="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD"/>
-							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" name="Then System returns 200 OK" visibility="public" isReadOnly="false" isSingleExecution="false"/>
-							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_8F0FCB9B_343B_4f03_8E1A_C689FD642152" visibility="public" source="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" target="EAID_B7139175_E677_4e4d_939B_2181D4A4996A"/>
-							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B" name="Then System returns 404" visibility="public" isReadOnly="false" isSingleExecution="false"/>
-							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_0A5CE9D3_976D_4601_AC35_B6EE34B52974" visibility="public" source="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B" target="EAID_85095153_35EB_4a91_A308_DC85EE655DF7"/>
 							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_81639C6D_FABB_4105_A721_24A207045385" name="When User calls API" visibility="public" isReadOnly="false" isSingleExecution="false"/>
 							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_0711E7C5_891F_48b7_BD92_37AFBB381DFA" visibility="public" source="EAID_81639C6D_FABB_4105_A721_24A207045385" target="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
-							<node xmi:type="uml:FlowFinalNode" xmi:id="EAID_85095153_35EB_4a91_A308_DC85EE655DF7" name="FlowEnd1" visibility="public">
-								<incoming xmi:idref="EAID_0A5CE9D3_976D_4601_AC35_B6EE34B52974"/>
-							</node>
 							<node xmi:type="uml:DecisionNode" xmi:id="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" name="Alternate1" visibility="public">
 								<incoming xmi:idref="EAID_0711E7C5_891F_48b7_BD92_37AFBB381DFA"/>
 								<outgoing xmi:idref="EAID_BE209611_33DF_464f_827F_657F1D5B3F5B"/>
@@ -203,13 +192,24 @@
 								<guard xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000000_AD6E_4d7c_B461_3D432DE121E5" body="User not authenticated"/>
 							</edge>
 							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_BE209611_33DF_464f_827F_657F1D5B3F5B" visibility="public" source="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" target="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
-							<node xmi:type="uml:ActivityFinalNode" xmi:id="EAID_B7139175_E677_4e4d_939B_2181D4A4996A" name="End" visibility="public">
-								<incoming xmi:idref="EAID_8F0FCB9B_343B_4f03_8E1A_C689FD642152"/>
+							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" name="Given User is not authenticated" visibility="public" isReadOnly="false" isSingleExecution="false"/>
+							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_8A939427_AFEC_488f_9AA6_EA6F8DC4C986" visibility="public" source="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" target="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B"/>
+							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" name="Then System returns 200 OK" visibility="public" isReadOnly="false" isSingleExecution="false"/>
+							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_8F0FCB9B_343B_4f03_8E1A_C689FD642152" visibility="public" source="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" target="EAID_B7139175_E677_4e4d_939B_2181D4A4996A"/>
+							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B" name="Then System returns 404" visibility="public" isReadOnly="false" isSingleExecution="false"/>
+							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_0A5CE9D3_976D_4601_AC35_B6EE34B52974" visibility="public" source="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B" target="EAID_85095153_35EB_4a91_A308_DC85EE655DF7"/>
+							<packagedElement xmi:type="uml:Activity" xmi:id="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" name="Then System authenticates user" visibility="public" isReadOnly="false" isSingleExecution="false"/>
+							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_5785EA2F_60CC_4893_8F33_773B1669F5AA" visibility="public" source="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" target="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35"/>
+							<node xmi:type="uml:FlowFinalNode" xmi:id="EAID_85095153_35EB_4a91_A308_DC85EE655DF7" name="FlowEnd1" visibility="public">
+								<incoming xmi:idref="EAID_0A5CE9D3_976D_4601_AC35_B6EE34B52974"/>
 							</node>
 							<node xmi:type="uml:InitialNode" xmi:id="EAID_1FEAE522_2908_4f85_ABC0_65B68CBFBBA9" name="Start" visibility="public">
 								<outgoing xmi:idref="EAID_4D456F30_1359_4055_AD2B_6289A4E89295"/>
 							</node>
 							<edge xmi:type="uml:ControlFlow" xmi:id="EAID_4D456F30_1359_4055_AD2B_6289A4E89295" visibility="public" source="EAID_1FEAE522_2908_4f85_ABC0_65B68CBFBBA9" target="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
+							<node xmi:type="uml:ActivityFinalNode" xmi:id="EAID_B7139175_E677_4e4d_939B_2181D4A4996A" name="End" visibility="public">
+								<incoming xmi:idref="EAID_8F0FCB9B_343B_4f03_8E1A_C689FD642152"/>
+							</node>
 						</ownedBehavior>
 					</packagedElement>
 					<packagedElement xmi:type="uml:Class" xmi:id="EAID_DF33C64D_E160_49b5_806E_15B24323A945" name="GET_TestCase1" visibility="public"/>
@@ -285,19 +285,25 @@
 							</slot>
 						</packagedElement>
 						<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_7E3211CA_6DC5_440c_87B0_86D9CB0CDCFA" name="employee" visibility="public" classifier="EAID_F902A386_F9BC_4a7b_B084_9BB57D057A87">
-							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000000_6DC5_440c_87B0_86D9CB0CDCFA" definingClassifier="EAID_4F189B3C_467D_46b2_8053_99741C55E224">
-								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000000_6DC5_440c_87B0_86D9CB0CDCFA" body="=mctest"/>
+							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000000_6DC5_440c_87B0_86D9CB0CDCFA" definingClassifier="EAID_060D588D_172B_40b6_8D29_C4A8DBFF7268">
+								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000000_6DC5_440c_87B0_86D9CB0CDCFA" body="=2"/>
 							</slot>
-							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000001_6DC5_440c_87B0_86D9CB0CDCFA" definingClassifier="EAID_B0713B5F_5D8C_4b7e_A27D_AB32DBDBDBBD">
-								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000001_6DC5_440c_87B0_86D9CB0CDCFA" body="=test"/>
+							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000001_6DC5_440c_87B0_86D9CB0CDCFA" definingClassifier="EAID_4F189B3C_467D_46b2_8053_99741C55E224">
+								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000001_6DC5_440c_87B0_86D9CB0CDCFA" body="=mctest"/>
+							</slot>
+							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000002_6DC5_440c_87B0_86D9CB0CDCFA" definingClassifier="EAID_B0713B5F_5D8C_4b7e_A27D_AB32DBDBDBBD">
+								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000002_6DC5_440c_87B0_86D9CB0CDCFA" body="=test"/>
 							</slot>
 						</packagedElement>
 						<packagedElement xmi:type="uml:InstanceSpecification" xmi:id="EAID_2C60DC44_3281_4bbd_8A63_4EEE37DF6769" name="employee" visibility="public" classifier="EAID_F902A386_F9BC_4a7b_B084_9BB57D057A87">
-							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000000_3281_4bbd_8A63_4EEE37DF6769" definingClassifier="EAID_4F189B3C_467D_46b2_8053_99741C55E224">
-								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000000_3281_4bbd_8A63_4EEE37DF6769" body="=mcfoo"/>
+							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000000_3281_4bbd_8A63_4EEE37DF6769" definingClassifier="EAID_060D588D_172B_40b6_8D29_C4A8DBFF7268">
+								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000000_3281_4bbd_8A63_4EEE37DF6769" body="=1"/>
 							</slot>
-							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000001_3281_4bbd_8A63_4EEE37DF6769" definingClassifier="EAID_B0713B5F_5D8C_4b7e_A27D_AB32DBDBDBBD">
-								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000001_3281_4bbd_8A63_4EEE37DF6769" body="=foo"/>
+							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000001_3281_4bbd_8A63_4EEE37DF6769" definingClassifier="EAID_4F189B3C_467D_46b2_8053_99741C55E224">
+								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000001_3281_4bbd_8A63_4EEE37DF6769" body="=mcfoo"/>
+							</slot>
+							<slot xmi:type="uml:Slot" xmi:id="EAID_SL000002_3281_4bbd_8A63_4EEE37DF6769" definingClassifier="EAID_B0713B5F_5D8C_4b7e_A27D_AB32DBDBDBBD">
+								<value xmi:type="uml:OpaqueExpression" xmi:id="EAID_OE000002_3281_4bbd_8A63_4EEE37DF6769" body="=foo"/>
 							</slot>
 						</packagedElement>
 					</packagedElement>
@@ -312,25 +318,25 @@
 		<thecustomprofile:routable base_Property="EAID_7547C085_C1FA_4178_AC59_972109CB39B2"/>
 		<thecustomprofile:auto base_Property="EAID_9A5D3269_1CFC_42b4_B437_2500258EB8A8"/>
 		<thecustomprofile:diagramType base_Activity="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" diagramType="ActivityGraph"/>
-		<thecustomprofile:step_guid base_Activity="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" step_guid="{7A752BAC-4546-4ecd-88BC-4A8EF4F4969B}"/>
-		<thecustomprofile:trigger base_Activity="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" trigger="System"/>
-		<thecustomprofile:step_guid base_Activity="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" step_guid="{055EDBBF-1828-4eb9-9364-F32EA0FF4B21}"/>
-		<thecustomprofile:trigger base_Activity="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" trigger="System"/>
-		<BPMN2.0:BusinessProcess base_Activity="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" state="Authenticate"/>
 		<thecustomprofile:step_guid base_Activity="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35" step_guid="{C9A016CB-BD39-4aad-A32D-628E3458A97E}"/>
 		<thecustomprofile:trigger base_Activity="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35" trigger="System"/>
+		<thecustomprofile:step_guid base_Activity="EAID_81639C6D_FABB_4105_A721_24A207045385" step_guid="{F79F3C47-E5A2-4bfc-93F3-19403730546D}"/>
+		<thecustomprofile:trigger base_Activity="EAID_81639C6D_FABB_4105_A721_24A207045385" trigger="User"/>
+		<thecustomprofile:extensionType base_DecisionNode="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" extensionType="Alternate"/>
+		<thecustomprofile:step_guid base_DecisionNode="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" step_guid="{AL000000-8640-448b-9702-430C7E5DF980}"/>
+		<thecustomprofile:step_guid base_ControlFlow="EAID_1FAC368E_AD6E_4d7c_B461_3D432DE121E5" step_guid="{95083736-B8FA-4126-852D-BF9995908BB1}"/>
+		<thecustomprofile:step_guid base_Activity="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" step_guid="{7A752BAC-4546-4ecd-88BC-4A8EF4F4969B}"/>
+		<thecustomprofile:trigger base_Activity="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" trigger="System"/>
 		<thecustomprofile:step_guid base_Activity="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" step_guid="{BDFDFF80-8059-4978-BD0B-B841985B69EC}"/>
 		<thecustomprofile:trigger base_Activity="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" trigger="System"/>
 		<BPMN2.0:BusinessProcess base_Activity="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" state="Complete"/>
 		<thecustomprofile:step_guid base_Activity="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B" step_guid="{CA274349-E9ED-437d-8EDE-0BC3FF8EFD49}"/>
 		<thecustomprofile:trigger base_Activity="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B" trigger="System"/>
 		<BPMN2.0:BusinessProcess base_Activity="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B" state="Complete"/>
-		<thecustomprofile:step_guid base_Activity="EAID_81639C6D_FABB_4105_A721_24A207045385" step_guid="{F79F3C47-E5A2-4bfc-93F3-19403730546D}"/>
-		<thecustomprofile:trigger base_Activity="EAID_81639C6D_FABB_4105_A721_24A207045385" trigger="User"/>
+		<thecustomprofile:step_guid base_Activity="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" step_guid="{055EDBBF-1828-4eb9-9364-F32EA0FF4B21}"/>
+		<thecustomprofile:trigger base_Activity="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" trigger="System"/>
+		<BPMN2.0:BusinessProcess base_Activity="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" state="Authenticate"/>
 		<thecustomprofile:step_guid base_FlowFinalNode="EAID_85095153_35EB_4a91_A308_DC85EE655DF7" step_guid="{FF000000-179E-4f21-B5C1-1C120F245B13}"/>
-		<thecustomprofile:extensionType base_DecisionNode="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" extensionType="Alternate"/>
-		<thecustomprofile:step_guid base_DecisionNode="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" step_guid="{AL000000-8640-448b-9702-430C7E5DF980}"/>
-		<thecustomprofile:step_guid base_ControlFlow="EAID_1FAC368E_AD6E_4d7c_B461_3D432DE121E5" step_guid="{95083736-B8FA-4126-852D-BF9995908BB1}"/>
 		<thecustomprofile:testcase base_Class="EAID_DF33C64D_E160_49b5_806E_15B24323A945"/>
 		<StandardProfileL2:Trace base_Abstraction="EAID_46817949_FDA7_4a4b_9196_624A38E9E381"/>
 		<thecustomprofile:response base_InstanceSpecification="EAID_E7214243_1C49_4abd_9EF6_3620E9F29565"/>
@@ -812,41 +818,6 @@
 				<xrefs/>
 				<extendedProperties tagged="0" package_name="Behavior"/>
 			</element>
-			<element xmi:idref="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" xmi:type="uml:Activity" name="Given User is not authenticated" scope="public">
-				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="24" ea_eleType="element"/>
-				<properties isSpecification="false" sType="Activity" nType="0" scope="public" isAbstract="false"/>
-				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:11" modified="2019-05-27 14:00:11" complexity="1" status="Proposed"/>
-				<code gentype="&lt;none&gt;"/>
-				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
-				<tags>
-					<tag xmi:id="EAID_219245D0_5670_4405_87BC_2256B487719F" name="step_guid" value="{7A752BAC-4546-4ecd-88BC-4A8EF4F4969B}" modelElement="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED"/>
-					<tag xmi:id="EAID_7786B5BE_D1D4_4bba_8D92_CC4993BFFAF0" name="trigger" value="System" modelElement="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED"/>
-				</tags>
-				<xrefs/>
-				<extendedProperties tagged="0" package_name="Behavior"/>
-				<links>
-					<ControlFlow xmi:id="EAID_8A939427_AFEC_488f_9AA6_EA6F8DC4C986" start="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" end="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B"/>
-					<ControlFlow xmi:id="EAID_1FAC368E_AD6E_4d7c_B461_3D432DE121E5" start="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" end="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED"/>
-				</links>
-			</element>
-			<element xmi:idref="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" xmi:type="uml:Activity" name="Then System authenticates user" scope="public">
-				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="21" ea_eleType="element"/>
-				<properties isSpecification="false" sType="Activity" nType="0" scope="public" isAbstract="false"/>
-				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:11" modified="2019-05-27 14:00:11" complexity="1" status="Proposed"/>
-				<code gentype="&lt;none&gt;"/>
-				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
-				<tags>
-					<tag xmi:id="EAID_30D5C0E0_B8AF_4376_A1F1_D01F10FC1492" name="state" value="&lt;memo&gt;#NOTES#Authenticate" modelElement="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
-					<tag xmi:id="EAID_D931AACA_8935_4b0b_BC36_19E5AB8CFD01" name="step_guid" value="{055EDBBF-1828-4eb9-9364-F32EA0FF4B21}" modelElement="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
-					<tag xmi:id="EAID_B1CF67A1_E846_4f02_B1E3_7959DBCE6753" name="trigger" value="System" modelElement="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
-				</tags>
-				<xrefs/>
-				<extendedProperties tagged="0" package_name="Behavior"/>
-				<links>
-					<ControlFlow xmi:id="EAID_5785EA2F_60CC_4893_8F33_773B1669F5AA" start="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" end="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35"/>
-					<ControlFlow xmi:id="EAID_BE209611_33DF_464f_827F_657F1D5B3F5B" start="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" end="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
-				</links>
-			</element>
 			<element xmi:idref="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35" xmi:type="uml:Activity" name="Then System queries data source" scope="public">
 				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="27" ea_eleType="element"/>
 				<properties isSpecification="false" sType="Activity" nType="0" scope="public" isAbstract="false"/>
@@ -862,6 +833,58 @@
 				<links>
 					<ControlFlow xmi:id="EAID_770CB014_41C0_474c_9FCD_7C24EA18A36B" start="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35" end="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD"/>
 					<ControlFlow xmi:id="EAID_5785EA2F_60CC_4893_8F33_773B1669F5AA" start="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" end="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_81639C6D_FABB_4105_A721_24A207045385" xmi:type="uml:Activity" name="When User calls API" scope="public">
+				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="26" ea_eleType="element"/>
+				<properties isSpecification="false" sType="Activity" nType="0" scope="public" isAbstract="false"/>
+				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:11" modified="2019-05-27 14:00:11" complexity="1" status="Proposed"/>
+				<code gentype="&lt;none&gt;"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags>
+					<tag xmi:id="EAID_B7FF15E2_8E14_429c_9652_4FE4350AE022" name="step_guid" value="{F79F3C47-E5A2-4bfc-93F3-19403730546D}" modelElement="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
+					<tag xmi:id="EAID_4262A04B_A863_4015_A063_039AF54D14FB" name="trigger" value="User" modelElement="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
+				</tags>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="Behavior"/>
+				<links>
+					<ControlFlow xmi:id="EAID_0711E7C5_891F_48b7_BD92_37AFBB381DFA" start="EAID_81639C6D_FABB_4105_A721_24A207045385" end="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
+					<ControlFlow xmi:id="EAID_4D456F30_1359_4055_AD2B_6289A4E89295" start="EAID_1FEAE522_2908_4f85_ABC0_65B68CBFBBA9" end="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" xmi:type="uml:Decision" name="Alternate1" scope="public">
+				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="25" ea_eleType="element"/>
+				<properties isSpecification="false" sType="Decision" nType="0" scope="public"/>
+				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:11" modified="2019-05-27 14:00:11" complexity="1" status="Proposed"/>
+				<code gentype="&lt;none&gt;"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags>
+					<tag xmi:id="EAID_2ACB7887_F620_4729_B883_CD54350CE4E3" name="extensionType" value="Alternate" modelElement="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
+					<tag xmi:id="EAID_83106A57_03B2_4dee_8E72_74EC2DE929AA" name="step_guid" value="{AL000000-8640-448b-9702-430C7E5DF980}" modelElement="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
+				</tags>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="Behavior"/>
+				<links>
+					<ControlFlow xmi:id="EAID_1FAC368E_AD6E_4d7c_B461_3D432DE121E5" start="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" end="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED"/>
+					<ControlFlow xmi:id="EAID_BE209611_33DF_464f_827F_657F1D5B3F5B" start="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" end="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
+					<ControlFlow xmi:id="EAID_0711E7C5_891F_48b7_BD92_37AFBB381DFA" start="EAID_81639C6D_FABB_4105_A721_24A207045385" end="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
+				</links>
+			</element>
+			<element xmi:idref="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" xmi:type="uml:Activity" name="Given User is not authenticated" scope="public">
+				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="24" ea_eleType="element"/>
+				<properties isSpecification="false" sType="Activity" nType="0" scope="public" isAbstract="false"/>
+				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:11" modified="2019-05-27 14:00:11" complexity="1" status="Proposed"/>
+				<code gentype="&lt;none&gt;"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<tags>
+					<tag xmi:id="EAID_219245D0_5670_4405_87BC_2256B487719F" name="step_guid" value="{7A752BAC-4546-4ecd-88BC-4A8EF4F4969B}" modelElement="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED"/>
+					<tag xmi:id="EAID_7786B5BE_D1D4_4bba_8D92_CC4993BFFAF0" name="trigger" value="System" modelElement="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED"/>
+				</tags>
+				<xrefs/>
+				<extendedProperties tagged="0" package_name="Behavior"/>
+				<links>
+					<ControlFlow xmi:id="EAID_8A939427_AFEC_488f_9AA6_EA6F8DC4C986" start="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" end="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B"/>
+					<ControlFlow xmi:id="EAID_1FAC368E_AD6E_4d7c_B461_3D432DE121E5" start="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" end="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED"/>
 				</links>
 			</element>
 			<element xmi:idref="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" xmi:type="uml:Activity" name="Then System returns 200 OK" scope="public">
@@ -900,21 +923,22 @@
 					<ControlFlow xmi:id="EAID_8A939427_AFEC_488f_9AA6_EA6F8DC4C986" start="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED" end="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B"/>
 				</links>
 			</element>
-			<element xmi:idref="EAID_81639C6D_FABB_4105_A721_24A207045385" xmi:type="uml:Activity" name="When User calls API" scope="public">
-				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="26" ea_eleType="element"/>
+			<element xmi:idref="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" xmi:type="uml:Activity" name="Then System authenticates user" scope="public">
+				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="21" ea_eleType="element"/>
 				<properties isSpecification="false" sType="Activity" nType="0" scope="public" isAbstract="false"/>
 				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:11" modified="2019-05-27 14:00:11" complexity="1" status="Proposed"/>
 				<code gentype="&lt;none&gt;"/>
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags>
-					<tag xmi:id="EAID_B7FF15E2_8E14_429c_9652_4FE4350AE022" name="step_guid" value="{F79F3C47-E5A2-4bfc-93F3-19403730546D}" modelElement="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
-					<tag xmi:id="EAID_4262A04B_A863_4015_A063_039AF54D14FB" name="trigger" value="User" modelElement="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
+					<tag xmi:id="EAID_30D5C0E0_B8AF_4376_A1F1_D01F10FC1492" name="state" value="&lt;memo&gt;#NOTES#Authenticate" modelElement="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
+					<tag xmi:id="EAID_D931AACA_8935_4b0b_BC36_19E5AB8CFD01" name="step_guid" value="{055EDBBF-1828-4eb9-9364-F32EA0FF4B21}" modelElement="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
+					<tag xmi:id="EAID_B1CF67A1_E846_4f02_B1E3_7959DBCE6753" name="trigger" value="System" modelElement="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
 				</tags>
 				<xrefs/>
 				<extendedProperties tagged="0" package_name="Behavior"/>
 				<links>
-					<ControlFlow xmi:id="EAID_0711E7C5_891F_48b7_BD92_37AFBB381DFA" start="EAID_81639C6D_FABB_4105_A721_24A207045385" end="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
-					<ControlFlow xmi:id="EAID_4D456F30_1359_4055_AD2B_6289A4E89295" start="EAID_1FEAE522_2908_4f85_ABC0_65B68CBFBBA9" end="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
+					<ControlFlow xmi:id="EAID_5785EA2F_60CC_4893_8F33_773B1669F5AA" start="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1" end="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35"/>
+					<ControlFlow xmi:id="EAID_BE209611_33DF_464f_827F_657F1D5B3F5B" start="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" end="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
 				</links>
 			</element>
 			<element xmi:idref="EAID_85095153_35EB_4a91_A308_DC85EE655DF7" xmi:type="uml:StateNode" name="FlowEnd1" scope="public">
@@ -932,22 +956,17 @@
 					<ControlFlow xmi:id="EAID_0A5CE9D3_976D_4601_AC35_B6EE34B52974" start="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B" end="EAID_85095153_35EB_4a91_A308_DC85EE655DF7"/>
 				</links>
 			</element>
-			<element xmi:idref="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" xmi:type="uml:Decision" name="Alternate1" scope="public">
-				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="25" ea_eleType="element"/>
-				<properties isSpecification="false" sType="Decision" nType="0" scope="public"/>
+			<element xmi:idref="EAID_1FEAE522_2908_4f85_ABC0_65B68CBFBBA9" xmi:type="uml:StateNode" name="Start" scope="public">
+				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="30" ea_eleType="element"/>
+				<properties isSpecification="false" sType="StateNode" nType="100" scope="public"/>
 				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:11" modified="2019-05-27 14:00:11" complexity="1" status="Proposed"/>
 				<code gentype="&lt;none&gt;"/>
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
-				<tags>
-					<tag xmi:id="EAID_2ACB7887_F620_4729_B883_CD54350CE4E3" name="extensionType" value="Alternate" modelElement="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
-					<tag xmi:id="EAID_83106A57_03B2_4dee_8E72_74EC2DE929AA" name="step_guid" value="{AL000000-8640-448b-9702-430C7E5DF980}" modelElement="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
-				</tags>
+				<tags/>
 				<xrefs/>
 				<extendedProperties tagged="0" package_name="Behavior"/>
 				<links>
-					<ControlFlow xmi:id="EAID_1FAC368E_AD6E_4d7c_B461_3D432DE121E5" start="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" end="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED"/>
-					<ControlFlow xmi:id="EAID_BE209611_33DF_464f_827F_657F1D5B3F5B" start="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631" end="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1"/>
-					<ControlFlow xmi:id="EAID_0711E7C5_891F_48b7_BD92_37AFBB381DFA" start="EAID_81639C6D_FABB_4105_A721_24A207045385" end="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631"/>
+					<ControlFlow xmi:id="EAID_4D456F30_1359_4055_AD2B_6289A4E89295" start="EAID_1FEAE522_2908_4f85_ABC0_65B68CBFBBA9" end="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
 				</links>
 			</element>
 			<element xmi:idref="EAID_B7139175_E677_4e4d_939B_2181D4A4996A" xmi:type="uml:StateNode" name="End" scope="public">
@@ -961,19 +980,6 @@
 				<extendedProperties tagged="0" package_name="Behavior"/>
 				<links>
 					<ControlFlow xmi:id="EAID_8F0FCB9B_343B_4f03_8E1A_C689FD642152" start="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD" end="EAID_B7139175_E677_4e4d_939B_2181D4A4996A"/>
-				</links>
-			</element>
-			<element xmi:idref="EAID_1FEAE522_2908_4f85_ABC0_65B68CBFBBA9" xmi:type="uml:StateNode" name="Start" scope="public">
-				<model package="EAPK_402707EB_B316_4bb7_80FE_F35407608E6E" owner="EAID_AEB44818_6829_43ae_93AA_56474758E2CF" tpos="0" ea_localid="30" ea_eleType="element"/>
-				<properties isSpecification="false" sType="StateNode" nType="100" scope="public"/>
-				<project author="atkinp" version="1.0" phase="1.0" created="2019-05-27 14:00:11" modified="2019-05-27 14:00:11" complexity="1" status="Proposed"/>
-				<code gentype="&lt;none&gt;"/>
-				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
-				<tags/>
-				<xrefs/>
-				<extendedProperties tagged="0" package_name="Behavior"/>
-				<links>
-					<ControlFlow xmi:id="EAID_4D456F30_1359_4055_AD2B_6289A4E89295" start="EAID_1FEAE522_2908_4f85_ABC0_65B68CBFBBA9" end="EAID_81639C6D_FABB_4105_A721_24A207045385"/>
 				</links>
 			</element>
 			<element xmi:idref="EAID_DF33C64D_E160_49b5_806E_15B24323A945" xmi:type="uml:UseCase" name="GET_TestCase1" scope="public">
@@ -1229,7 +1235,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test" runstate="@VAR;Variable=lastName;Value=mctest;Op==;@ENDVAR;@VAR;Variable=firstName;Value=test;Op==;@ENDVAR;"/>
+				<extendedProperties tagged="0" package_name="Test" runstate="@VAR;Variable=id;Value=2;Op==;@ENDVAR;@VAR;Variable=lastName;Value=mctest;Op==;@ENDVAR;@VAR;Variable=firstName;Value=test;Op==;@ENDVAR;"/>
 				<links>
 					<Association xmi:id="EAID_424619C2_756F_4b76_B035_96AB5FBD3996" start="EAID_E7214243_1C49_4abd_9EF6_3620E9F29565" end="EAID_7E3211CA_6DC5_440c_87B0_86D9CB0CDCFA"/>
 				</links>
@@ -1242,7 +1248,7 @@
 				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
 				<tags/>
 				<xrefs/>
-				<extendedProperties tagged="0" package_name="Test" runstate="@VAR;Variable=lastName;Value=mcfoo;Op==;@ENDVAR;@VAR;Variable=firstName;Value=foo;Op==;@ENDVAR;"/>
+				<extendedProperties tagged="0" package_name="Test" runstate="@VAR;Variable=id;Value=1;Op==;@ENDVAR;@VAR;Variable=lastName;Value=mcfoo;Op==;@ENDVAR;@VAR;Variable=firstName;Value=foo;Op==;@ENDVAR;"/>
 				<links>
 					<Association xmi:id="EAID_3AB6C94E_AD31_4344_BCB1_02A60FCF1442" start="EAID_E7214243_1C49_4abd_9EF6_3620E9F29565" end="EAID_2C60DC44_3281_4bbd_8A63_4EEE37DF6769"/>
 				</links>
@@ -1594,140 +1600,6 @@
 				<xrefs value="$XREFPROP=$XID={844C0D47-B591-40fe-97A1-7D4362377016}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Trace;FQName=StandardProfileL2::Trace;@ENDSTEREO;$DES;$CLT={46817949-FDA7-4a4b-9196-624A38E9E381}$CLT;$ENDXREF;"/>
 				<tags/>
 			</connector>
-			<connector xmi:idref="EAID_8A939427_AFEC_488f_9AA6_EA6F8DC4C986">
-				<source xmi:idref="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED">
-					<model ea_localid="24" type="Activity" name="Given User is not authenticated"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</source>
-				<target xmi:idref="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B">
-					<model ea_localid="22" type="Activity" name="Then System returns 404"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</target>
-				<model ea_localid="9"/>
-				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
-				<documentation/>
-				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
-				<labels/>
-				<extendedProperties virtualInheritance="0"/>
-				<style/>
-				<xrefs/>
-				<tags/>
-			</connector>
-			<connector xmi:idref="EAID_1FAC368E_AD6E_4d7c_B461_3D432DE121E5">
-				<source xmi:idref="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631">
-					<model ea_localid="25" type="Decision" name="Alternate1"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</source>
-				<target xmi:idref="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED">
-					<model ea_localid="24" type="Activity" name="Given User is not authenticated"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</target>
-				<model ea_localid="5"/>
-				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
-				<documentation/>
-				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
-				<labels mb="[User not authenticated]"/>
-				<extendedProperties conditional="[User not authenticated]" virtualInheritance="0" privatedata2="User not authenticated"/>
-				<style/>
-				<xrefs/>
-				<tags>
-					<tag xmi:id="EAID_53D2F321_BE6B_4a6e_B82E_DACB2D40FFED" name="step_guid" value="{95083736-B8FA-4126-852D-BF9995908BB1}"/>
-				</tags>
-			</connector>
-			<connector xmi:idref="EAID_5785EA2F_60CC_4893_8F33_773B1669F5AA">
-				<source xmi:idref="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1">
-					<model ea_localid="21" type="Activity" name="Then System authenticates user"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</source>
-				<target xmi:idref="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35">
-					<model ea_localid="27" type="Activity" name="Then System queries data source"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</target>
-				<model ea_localid="10"/>
-				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
-				<documentation/>
-				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
-				<labels/>
-				<extendedProperties virtualInheritance="0"/>
-				<style/>
-				<xrefs/>
-				<tags/>
-			</connector>
-			<connector xmi:idref="EAID_BE209611_33DF_464f_827F_657F1D5B3F5B">
-				<source xmi:idref="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631">
-					<model ea_localid="25" type="Decision" name="Alternate1"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</source>
-				<target xmi:idref="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1">
-					<model ea_localid="21" type="Activity" name="Then System authenticates user"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</target>
-				<model ea_localid="11"/>
-				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
-				<documentation/>
-				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
-				<labels/>
-				<extendedProperties virtualInheritance="0"/>
-				<style/>
-				<xrefs/>
-				<tags/>
-			</connector>
 			<connector xmi:idref="EAID_770CB014_41C0_474c_9FCD_7C24EA18A36B">
 				<source xmi:idref="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35">
 					<model ea_localid="27" type="Activity" name="Then System queries data source"/>
@@ -1761,9 +1633,9 @@
 				<xrefs/>
 				<tags/>
 			</connector>
-			<connector xmi:idref="EAID_8F0FCB9B_343B_4f03_8E1A_C689FD642152">
-				<source xmi:idref="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD">
-					<model ea_localid="23" type="Activity" name="Then System returns 200 OK"/>
+			<connector xmi:idref="EAID_5785EA2F_60CC_4893_8F33_773B1669F5AA">
+				<source xmi:idref="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1">
+					<model ea_localid="21" type="Activity" name="Then System authenticates user"/>
 					<role visibility="Public"/>
 					<type aggregation="none" containment="Unspecified"/>
 					<constraints/>
@@ -1773,8 +1645,8 @@
 					<xrefs/>
 					<tags/>
 				</source>
-				<target xmi:idref="EAID_B7139175_E677_4e4d_939B_2181D4A4996A">
-					<model ea_localid="29" type="StateNode" name="End"/>
+				<target xmi:idref="EAID_A6905904_8362_4ed7_B2C9_C9554ADA8E35">
+					<model ea_localid="27" type="Activity" name="Then System queries data source"/>
 					<role visibility="Public"/>
 					<type aggregation="none" containment="Unspecified"/>
 					<constraints/>
@@ -1784,40 +1656,7 @@
 					<xrefs/>
 					<tags/>
 				</target>
-				<model ea_localid="7"/>
-				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
-				<documentation/>
-				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
-				<labels/>
-				<extendedProperties virtualInheritance="0"/>
-				<style/>
-				<xrefs/>
-				<tags/>
-			</connector>
-			<connector xmi:idref="EAID_0A5CE9D3_976D_4601_AC35_B6EE34B52974">
-				<source xmi:idref="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B">
-					<model ea_localid="22" type="Activity" name="Then System returns 404"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</source>
-				<target xmi:idref="EAID_85095153_35EB_4a91_A308_DC85EE655DF7">
-					<model ea_localid="31" type="StateNode" name="FlowEnd1"/>
-					<role visibility="Public"/>
-					<type aggregation="none" containment="Unspecified"/>
-					<constraints/>
-					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
-					<documentation/>
-					<xrefs/>
-					<tags/>
-				</target>
-				<model ea_localid="8"/>
+				<model ea_localid="10"/>
 				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
 				<documentation/>
 				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
@@ -1884,6 +1723,173 @@
 					<tags/>
 				</target>
 				<model ea_localid="3"/>
+				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
+				<documentation/>
+				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties virtualInheritance="0"/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_1FAC368E_AD6E_4d7c_B461_3D432DE121E5">
+				<source xmi:idref="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631">
+					<model ea_localid="25" type="Decision" name="Alternate1"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED">
+					<model ea_localid="24" type="Activity" name="Given User is not authenticated"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="5"/>
+				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
+				<documentation/>
+				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels mb="[User not authenticated]"/>
+				<extendedProperties conditional="[User not authenticated]" virtualInheritance="0" privatedata2="User not authenticated"/>
+				<style/>
+				<xrefs/>
+				<tags>
+					<tag xmi:id="EAID_53D2F321_BE6B_4a6e_B82E_DACB2D40FFED" name="step_guid" value="{95083736-B8FA-4126-852D-BF9995908BB1}"/>
+				</tags>
+			</connector>
+			<connector xmi:idref="EAID_BE209611_33DF_464f_827F_657F1D5B3F5B">
+				<source xmi:idref="EAID_A3AC8860_BF81_47cf_ABCA_714FE2CE9631">
+					<model ea_localid="25" type="Decision" name="Alternate1"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_DC010806_0B21_4744_93F5_112FD4EC29F1">
+					<model ea_localid="21" type="Activity" name="Then System authenticates user"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="11"/>
+				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
+				<documentation/>
+				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties virtualInheritance="0"/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_8A939427_AFEC_488f_9AA6_EA6F8DC4C986">
+				<source xmi:idref="EAID_A6C146CA_4A2E_4ec1_B5AA_FCE8FE4586ED">
+					<model ea_localid="24" type="Activity" name="Given User is not authenticated"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B">
+					<model ea_localid="22" type="Activity" name="Then System returns 404"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="9"/>
+				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
+				<documentation/>
+				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties virtualInheritance="0"/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_8F0FCB9B_343B_4f03_8E1A_C689FD642152">
+				<source xmi:idref="EAID_A071622C_0E6C_4c52_AE42_E1E33A0A76CD">
+					<model ea_localid="23" type="Activity" name="Then System returns 200 OK"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_B7139175_E677_4e4d_939B_2181D4A4996A">
+					<model ea_localid="29" type="StateNode" name="End"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="7"/>
+				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
+				<documentation/>
+				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
+				<labels/>
+				<extendedProperties virtualInheritance="0"/>
+				<style/>
+				<xrefs/>
+				<tags/>
+			</connector>
+			<connector xmi:idref="EAID_0A5CE9D3_976D_4601_AC35_B6EE34B52974">
+				<source xmi:idref="EAID_F3E29089_6602_47aa_9BB9_B72F369CCA8B">
+					<model ea_localid="22" type="Activity" name="Then System returns 404"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</source>
+				<target xmi:idref="EAID_85095153_35EB_4a91_A308_DC85EE655DF7">
+					<model ea_localid="31" type="StateNode" name="FlowEnd1"/>
+					<role visibility="Public"/>
+					<type aggregation="none" containment="Unspecified"/>
+					<constraints/>
+					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;"/>
+					<documentation/>
+					<xrefs/>
+					<tags/>
+				</target>
+				<model ea_localid="8"/>
 				<properties ea_type="ControlFlow" direction="Source -&gt; Destination"/>
 				<documentation/>
 				<appearance linemode="3" linecolor="0" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>

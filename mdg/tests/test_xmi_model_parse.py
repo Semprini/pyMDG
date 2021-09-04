@@ -2,7 +2,7 @@ import unittest
 
 from lxml import etree
 
-from mdg.parse.sparx_xmi import attr_parse, class_parse, association_parse, package_parse_inheritance
+from mdg.parse.sparx_xmi import attr_parse, class_parse, association_parse, model_package_parse_inheritance
 from mdg.uml import UMLClass, UMLPackage, Cardinality, UMLAssociationType
 
 
@@ -136,5 +136,5 @@ class TestXMIGeneralizationParse(unittest.TestCase):
 
         self.package.classes.append(self.generalization)
         self.package.classes.append(clazz)
-        package_parse_inheritance(self.package)
+        model_package_parse_inheritance(self.package)
         self.assertIsNotNone(clazz.generalization)

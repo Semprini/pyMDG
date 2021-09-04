@@ -119,6 +119,7 @@ class UMLInstance:
     status: Optional[UMLStatuses]
     associations_from: List[UMLAssociation]
     associations_to: List[UMLAssociation]
+    classification: Optional[UMLClass]
 
     class Meta:
         id_field = 'id'
@@ -134,6 +135,7 @@ class UMLInstance:
         self.id = id
         self.documentation = ""
         self.status = None
+        self.classification_id: Union[None, int, str] = None
 
     def __str__(self) -> str:
         return f"{self.name}"

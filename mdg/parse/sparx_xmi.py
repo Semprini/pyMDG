@@ -2,6 +2,7 @@ import re
 from typing import List, Tuple
 from lxml import etree
 import logging
+from decimal import Decimal
 
 from mdg.config import settings
 from mdg.uml import (
@@ -51,7 +52,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     if e_type == 'uml:Package':
         model_package = package_parse(model_element, tree, None)
         logger.debug("Parsing inheritance")
-        package_parse_inheritance(model_package)
+        model_package_parse_inheritance(model_package)
         logger.debug("Parsing associations")
         package_parse_associations(model_package, model_element, model_element)
         logger.debug("Sorting objects")
@@ -73,6 +74,8 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
         if e_type == 'uml:Package':
             test_package = package_parse(test_element, tree, None)
             package_parse_associations(test_package, test_element, test_element)
+            logger.debug("Parsing inheritance")
+            test_package_parse_inheritance(test_package, model_package)
 
             # With our test package parsed, we must return a list of instances instead of hierarchy of packages
             test_cases = parse_test_cases(test_package)
@@ -234,7 +237,7 @@ def package_parse_associations(package, element, root_element):
         package_parse_associations(package_child, element, root_element)
 
 
-def package_parse_inheritance(package):
+def model_package_parse_inheritance(package):
     """ Looks for classes which are specializations of a supertype and finds the correct object """
     for cls in package.classes:
         if cls.generalization_id is not None:
@@ -251,12 +254,36 @@ def package_parse_inheritance(package):
                 attr.classification = package.root_package.find_by_id(attr.classification_id)
                 if attr.classification is None:
                     logger.warn("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
-                    # print(package.root_package.name)
-                    # for p in package.root_package.children:
-                    #     print("    " + p.name)
 
     for child in package.children:
-        package_parse_inheritance(child)
+        model_package_parse_inheritance(child)
+
+
+def test_package_parse_inheritance(test_package, model_package):
+    """ Links instances with the class they are instances of """
+
+    for ins in test_package.instances:
+        if ins.classification_id is not None:
+            ins.classification = model_package.find_by_id(ins.classification_id)
+            if ins.classification is None:
+                logger.warn("Cannot find class which instance is from id={}".format(ins.classification_id))
+            else:
+                for attr in ins.attributes:
+                    for cls_attr in ins.classification.attributes:
+                        if attr.name == cls_attr.name:
+                            attr.type = cls_attr.type
+                            if attr.type.lower() in ['int', 'integer']:
+                                attr.value = int(attr.value)
+                            elif attr.type.lower() == ['float']:
+                                attr.value = float(attr.value)
+                            elif attr.type.lower() == ['decimal']:
+                                attr.value = Decimal(attr.value)
+                            break
+        else:
+            logger.warn("Instance object which is not from class id={}".format(ins.id))
+
+    for child in test_package.children:
+        test_package_parse_inheritance(child, model_package)
 
 
 def package_sort_classes(package):
@@ -300,6 +327,9 @@ def instance_parse(package, source_element, root):
     project = detail.find('project')
     ins.status = project.get('status')
 
+    # We need to link this instance to the class it is an instance of
+    ins.classification_id = source_element.get('classifier')
+
     # Create attributes for each item found in the runstate
     # TODO: Change this to using an re
     extended_properties = detail.find('extendedProperties')
@@ -313,7 +343,7 @@ def instance_parse(package, source_element, root):
                 attr.value = value.split('=')[1]
                 ins.attributes.append(attr)
     else:
-        logger.debug(f"No runstate found for instance {ins.name} | {ins.id}")
+        logger.info(f"No runstate found for UMLInstance {ins.name} | {ins.id}")
     logger.debug(f"Added UMLInstance {ins.name}")
     return ins
 
