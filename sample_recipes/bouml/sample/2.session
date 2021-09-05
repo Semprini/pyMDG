@@ -1,0 +1,13 @@
+window_sizes 2400 1225 600 1795 1073 104
+
+diagrams
+  active  classdiagram_ref 128002 // Model
+    1564 980 100 A4 0 0
+end
+show_stereotypes
+selected 
+  package_ref 128002 // SampleIndustry
+open
+  classdiagram_ref 128002 // Model
+end
+end

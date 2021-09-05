@@ -1,7 +1,7 @@
 root_package: SampleIndustry
 model_package: Model
 test_package: Test
-source: ./sample_recipes/sample.xml
+source: ./sample_recipes/sample-test.xml
 parser: drawio
 dest_root: ./build/test
 templates_folder: does_not_exist_so_will_use_default

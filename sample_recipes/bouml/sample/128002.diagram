@@ -1,0 +1,7 @@
+format 224
+
+classcanvas 128002 class_ref 128002 // test
+  classdiagramsettings show_members_full_definition yes member_max_width 0 end
+  xyzwh 99 157 2000 211 109
+end
+end

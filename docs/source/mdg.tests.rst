@@ -4,10 +4,18 @@ mdg.tests package
 Submodules
 ----------
 
-mdg.tests.test\_json module
----------------------------
+mdg.tests.test\_dumps module
+----------------------------
 
-.. automodule:: mdg.tests.test_json
+.. automodule:: mdg.tests.test_dumps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mdg.tests.test\_instance module
+-------------------------------
+
+.. automodule:: mdg.tests.test_instance
    :members:
    :undoc-members:
    :show-inheritance:

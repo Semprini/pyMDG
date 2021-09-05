@@ -35,4 +35,9 @@ def load():
     return defaults
 
 
+# If no recipe has been set before now, assume test recipe
+if os.environ.get('PYMDG_SETTINGS_MODULE', None) is None:
+    recipe_path = './sample_recipes' + "/config-test.yaml"
+    os.environ.setdefault("PYMDG_SETTINGS_MODULE", recipe_path)
+
 settings = load()

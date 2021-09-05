@@ -4,6 +4,7 @@ import logging
 from mdg.tools.validate import validate_package
 from mdg.generate.render import output_model, output_test_cases
 from mdg.parse import parse, ParseError
+from mdg.config import settings
 
 
 logger = logging.getLogger('mdg')
@@ -29,7 +30,8 @@ def generate():
 
         # Generate files from the native python UML
         output_model(model_package)
-        output_test_cases(test_cases)
+        if 'test_package' in settings.keys():
+            output_test_cases(test_cases)
 
     except ParseError as e:
         logger.error(e)

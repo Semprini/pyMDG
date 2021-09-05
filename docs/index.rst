@@ -17,7 +17,7 @@ Generation::
    virtualenv venv
    . venv/bin/activate or .\venv\Scripts\activate
    pip install -r requirements.txt
-   python mdg-tool.py generate ./sample_recipe/config-drawio-django.yaml 
+   python mdg-tool.py generate ./sample_recipe/drawio/config-drawio-django.yaml 
    
 Run the app::
 

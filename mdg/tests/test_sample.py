@@ -19,7 +19,7 @@ class TestSample_DrawIO_Django(unittest.TestCase):
     def test_validate(self):
         # Deliberate error in test config
         errors = validate_package(self.model_package)
-        self.assertEquals(len(errors), 1)
+        self.assertEqual(len(errors), 1)
 
     def test_render_model(self):
         self.assertGreater(len(self.model_package.children), 0)

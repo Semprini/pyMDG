@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.3" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+	<xmi:Documentation exporter="Bouml" exporterVersion="5.1"/>
+	<uml:Model xmi:type="uml:Model" xmi:id="themodel" name="sample">
+		<packagedElement xmi:type="uml:Package" xmi:id="BOUML_0x81_22" name ="sample">
+			<packagedElement xmi:type="uml:Package" xmi:id="BOUML_0x1f402_22" name ="SampleIndustry">
+				<packagedElement xmi:type="uml:Package" xmi:id="BOUML_0x1f482_22" name ="Model">
+					<packagedElement xmi:type="uml:Package" xmi:id="BOUML_0x1f402_18" name ="class view TestDomain">
+						<packagedElement xmi:type="uml:Class" name="test" xmi:id="BOUML_0x1f402_4" visibility="package">
+							<ownedAttribute xmi:type="uml:Property" name="test_attr" xmi:id="BOUML_0x1f402_1" visibility="private">
+								<type xmi:type="uml:PrimitiveType" href="http://schema.omg.org/spec/UML/2.3/uml.xml#Integer"/>
+							</ownedAttribute>
+						</packagedElement>
+					</packagedElement>
+				</packagedElement>
+			</packagedElement>
+		</packagedElement>
+	</uml:Model>
+</xmi:XMI>

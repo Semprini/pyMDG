@@ -2,18 +2,20 @@
 # pyMDG
 
 ## Overview
-Parser and tools to manipulate UML models. Current version supports Sparx EA Generated XMI 2.1 or diagrams.net XML
+Parser and tools to perform model driven generation of artifacts (code, schema, documentation etc) from UML models. Current version supports Sparx EA Generated XMI 2.1, BOUML XMI 2.3 (in-progress) or diagrams.net XML
 
 Used to parse model files to native classes (see metamodel below) which are passed to jinja2 templates for generation of code (POJO, POCO, Django etc), JSON data and HTML documentation.
 
 Quickstart and docs can be found here: [readthedocs](https://pymdg.readthedocs.io/en/latest/index.html)
 
 ## Test
-Testing:
- > python test.py
+Testing (powershell):
+ > .\test.ps1
+Testing (unittest):
+ > python -m unittest
 
 To generate code call the generate script and pass in the recipe folder. A sample recipe folder is provided in the github repo:
- > python mdg-tool.py generate ./sample_recipe/config-drawio-django.yaml
+ > python mdg-tool.py generate ./sample_recipe/drawio/config-drawio-django.yaml
 
 Or once installed into site-packages execute:
  > mdg-tool generate <my/config.yaml>

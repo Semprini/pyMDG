@@ -4,6 +4,14 @@ mdg.parse package
 Submodules
 ----------
 
+mdg.parse.bouml\_xmi module
+---------------------------
+
+.. automodule:: mdg.parse.bouml_xmi
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mdg.parse.drawio\_xml module
 ----------------------------
 
