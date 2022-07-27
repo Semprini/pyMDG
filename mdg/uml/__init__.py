@@ -1,5 +1,6 @@
 #!/usr/bin/python
 from __future__ import annotations
+from decimal import Decimal
 from typing import List, Union, Optional, Any, Tuple
 from enum import Enum
 import json
@@ -249,6 +250,7 @@ class UMLClass:
     is_abstract: bool
     status: Optional[UMLStatuses]
     composed_of: List[UMLClass]
+    phase: Optional[Decimal]
 
     class Meta:
         id_field = 'id'
@@ -271,6 +273,7 @@ class UMLClass:
         self.is_abstract = False
         self.status = None
         self.composed_of = []
+        self.phase = None
 
         for inherited_stereotype, inherited_package in package.inherited_stereotypes:
             if not hasattr(self, inherited_stereotype):

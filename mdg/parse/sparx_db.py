@@ -392,33 +392,11 @@ def class_parse(package: UMLPackage, tobject: TObject):
     else:
         cls.is_abstract = False
 
-    # If the class is inherited from a superclass then get the ID. The actual object will be found in a separate pass
-    # as it may not have been parsed yet
-    # generalization_element = element.find('generalization')
-    # if generalization_element is not None:
-    #     cls.generalization_id = generalization_element.get('general')
-
-    # Loop through class elements children for attributes.
-    # for child in element:
-    #     e_type = child.get('type')
-
-    #     if e_type == 'uml:Property':
-    #         # Associations will be done in a separate pass
-    #         if child.get('association') is None and child.get('name') is not None:
-    #             attr = attr_parse(cls, child, root)
-    #             cls.attributes.append(attr)
-
-    # Detail is sparx sprecific
-    # TODO: Put modelling tool in settings and use tool specific parser here
-    # detail = root.xpath("//element[@xmi:idref='%s']" % cls.id)[0]
-    # properties = detail.find('properties')
-    # cls.alias = properties.get('alias')
-    # cls.documentation = properties.get('documentation')
-    # if cls.documentation is None:
-    #     cls.documentation = ""
-
-    # project = detail.find('project')
-    # cls.status = project.get('status')
+    cls.alias = tobject.alias
+    cls.documentation = tobject.note
+    cls.status = tobject.status
+    cls.phase = tobject.phase
+    cls.generalization_id = tobject.classifier
 
     # # Get stereotypes, when multiple are provided only the first is found in the stereotype tag but all are found in
     # # xrefs
@@ -428,6 +406,16 @@ def class_parse(package: UMLPackage, tobject: TObject):
     #     cls.stereotypes = re.findall('@STEREO;Name=(.*?);', value)
 
     print(f"Added UMLClass {cls.package.path}{cls.name}")
+
+    # Loop through class elements children for attributes.
+    # for child in element:
+    #     e_type = child.get('type')
+    #     if e_type == 'uml:Property':
+    #         # Associations will be done in a separate pass
+    #         if child.get('association') is None and child.get('name') is not None:
+    #             attr = attr_parse(cls, child, root)
+    #             cls.attributes.append(attr)
+
     return cls
 
 
