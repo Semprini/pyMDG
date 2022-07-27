@@ -1,9 +1,8 @@
-import re
 from typing import List, Tuple, Optional
 import logging
 from decimal import Decimal
 
-import sqlalchemy  
+import sqlalchemy
 from sqlalchemy.orm import Session
 
 from mdg.parse.sparx_db_models import (
@@ -35,10 +34,10 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     with Session(engine) as session:
 
         # Find the element that is the root for models
-        #stmt = sqlalchemy.select(TPackage, TObject).join(TObject, TObject.package_id == TPackage.parent_id).where(TPackage.name == settings['root_package'], TObject.name == settings['root_package'])
-        #root_package, root_object = session.execute(stmt).first()
-        #root_object.package = root_package
-        #print(f"{root_object.object_type}: {root_object.package.name}")
+        # stmt = sqlalchemy.select(TPackage, TObject).join(TObject, TObject.package_id == TPackage.parent_id).where(TPackage.name == settings['root_package'], TObject.name == settings['root_package'])
+        # root_package, root_object = session.execute(stmt).first()
+        # root_object.package = root_package
+        # print(f"{root_object.object_type}: {root_object.package.name}")
 
         # Find the package with the model nodes
         # stmt = sqlalchemy.select(TPackage, TObject).join(TObject, TObject.package_id == TPackage.parent_id).where(TPackage.name == "DataModel", TObject.name == "DataModel")  # settings['model_package'], settings['model_package'])
@@ -97,7 +96,7 @@ def package_parse(session, tpackage: TPackage, parent_package: Optional[UMLPacka
 
     package.stereotype = f"{tobject.stereotype}"
     if package.stereotype is not None:
-       package.inherited_stereotypes.append((package.stereotype, package))
+        package.inherited_stereotypes.append((package.stereotype, package))
 
     package.documentation = tobject.note
     if package.documentation is None:
