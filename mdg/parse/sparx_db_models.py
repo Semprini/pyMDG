@@ -1,5 +1,19 @@
 
-from sqlalchemy import CHAR, Column, Date, DateTime, Float, Index, Integer, LargeBinary, SmallInteger, String, Table, Text, text
+from sqlalchemy import (
+    CHAR,
+    Column,
+    # Date,
+    DateTime,
+    # Float,
+    Index,
+    Integer,
+    # LargeBinary,
+    # SmallInteger,
+    String,
+    # Table,
+    Text,
+    text,
+)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.decl_api import declarative_base as _declarative_base
 
