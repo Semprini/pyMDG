@@ -113,3 +113,56 @@ class TPackage(Base):
     packageflags = Column(String(255))
     batchsave = Column(Integer)
     batchload = Column(Integer)
+
+
+class TXref(Base):
+    __tablename__ = 't_xref'
+    __table_args__ = (
+        Index('ix_xref_nametype', 'name', 'type'),
+    )
+
+    xrefid = Column(String(255), primary_key=True)
+    name = Column(String(255), index=True)
+    type = Column(String(255), index=True)
+    visibility = Column(String(255))
+    namespace = Column(String(255))
+    requirement = Column(String(255))
+    Constraint = Column(String(255))
+    behavior = Column(String(255))
+    partition = Column(String(255))
+    description = Column(Text)
+    client = Column(String(255), index=True)
+    supplier = Column(String(255), index=True)
+    link = Column(String(255))
+
+
+class TAttribute(Base):
+    __tablename__ = 't_attribute'
+
+    object_id = Column(Integer, index=True, server_default=text("0"))
+    name = Column(String(255), index=True)
+    scope = Column(String(50))
+    stereotype = Column(String(50))
+    containment = Column(String(50))
+    isstatic = Column(Integer, server_default=text("0"))
+    iscollection = Column(Integer, server_default=text("0"))
+    isordered = Column(Integer, server_default=text("0"))
+    allowduplicates = Column(Integer, server_default=text("0"))
+    lowerbound = Column(String(50))
+    upperbound = Column(String(50))
+    container = Column(String(50))
+    notes = Column(Text)
+    derived = Column(CHAR(1))
+    id = Column(Integer, primary_key=True, server_default=text("nextval(('id_seq'::text)::regclass)"))
+    pos = Column(Integer)
+    genoption = Column(Text)
+    length = Column(Integer)
+    precision = Column(Integer)
+    scale = Column(Integer)
+    const = Column(Integer)
+    style = Column(String(255))
+    classifier = Column(String(50), index=True)
+    Default = Column(Text)
+    type = Column(String(255), index=True)
+    ea_guid = Column(String(50), unique=True)
+    styleex = Column(Text)

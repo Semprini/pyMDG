@@ -1,5 +1,6 @@
 from typing import List, Tuple, Optional
 import logging
+import re
 from decimal import Decimal
 
 import sqlalchemy
@@ -8,6 +9,8 @@ from sqlalchemy.orm import Session
 from mdg.parse.sparx_db_models import (
     TObject,
     TPackage,
+    TXref,
+    TAttribute,
 )
 
 from mdg.config import settings
@@ -122,7 +125,7 @@ def package_parse_children(session, package):
             package.children.append(pkg)
 
         elif child_tobject.object_type == 'Class':
-            cls = class_parse(package, child_tobject)
+            cls = class_parse(session, package, child_tobject)
             if cls.name is not None:
                 package.classes.append(cls)
 
@@ -384,7 +387,7 @@ def enumeration_parse(package, element):
     return enumeration
 
 
-def class_parse(package: UMLPackage, tobject: TObject):
+def class_parse(session, package: UMLPackage, tobject: TObject):
     cls: UMLClass = UMLClass(package, tobject.name, tobject.object_id)
     if tobject.abstract == '1':
         cls.is_abstract = True
@@ -395,72 +398,56 @@ def class_parse(package: UMLPackage, tobject: TObject):
     cls.documentation = tobject.note
     cls.status = tobject.status
     cls.phase = tobject.phase
-    cls.generalization_id = tobject.classifier
 
-    # # Get stereotypes, when multiple are provided only the first is found in the stereotype tag but all are found in
-    # # xrefs
-    # xrefs = detail.find('xrefs')
-    # value = xrefs.get('value')
-    # if value is not None:
-    #     cls.stereotypes = re.findall('@STEREO;Name=(.*?);', value)
+    # TXref
+    #   description @STEREO;Name=notifiable;GUID={ADC4E914-13DD-4f1b-A9DB-EDCB89896228};@ENDSTEREO;@STEREO;Name=auditable;GUID={C5DA655B-B862-4a27-96F8-FEB0B2EDD529};@ENDSTEREO;
+    #   client {24501FBB-962E-493c-8777-C73D79F7F628}
+    #   name Stereotypes
+    stmt = sqlalchemy.select(TXref).where(TXref.client == tobject.ea_guid, TXref.name == "Stereotypes")
+    txref = session.execute(stmt).scalars().first()
+    if txref is not None:
+        cls.stereotypes = re.findall('@STEREO;Name=(.*?);', txref.description)
 
-    print(f"Added UMLClass {cls.package.path}{cls.name}")
+    print(f"Added UMLClass {cls.package.path}{cls.name} | Stereotypes: {cls.stereotypes}")
 
-    # Loop through class elements children for attributes.
-    # for child in element:
-    #     e_type = child.get('type')
-    #     if e_type == 'uml:Property':
-    #         # Associations will be done in a separate pass
-    #         if child.get('association') is None and child.get('name') is not None:
-    #             attr = attr_parse(cls, child, root)
-    #             cls.attributes.append(attr)
+    stmt = sqlalchemy.select(TAttribute).where(TAttribute.object_id == tobject.object_id)
+    for tattribute in session.execute(stmt).scalars().all():
+        attr = attr_parse(cls, tattribute)
+        cls.attributes.append(attr)
 
     return cls
 
 
-def attr_parse(parent: UMLClass, element, root):
-    attr = UMLAttribute(parent, element.get('name'), element.get('id'))
+def attr_parse(parent: UMLClass, tattribute: TAttribute):
+    attr = UMLAttribute(parent, tattribute.name, tattribute.id)
 
-    attr.visibility = element.get('visibility')
-    type_elem = element.find('type')
+    # attr.visibility = element.get('visibility')
+    type_elem = tattribute.type
     if type_elem is not None:
-        type_id = type_elem.get('idref')
-        if type_id[:4] == 'EAID':
-            attr.classification_id = type_id
+        attr.set_type(type_elem)
     else:
         logging.error(f"Attribute {attr.name} of class {parent} does not have a type")
 
-    # Detail is sparx sprecific
-    # TODO: Put modelling tool in settings and use tool specific parser here
-    detail = root.xpath("//attribute[@xmi:idref='%s']" % attr.id)[0]
-    properties = detail.find('properties')
-    attr.set_type(properties.get('type'))
-    doc = detail.find('documentation')
-    doc = doc.get('value')
-    if doc is not None:
-        attr.documentation = doc
+    attr.documentation = tattribute.notes
 
-    alias_node = detail.find('style')
-    attr.alias = alias_node.get('value')
+    # xrefs = detail.find('xrefs')
+    # if xrefs.get('value') is not None and 'NAME=isID' in xrefs.get('value'):
+    #     attr.is_id = True
+    #     attr.parent.id_attribute = attr
+    # else:
+    #     attr.is_id = False
 
-    xrefs = detail.find('xrefs')
-    if xrefs.get('value') is not None and 'NAME=isID' in xrefs.get('value'):
-        attr.is_id = True
-        attr.parent.id_attribute = attr
-    else:
-        attr.is_id = False
+    attr.stereotype = tattribute.stereotype
 
-    stereotype = detail.find('stereotype')
-    if stereotype is not None:
-        attr.stereotype = stereotype.get('stereotype')
+    # constraints = detail.find('Constraints')
+    # if constraints is not None:
+    #     for constraint in constraints:
+    #         name = constraint.get('name')
+    #         if name == 'unique':
+    #             attr.is_unique = True
+    #         elif name.startswith('length'):
+    #             attr.length = int(name.split("=")[1])
 
-    constraints = detail.find('Constraints')
-    if constraints is not None:
-        for constraint in constraints:
-            name = constraint.get('name')
-            if name == 'unique':
-                attr.is_unique = True
-            elif name.startswith('length'):
-                attr.length = int(name.split("=")[1])
+    print(f"Added Attribute {attr.parent.name}/{attr.name}")
 
     return attr

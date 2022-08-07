@@ -46,6 +46,7 @@ setuptools.setup(
         "lxml",
         "jinja2",
         "pyyaml",
+        "sqlalchemy",
     ],
     python_requires='>=3.7',
 )
