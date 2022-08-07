@@ -48,7 +48,7 @@ pyMDG has a specific UML nomenclature, expects Sparx EA project to have a packag
    | ``<xmi:XMI xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1">``
 
 
-My generated XMI file can be found here: https://github.com/Semprini/pyMDG/raw/master/mdg/docs/tutorials/sparx/tutorial1.xmi
+My generated XMI file can be found here: https://raw.githubusercontent.com/Semprini/pyMDG/master/docs/tutorials/sparx/tutorial1.xmi
 
 Generation
 ^^^^^^^^^^
@@ -91,7 +91,7 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
    * A level which specifies if we want the template run for each class or for each package. I want to generate an avsc file per UML class object and an open api yaml file for the package.
    * Where we want to place the resulting artifact. We can use a jinja2 method to include our model structure in the filenames. If the level is class, the "cls" object is passed here and if the level is package then the "package" object is provided. Again see the meta model for what the fields are.
 
-My complete recipe file can be found here: https://github.com/Semprini/pyMDG/raw/master/mdg/docs/tutorials/sparx/schemagen.yaml
+My complete recipe file can be found here: https://github.com/Semprini/pyMDG/raw/master/docs/tutorials/sparx/schemagen.yaml
 
 2. Generation
 
