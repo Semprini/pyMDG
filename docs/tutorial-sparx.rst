@@ -62,10 +62,10 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
    | Our first step is to create a file in our tutorial1 folder called schemagen.yaml.
    | We then add info on how our project is set up::
 
-    | root_package: Tutorial Data Model
-    | model_package: Tutorial Data Model
-    | source: ./tutorial1.xmi
-    | parser: sparx
+   | root_package: Tutorial Data Model
+   | model_package: Tutorial Data Model
+   | source: ./tutorial1.xmi
+   | parser: sparx
 
    | Next we add the generation type and where to find our jinja2 templates to the yml::
 
@@ -87,7 +87,7 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
 
    | Each list item needs to specify:
    
-   * Which Jinja2 template we want to use which will add to the path specified in "templates_folder"
+   * Which Jinja2 template we want to use which will add to the path specified in "templates_folder" but also look through the internal pyMDG templates.
    * A level which specifies if we want the template run for each class or for each package. I want to generate an avsc file per UML class object and an open api yaml file for the package.
    * Where we want to place the resulting artifact. We can use a jinja2 method to include our model structure in the filenames. If the level is class, the "cls" object is passed here and if the level is package then the "package" object is provided. Again see the meta model for what the fields are.
 
@@ -99,7 +99,7 @@ My complete recipe file can be found here: https://github.com/Semprini/pyMDG/raw
    | I always use a virtual environment so enter::
       
       | virtualenv venv
-      | .\venv\Scripts\activate
+      | .\\venv\\Scripts\\activate
 
    | Install pyMDG::
 
@@ -107,7 +107,7 @@ My complete recipe file can be found here: https://github.com/Semprini/pyMDG/raw
 
    | And finally run the generation::
 
-      | mdg-tool generate .\schemagen.yaml
+      | mdg-tool generate .\\schemagen.yaml
 
       | 2022-08-07 20:08:36,476 | mdg.config | INFO | Config file loaded: .\schemagen.yaml
       | 2022-08-07 20:08:36,722 | mdg.parse.sparx_xmi | INFO | Parsing models
