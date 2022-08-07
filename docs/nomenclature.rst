@@ -1,7 +1,7 @@
-pyMDG Nomenclature
-******************
+Nomenclature
+************
 
-.. image:: https://github.com/Semprini/pyMDG/raw/master/sample_recipes/images/EAID_96AC850E_2FD0_4e6c_B00E_C030EDA89F42.png
+.. image:: https://github.com/Semprini/pyMDG/raw/master/sample_recipes/images/EAID_9100ADB5_EFF8_4ded_BA61_E8564C8134AC.png
 
 pyMDG supports 4 relation types:
 
