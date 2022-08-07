@@ -180,7 +180,7 @@ def output_model(package: UMLPackage) -> None:
 def output_test_cases(test_cases: List[UMLInstance]) -> None:
     """ Test cases are parse into a list of UML instances. Loop through list and serialise
     """
-    if settings['test_templates'] is None:
+    if 'test_templates' not in settings or settings['test_templates'] is None:
         logger.warn("No test templates")
         return
 

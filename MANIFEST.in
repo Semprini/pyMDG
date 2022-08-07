@@ -1,0 +1,3 @@
+include *.txt *.md
+recursive-include *.txt *.py *.jinja
+global-include *.jinja
