@@ -52,6 +52,7 @@ Indices and tables
    :caption: Reference:
    :glob:
    
+   nomenclature
    metamodel
    recipes
    templates

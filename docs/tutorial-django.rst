@@ -2,11 +2,12 @@ Diagrams.net Django Tutorial
 ****************************
 
 To use pyMDG we need to build:
+
 * A UML model
 * A generation recipe
 
-Modelling
-^^^^^^^^^
+Data Modelling
+^^^^^^^^^^^^^^
 
 pyMDG has a specific UML nomenclature. This needs to be added into diagrams.net by selecting:
 

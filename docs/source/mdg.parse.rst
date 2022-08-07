@@ -20,6 +20,22 @@ mdg.parse.drawio\_xml module
    :undoc-members:
    :show-inheritance:
 
+mdg.parse.sparx\_db module
+--------------------------
+
+.. automodule:: mdg.parse.sparx_db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mdg.parse.sparx\_db\_models module
+----------------------------------
+
+.. automodule:: mdg.parse.sparx_db_models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 mdg.parse.sparx\_xmi module
 ---------------------------
 
