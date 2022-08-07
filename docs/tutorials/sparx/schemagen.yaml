@@ -1,0 +1,16 @@
+root_package: Tutorial Data Model
+model_package: Tutorial Data Model
+source: ./tutorial1.xmi
+parser: sparx
+dest_root: ./build
+templates_folder: ./mdg/templates
+generation_type: default
+model_templates:
+# Avro Schema
+- dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
+  level: class
+  source: "Schema/avro.avsc.jinja"
+# OpenAPI Schema
+- dest: "openapi/{{ package.name }}.yaml"
+  level: package
+  source: Schema/openapi.yaml.jinja

@@ -1,5 +1,5 @@
 Sparx EA XMI Tutorial
-****************************
+*********************
 
 This tutorial uses Sparx EA version 16 but any version which can output XMI 2.1 should work. Note, version 16 of Sparx EA changes it's internal file format to a SQLite DB with the same schema as the DB based repository so pyMDG will add this as the prefered mode and XMI export will stop having features added.
 
@@ -47,6 +47,9 @@ pyMDG has a specific UML nomenclature, expects Sparx EA project to have a packag
    | You can open the exported file in a text editor like Notepad++ and the 2nd line should say: 
    | ``<xmi:XMI xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1">``
 
+
+My generated XMI file can be found here: https://github.com/Semprini/pyMDG/raw/master/mdg/docs/tutorials/sparx/tutorial1.xmi
+
 Generation
 ^^^^^^^^^^
 
@@ -59,7 +62,7 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
    | Our first step is to create a file in our tutorial1 folder called schemagen.yaml.
    | We then add info on how our project is set up::
 
-    | root_package: Model
+    | root_package: Tutorial Data Model
     | model_package: Tutorial Data Model
     | source: ./tutorial1.xmi
     | parser: sparx
@@ -88,6 +91,8 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
    * A level which specifies if we want the template run for each class or for each package. I want to generate an avsc file per UML class object and an open api yaml file for the package.
    * Where we want to place the resulting artifact. We can use a jinja2 method to include our model structure in the filenames. If the level is class, the "cls" object is passed here and if the level is package then the "package" object is provided. Again see the meta model for what the fields are.
 
+My complete recipe file can be found here: https://github.com/Semprini/pyMDG/raw/master/mdg/docs/tutorials/sparx/schemagen.yaml
+
 2. Generation
 
    | Next we open a CMD prompt and cd into tutorial1
@@ -103,6 +108,11 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
    | And finally run the generation::
 
       | mdg-tool generate .\schemagen.yaml
+
+      | 2022-08-07 20:08:36,476 | mdg.config | INFO | Config file loaded: .\schemagen.yaml
+      | 2022-08-07 20:08:36,722 | mdg.parse.sparx_xmi | INFO | Parsing models
+      | 2022-08-07 20:08:36,724 | mdg.parse | INFO | Base Model Package: Tutorial Data Model
+      | 2022-08-07 20:08:36,724 | mdg.generate.render | INFO | Generating model output for package /Tutorial Data Model/
 
 3. Bask in our own pure awesomeness
 
