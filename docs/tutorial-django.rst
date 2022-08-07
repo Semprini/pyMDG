@@ -39,7 +39,7 @@ There are 5 templates for classes:
 * Stereotyped: Shows auditable (data platform will track changes) and notifiable (changes will cause events to be sent to the message broker)
 * Routable: When events are sent to message broker then routing keys will include attributes with <<routable>> stereotype.
 
-pyMDG supports 2 relation types:
+pyMDG supports 4 relation types:
 
 * Association: Forms relations between classes:
 
@@ -49,6 +49,10 @@ pyMDG supports 2 relation types:
    * Many to Many
 
 * Generalization: Defines a parent/child inheritance
+
+* Composition: Similar to association but can be used to control generated features. For example, when generating an OpenAPI schema, objects which are part of a composition may not get thier own endpoint.
+
+* Aggregation: Like composition aggregations affect the features of our output. For example, an OpenAPI generation can use aggregations to specifiy when the endpoint is a sub-endpoint I.e. /customer/12/customer_address/1/
 
 Export the diagram by File -> Export As -> XML and unselect Compressed
 
