@@ -1,5 +1,5 @@
-pyMDG's documentation
-=====================
+Welcome to pyMDG Documentation
+==============================
 
 Take UML models created in Sparx EA or DrawIO, export and use pyMDG to generate code, schema and documentation. Provided templates generate Django, OpenAPI, Avro, POJOs and more.
 
@@ -17,18 +17,20 @@ Generation::
    virtualenv venv
    . venv/bin/activate or .\venv\Scripts\activate
    pip install -r requirements.txt
-   python mdg-tool.py generate ./sample_recipe/drawio/config-drawio-django.yaml 
+   python -m mdg.tools.mdg_tool generate ./sample_recipe/drawio/config-drawio-django.yaml 
    
 Run the app::
 
    cd build/sample_drawio_django/SampleIndustry
    pip install -r requirements.txt
-   python manage.py makemigrations TestDomain
+   python manage.py makemigrations TestDomain TestDomain2
    python manage.py migrate
    python manage.py createsuperuser
    python manage.py runserver
 
 And browse to http://127.0.0.1:8000/admin/ or http://127.0.0.1:8000/api/
+
+When installed via pip, and you've created your own project, pyMDG provides the mdg-tool command.
 
 Indices and tables
 ==================
@@ -36,6 +38,17 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. toctree::
+   :hidden:
+   :maxdepth: 1
+   :caption: Features:
+   :glob:
+
+   feature*
+   recipes
+   templates
+
 
 .. toctree::
    :hidden:
@@ -54,8 +67,6 @@ Indices and tables
    
    nomenclature
    metamodel
-   recipes
-   templates
 
 
 .. toctree::
