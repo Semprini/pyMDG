@@ -33,21 +33,23 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     """
     test_cases: List[UMLInstance] = []
 
-    engine = sqlalchemy.create_engine("sqlite:///sample_recipes/sparx/sample.qea", echo=False, future=True)
+    engine = sqlalchemy.create_engine(f"sqlite:///{settings['source']}", echo=False, future=True)
     with Session(engine) as session:
 
         # Find the element that is the root for models
-        # stmt = sqlalchemy.select(TPackage, TObject).join(TObject, TObject.package_id == TPackage.parent_id).where(TPackage.name == settings['root_package'], TObject.name == settings['root_package'])
-        # root_package, root_object = session.execute(stmt).first()
-        # root_object.package = root_package
-        # print(f"{root_object.object_type}: {root_object.package.name}")
+        # stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['root_package'])
+        # root_package = session.execute(stmt).first()
 
-        # Find the package with the model nodes
-        # stmt = sqlalchemy.select(TPackage, TObject).join(TObject, TObject.package_id == TPackage.parent_id).where(TPackage.name == "DataModel", TObject.name == "DataModel")  # settings['model_package'], settings['model_package'])
-        stmt = sqlalchemy.select(TPackage).where(TPackage.name == "DataModel")  # settings['model_package'], settings['model_package'])
+        # Find the package with the model nodes. Can specify either EA GUID or name
+        # If guid make sure value in recipie is quoted - model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
+        if settings['model_package'][0] == "{":
+            stmt = sqlalchemy.select(TPackage).where(TPackage.ea_guid == settings['model_package'])
+        else:
+            stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['model_package'])
         model_package = session.execute(stmt).scalars().first()
-        # model_object.package = model_package
-        # print(f"Model Object: {model_object.object_id}: {model_object.name}")
+        if model_package is None:
+            raise ValueError("Model package element not found. Settings has:{}".format(settings['model_package']))
+        logger.debug(f"Model Object: {model_package.package_id}: {model_package.name}")
 
         # Create our root model UMLPackage and parse in 3 passes
         model_package = package_parse(session, model_package, None)
@@ -107,7 +109,7 @@ def package_parse(session, tpackage: TPackage, parent_package: Optional[UMLPacka
 
     package.status = tobject.status
 
-    print("Added UMLPackage {}".format(package.path))
+    logger.debug("Added UMLPackage {}".format(package.path))
 
     package_parse_children(session, package)
     return package
@@ -401,24 +403,22 @@ def class_parse(session, package: UMLPackage, tobject: TObject):
 
     # TXref
     #   description @STEREO;Name=notifiable;GUID={ADC4E914-13DD-4f1b-A9DB-EDCB89896228};@ENDSTEREO;@STEREO;Name=auditable;GUID={C5DA655B-B862-4a27-96F8-FEB0B2EDD529};@ENDSTEREO;
-    #   client {24501FBB-962E-493c-8777-C73D79F7F628}
-    #   name Stereotypes
     stmt = sqlalchemy.select(TXref).where(TXref.client == tobject.ea_guid, TXref.name == "Stereotypes")
     txref = session.execute(stmt).scalars().first()
     if txref is not None:
         cls.stereotypes = re.findall('@STEREO;Name=(.*?);', txref.description)
 
-    print(f"Added UMLClass {cls.package.path}{cls.name} | Stereotypes: {cls.stereotypes}")
+    logger.debug(f"Added UMLClass {cls.package.path}{cls.name} | Stereotypes: {cls.stereotypes}")
 
     stmt = sqlalchemy.select(TAttribute).where(TAttribute.object_id == tobject.object_id)
     for tattribute in session.execute(stmt).scalars().all():
-        attr = attr_parse(cls, tattribute)
+        attr = attr_parse(session, cls, tattribute)
         cls.attributes.append(attr)
 
     return cls
 
 
-def attr_parse(parent: UMLClass, tattribute: TAttribute):
+def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
     attr = UMLAttribute(parent, tattribute.name, tattribute.id)
 
     # attr.visibility = element.get('visibility')
@@ -430,12 +430,14 @@ def attr_parse(parent: UMLClass, tattribute: TAttribute):
 
     attr.documentation = tattribute.notes
 
-    # xrefs = detail.find('xrefs')
-    # if xrefs.get('value') is not None and 'NAME=isID' in xrefs.get('value'):
-    #     attr.is_id = True
-    #     attr.parent.id_attribute = attr
-    # else:
-    #     attr.is_id = False
+    # @PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;
+    stmt = sqlalchemy.select(TXref).where(TXref.client == tattribute.ea_guid, TXref.name == "CustomProperties")
+    txref = session.execute(stmt).scalars().first()
+    if txref is not None:
+        attr.is_id = bool(re.findall('@NAME=isID.*@VALU=(.*?)@ENDVALU;', txref.description))
+        attr.parent.id_attribute = attr
+    else:
+        attr.is_id = False
 
     attr.stereotype = tattribute.stereotype
 
@@ -448,6 +450,6 @@ def attr_parse(parent: UMLClass, tattribute: TAttribute):
     #         elif name.startswith('length'):
     #             attr.length = int(name.split("=")[1])
 
-    print(f"Added Attribute {attr.parent.name}/{attr.name}")
+    logger.debug(f"Added Attribute {attr.parent.name}/{attr.name}")
 
     return attr

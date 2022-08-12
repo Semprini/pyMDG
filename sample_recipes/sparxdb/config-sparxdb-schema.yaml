@@ -1,0 +1,19 @@
+root_package: SampleIndustry
+model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
+test_package: Test
+source: ./sample_recipes/sparxdb/sample.qea
+parser: sparxdb
+dest_root: ./build/sample_sparxdb_schema
+templates_folder: ./mdg/templates
+generation_type: default
+model_templates:
+# Avro Schema
+- dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
+  level: class
+  source: "Schema/avro.avsc.jinja"
+# OpenAPI Schema
+- dest: "openapi/{{ package.name }}.yaml"
+  level: package
+  source: Schema/openapi.yaml.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+test_templates:

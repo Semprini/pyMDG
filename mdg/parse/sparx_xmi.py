@@ -37,14 +37,14 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     model = tree.find('uml:Model', ns)
     root_package = model.xpath("//packagedElement[@name='%s']" % settings['root_package'], namespaces=ns)
     if len(root_package) == 0:
-        raise ValueError("Root packaged element not found. Settings has:{}".format(settings['root_package']))
+        raise ValueError("Root package element not found. Settings has:{}".format(settings['root_package']))
     element = root_package[0]
 
     # Find the element that is the root for models
     logger.info("Parsing models")
     model_element = element.xpath("//packagedElement[@name='%s']" % settings['model_package'], namespaces=ns)
     if len(model_element) == 0:
-        raise ValueError("Model packaged element not found. Settings has:{}".format(settings['model_package']))
+        raise ValueError("Model package element not found. Settings has:{}".format(settings['model_package']))
     model_element = model_element[0]
 
     # Create our root model UMLPackage and parse in 3 passes
