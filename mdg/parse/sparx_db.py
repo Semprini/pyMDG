@@ -1,7 +1,8 @@
+# import enum
 from typing import List, Tuple, Optional
 import logging
 import re
-from decimal import Decimal
+# from decimal import Decimal
 
 import sqlalchemy
 from sqlalchemy.orm import Session
@@ -11,6 +12,7 @@ from mdg.parse.sparx_db_models import (
     TPackage,
     TXref,
     TAttribute,
+    TConnector,
 )
 
 from mdg.config import settings
@@ -53,10 +55,10 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
 
         # Create our root model UMLPackage and parse in 3 passes
         model_package = package_parse(session, model_package, None)
-        logger.debug("Parsing inheritance")
-        model_package_parse_inheritance(model_package)
+        # logger.debug("Parsing inheritance")
+        # model_package_parse_inheritance(model_package)
         logger.debug("Parsing associations")
-        # package_parse_associations(model_package, model_element, model_element)
+        package_parse_associations(session, model_package)
         logger.debug("Sorting objects")
         # package_sort_classes(model_package)
 
@@ -115,7 +117,7 @@ def package_parse(session, tpackage: TPackage, parent_package: Optional[UMLPacka
     return package
 
 
-def package_parse_children(session, package):
+def package_parse_children(session, package: UMLPackage):
     stmt = sqlalchemy.select(TObject).where(TObject.package_id == package.id)
 
     # Loop through all child elements and create nodes for classes and sub packages
@@ -136,91 +138,30 @@ def package_parse_children(session, package):
         #     if ins.name is not None:
         #         package.instances.append(ins)
 
-        # elif e_type == 'uml:Enumeration':
-        #     enumeration = enumeration_parse(package, child)
-        #     if enumeration.name is not None:
-        #         package.enumerations.append(enumeration)
-            # print(f"Enum: {package.path}{enumeration}")
+        elif child_tobject.object_type == 'Enumeration':
+            enumeration = enumeration_parse(session, package, child_tobject)
+            package.enumerations.append(enumeration)
 
 
-def package_parse_associations(package, element, root_element):
+def package_parse_associations(session, package: UMLPackage):
     """ Packages and classes should already have been parsed so now we link classes for each association.
-    This gets messy as XMI output varies based on association type.
-    This supports both un-specified and source to destination directional associations
-    :param root_element:
-    :param element: XML Element
-    :type package: UMLPackage
     """
-    for child in element:
-        e_type = child.get('type')
-        e_id = child.get('id')
-
-        if e_type == 'uml:Association':
-            assoc_source_id = None
-            assoc_dest_id = None
-            assoc_source_elem = None
-            assoc_dest_elem = None
-
-            for assoc in child:
-                # If unspecified direction then both source and destination info are child elements within the
-                # association
-                assoc_type = assoc.get('type')
-                assoc_id = assoc.get('id')
-                if assoc_id is not None and assoc_type == 'uml:Property' and assoc_id[:8] == 'EAID_src':
-                    assoc_source_elem = assoc
-                    assoc_source_type_elem = assoc.find('type')
-                    assoc_source_id = assoc_source_type_elem.get('idref')
-                if assoc_id is not None and assoc_type == 'uml:Property' and assoc_id[:8] == 'EAID_dst':
-                    assoc_dest_elem = assoc
-                    assoc_dest_type_elem = assoc.find('type')
-                    assoc_dest_id = assoc_dest_type_elem.get('idref')
-
-            # If association direction is source to destination then
-            # destination class info is found as an ownedAttribute in the source element
-            if assoc_dest_id is None:
-                for assoc in child:
-                    if assoc.tag == 'memberEnd':
-                        assoc_idref = assoc.get('idref')
-                        if assoc_idref[:8] == 'EAID_dst':
-                            try:
-                                assoc_dest_elem = \
-                                    root_element.xpath("//ownedAttribute[@xmi:id='%s']" % assoc_idref)[0]
-                            except IndexError as e:
-                                logger.warn("Failed to find member end association destination. Id: {}".format(assoc_idref))
-                                raise e
-                            assoc_dest_type_elem = assoc_dest_elem.find('type')
-                            assoc_dest_id = assoc_dest_type_elem.get('idref')
-
-            # print("association: src id={} dest id={}".format(assoc_source_id,assoc_dest_id))
-            # TODO: Raise error if we don't have a source and dest
-            source = package.root_package.find_by_id(assoc_source_id)
-            dest = package.root_package.find_by_id(assoc_dest_id)
-            if source is not None \
-                    and dest is not None \
-                    and assoc_source_elem is not None \
-                    and assoc_dest_elem is not None:
-                association = association_parse(package, assoc_source_elem, assoc_dest_elem, source, dest)
-                package.associations.append(association)
-                logger.debug(f"Created {association.cardinality.name} {association.association_type.name} from {association.source_name} to {association.destination_name}")
-            else:
-                logger.warn("Unable to create association id={}".format(e_id))
-
-    for package_child in package.children:
-        element = element.xpath("//packagedElement[@xmi:id='%s']" % package_child.id)[0]
-        package_parse_associations(package_child, element, root_element)
-
-
-def model_package_parse_inheritance(package):
-    """ Looks for classes which are specializations of a supertype and finds the correct object """
     for cls in package.classes:
-        if cls.generalization_id is not None:
-            cls.generalization = package.root_package.find_by_id(cls.generalization_id)
-            if cls.generalization is None:
-                logger.warn("Cannot find specialized class id={}".format(cls.generalization_id))
-            else:
-                cls.generalization.specialized_by.append(cls)
+        stmt = sqlalchemy.select(TConnector).where(TConnector.start_object_id == cls.id)
+
+        for connector in session.execute(stmt).scalars().all():
+            dest = package.root_package.find_by_id(connector.end_object_id)
+
+            if connector.connector_type in ["Association", "Aggregation"]:
+                association = association_parse(session, connector, package, cls, dest)
+                if association is not None:
+                    package.associations.append(association)
+
+            elif connector.connector_type == "Generalization":
+                cls.generalization = dest
+                dest.specialized_by.append(cls)
                 if cls.id_attribute is None:
-                    cls.id_attribute = cls.generalization.id_attribute
+                    cls.id_attribute = dest.id_attribute
 
         for attr in cls.attributes:
             if attr.classification_id is not None:
@@ -228,35 +169,8 @@ def model_package_parse_inheritance(package):
                 if attr.classification is None:
                     logger.warn("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
 
-    for child in package.children:
-        model_package_parse_inheritance(child)
-
-
-def test_package_parse_inheritance(test_package, model_package):
-    """ Links instances with the class they are instances of """
-
-    for ins in test_package.instances:
-        if ins.classification_id is not None:
-            ins.classification = model_package.find_by_id(ins.classification_id)
-            if ins.classification is None:
-                logger.warn("Cannot find class which instance is from id={}".format(ins.classification_id))
-            else:
-                for attr in ins.attributes:
-                    for cls_attr in ins.classification.attributes:
-                        if attr.name == cls_attr.name:
-                            attr.type = cls_attr.type
-                            if attr.type.lower() in ['int', 'integer']:
-                                attr.value = int(attr.value)
-                            elif attr.type.lower() == ['float']:
-                                attr.value = float(attr.value)
-                            elif attr.type.lower() == ['decimal']:
-                                attr.value = Decimal(attr.value)
-                            break
-        else:
-            logger.warn("Instance object which is not from class id={}".format(ins.id))
-
-    for child in test_package.children:
-        test_package_parse_inheritance(child, model_package)
+    for package_child in package.children:
+        package_parse_associations(session, package_child)
 
 
 def package_sort_classes(package):
@@ -321,44 +235,22 @@ def instance_parse(package, source_element, root):
     return ins
 
 
-def association_parse(package, source_element, dest_element, source, dest):
-    id = source_element.get('id')
-    association = UMLAssociation(package, source, dest, id)
+def association_parse(session, tconnector: TConnector, package: UMLPackage, source: UMLClass, dest: UMLClass):
+    association = UMLAssociation(package, source, dest, tconnector.connector_id)
+    association.documentation = tconnector.notes
 
-    assoc_type = source_element.get("aggregation")
-    if assoc_type == "composite":
-        association.association_type = UMLAssociationType.COMPOSITION
-        dest.composed_of.append(source)
-    elif assoc_type == "shared":
-        association.association_type = UMLAssociationType.AGGREGATION
+    if tconnector.connector_type == "Aggregation":
+        if tconnector.subtype == "Strong":
+            association.association_type = UMLAssociationType.COMPOSITION
+            dest.composed_of.append(source)
+        else:
+            association.association_type = UMLAssociationType.AGGREGATION
 
-    # Extract multiplicity for source
-    source_lower = source_element.find('lowerValue')
-    if source_lower is not None:
-        source_lower = source_lower.get('value')
-        if source_lower == '-1':
-            source_lower = '*'
-        source_upper = source_element.find('upperValue').get('value')
-        if source_upper == '-1':
-            source_upper = '*'
-        association.source_multiplicity = (source_lower, source_upper)
+    association.source_multiplicity = association.string_to_multiplicity(tconnector.sourcecard)
+    association.destination_multiplicity = association.string_to_multiplicity(tconnector.destcard)
 
-    # Extract multiplicity for dest
-    dest_lower = dest_element.find('lowerValue')
-    if dest_lower is not None:
-        dest_lower = dest_lower.get('value')
-        if dest_lower == '-1':
-            dest_lower = '*'
-        dest_upper = dest_element.find('upperValue').get('value')
-        if dest_upper == '-1':
-            dest_upper = '*'
-        association.destination_multiplicity = (dest_lower, dest_upper)
-
-    # print('{} {} to {}'.format(association.source.name, association.association_type, association.destination.name))
-
-    # If it's an association to or from a multiple then pluralize the name
-    # TODO: Allow pluralized name to be specified in UML
     # Use opposing ends class name as attribute name for association
+    # If it's an association to or from a multiple then pluralize the name
     association.destination_name = association.destination.name.lower()
     if association.destination_multiplicity[1] == '*':
         association.destination_name += 's'
@@ -367,25 +259,24 @@ def association_parse(package, source_element, dest_element, source, dest):
         association.source_name += 's'
 
     # Allow explicit naming
-    if dest_element.get('name') is not None:
-        association.source_name = dest_element.get('name')
-    if source_element.get('name') is not None:
-        association.destination_name = source_element.get('name')
+    if tconnector.sourcerole is not None:
+        association.source_name = tconnector.sourcerole
+    if tconnector.destrole is not None:
+        association.destination_name = tconnector.destrole
 
-    # print('Assoc in {}: {} to {}: type = {}'.format(self.source.name, self.source_name, self.destination_name,
-    # self.association_type) )
+    logging.debug(f"Created {association.cardinality.name} {association.association_type.name} from {association.source_name} to {association.destination_name}")
     return association
 
 
-def enumeration_parse(package, element):
-    enumeration = UMLEnumeration(package, element.get('name'), element.get('id'))
+def enumeration_parse(session, package: UMLPackage, tobject: TObject):
+    enumeration = UMLEnumeration(package, tobject.name, tobject.object_id)
 
     # Loop through class elements children for values.
-    for child in element:
-        e_type = child.get('type')
-        if e_type == 'uml:EnumerationLiteral':
-            enumeration.values.append(child.get('name'))
-    logger.debug(f"Added UMLEnumeration {enumeration.name}")
+    stmt = sqlalchemy.select(TAttribute).where(TAttribute.object_id == tobject.object_id)
+    for tattribute in session.execute(stmt).scalars().all():
+        enumeration.values.append(tattribute.name)
+
+    logging.debug(f"Added UMLEnumeration {enumeration.id}:{enumeration.name}")
     return enumeration
 
 
@@ -422,11 +313,15 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
     attr = UMLAttribute(parent, tattribute.name, tattribute.id)
 
     # attr.visibility = element.get('visibility')
+
     type_elem = tattribute.type
     if type_elem is not None:
         attr.set_type(type_elem)
     else:
         logging.error(f"Attribute {attr.name} of class {parent} does not have a type")
+
+    if tattribute.classifier is not None and tattribute.classifier != "0":
+        attr.classification_id = tattribute.classifier
 
     attr.documentation = tattribute.notes
 
