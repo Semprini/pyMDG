@@ -3,12 +3,12 @@ Welcome to pyMDG Documentation
 
 Take UML models created in Sparx EA or DrawIO, export and use pyMDG to generate code, schema and documentation. Provided templates generate Django, OpenAPI, Avro, POJOs and more.
 
-Currently used for generating data platforms via UML packages, classes & enumerations.
+Currently used for generating data platforms, API & Kafka schema via UML packages, classes & enumerations.
 
 Quickstart
 ==========
 
-The github project comes with a sample which can generate a complete data platform.
+The github project comes with sample recipes which can generate a many artifacts including a Django Rest data platform. The generation is definied in recipies, see the sample_recipies or the recipies docs to see how they work.
 
 Generation::
 

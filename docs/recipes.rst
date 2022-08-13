@@ -3,11 +3,11 @@ Recipes
 
 The gitgub project has a sample_recipes which has some examples. Each recipe config is in yaml and has the following structure::
 
-    root_package: # <Root package name from modelling tool>
-    model_package: # <Model package name within root_package where models are held>
-    test_package: # <Test package name within root_package where instances used for test are held>
-    source: # <path to exported model - xmi 2.0 or drawio>
-    parser: # <either sparx or drawio>
+    root_package: # <Root package name from modelling tool. Not needed for Sparx DB sources>
+    model_package: # <Model package name within root_package where models are held. Sparx DB parser uses package GUID>
+    test_package: # <Test package name within root_package where instances used for test are held. Sparx DB parser uses package GUID>
+    source: # <path to exported model - xmi 2.0, drawio or for DB connection see https://docs.sqlalchemy.org/en/14/core/engines.html>
+    parser: # <sparx, sparxdb or drawio>
     dest_root: # <base path where to put each generated artifact>
     templates_folder: # <base path where to find custom templates>
     generation_type: # <language to translate attributes into optios are: default, spring data rest, django, marshmallow, sqlalchemy, python, ddl>
@@ -21,7 +21,7 @@ Model Templates Detail
 ^^^^^^^^^^^^^^^^^^^^^^
 
 In the config yaml for your project there is a list called::
-    
+
     model_templates:
 
 This is a list of files to render based on the parsed classes as discussed in the Metamodel page

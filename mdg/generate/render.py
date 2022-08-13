@@ -221,7 +221,7 @@ def serialize_instance(instance: UMLInstance):
     # Loop through associations originating from this instance
     for assoc in instance.associations_from:
         dest: Any = assoc.destination
-        name = filters['case_attribute'](assoc.destination.name)
+        name = filters['case_attribute'](assoc.destination_name)
         # If the multiplicity is multiple then generate list
         if assoc.destination_multiplicity[1] == '*':
             if name not in ret.keys():

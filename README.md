@@ -2,7 +2,7 @@
 # pyMDG
 
 ## Overview
-Parser and tools to perform model driven generation of artifacts (code, schema, documentation etc) from UML models. Current version supports Sparx EA Generated XMI 2.1, BOUML XMI 2.3 (in-progress) or diagrams.net XML
+Parser and tools to perform model driven generation of artifacts (code, schema, documentation etc) from UML models. Current version supports Sparx EA Generated XMI 2.1, Sparx DB (including sqlite which is the '.qea' native file format for Sparx v16+) or diagrams.net XML
 
 Used to parse model files to native classes (see metamodel below) which are passed to jinja2 templates for generation of code (POJO, POCO, Django etc), JSON data and HTML documentation.
 
@@ -24,7 +24,7 @@ Or once installed into site-packages execute:
 
 See the sample_recipe configs for examples
 
-## Sparx EA Export Process
+## Sparx EA XMI (versions earlier than V16) Export Process
 The UML parser expects a specific package hierarchy, please see the sample EA file.
 - In Sparx select the domain root node  (e.g. Model/Sample )
 - Select the publish tab at the top
@@ -32,6 +32,9 @@ The UML parser expects a specific package hierarchy, please see the sample EA fi
 - Set export type as XMI 2.1
 - Optionally select 'Export Diagrams', 'Generate Diagram Images' and PNG format
 - Export to folder where you want to generate from
+
+
+Note: Sparx V16+ does not need to be export. Parser uses native SQLite file format which is the same schema as database repositories.
 
 ## Draw.io Export Process
 The UML parser expects a specific package layout which mimics the Sparx hierarchy, please see the sample files.

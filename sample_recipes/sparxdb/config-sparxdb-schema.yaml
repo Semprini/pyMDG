@@ -1,7 +1,6 @@
-root_package: SampleIndustry
 model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
-test_package: Test
-source: ./sample_recipes/sparxdb/sample.qea
+test_package: "{C2E30D48-F8AB-4c6f-9FA3-AFE44653D5EB}"
+source: sqlite:///./sample_recipes/sparxdb/sample.qea
 parser: sparxdb
 dest_root: ./build/sample_sparxdb_schema
 templates_folder: ./mdg/templates
@@ -17,3 +16,5 @@ model_templates:
   source: Schema/openapi.yaml.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
 test_templates:
+- dest: ./build/json{{ins.package.path}}/{{ins.stereotype}}.json
+  format: json

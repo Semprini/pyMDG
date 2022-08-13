@@ -194,19 +194,19 @@ class UMLAssociation:
         return cardinality
 
     def string_to_multiplicity(self, value):
+        map = {
+            "0..*": ("0", "*"),
+            "1..*": ("1", "*"),
+            "1":    ("0", "1"),
+            "0..1": ("0", "1"),
+            "1..1": ("1", "1"),
+            "*..1": ("*", "1"),
+            "*..0": ("*", "0"),
+            "*":    ("0", "*"),
+        }
         output = ('1', '1')
-        if value == "0..*":
-            output = ("0", "*")
-        elif value == "1..*":
-            output = ("1", "*")
-        elif value in ("1", "0..1"):
-            output = ("0", "1")
-        elif value == "1..1":
-            output = ("1", "1")
-        elif value == "*..1":
-            output = ("*", "1")
-        elif value == "*..0":
-            output = ("*", "0")
+        if value in map.keys():
+            output = map[value]
 
         return output
 

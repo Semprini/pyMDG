@@ -2,7 +2,7 @@
 from typing import List, Tuple, Optional
 import logging
 import re
-# from decimal import Decimal
+from decimal import Decimal
 
 import sqlalchemy
 from sqlalchemy.orm import Session
@@ -35,12 +35,8 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     """
     test_cases: List[UMLInstance] = []
 
-    engine = sqlalchemy.create_engine(f"sqlite:///{settings['source']}", echo=False, future=True)
+    engine = sqlalchemy.create_engine(f"{settings['source']}", echo=False, future=True)
     with Session(engine) as session:
-
-        # Find the element that is the root for models
-        # stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['root_package'])
-        # root_package = session.execute(stmt).first()
 
         # Find the package with the model nodes. Can specify either EA GUID or name
         # If guid make sure value in recipie is quoted - model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
@@ -48,30 +44,38 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
             stmt = sqlalchemy.select(TPackage).where(TPackage.ea_guid == settings['model_package'])
         else:
             stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['model_package'])
-        model_package = session.execute(stmt).scalars().first()
-        if model_package is None:
+        model_tpackage: TPackage = session.execute(stmt).scalars().first()
+        if model_tpackage is None:
             raise ValueError("Model package element not found. Settings has:{}".format(settings['model_package']))
-        logger.debug(f"Model Object: {model_package.package_id}: {model_package.name}")
+        logger.debug(f"Model Object: {model_tpackage.package_id}: {model_tpackage.name}")
 
         # Create our root model UMLPackage and parse in 3 passes
-        model_package = package_parse(session, model_package, None)
-        # logger.debug("Parsing inheritance")
-        # model_package_parse_inheritance(model_package)
-        logger.debug("Parsing associations")
+        model_package = package_parse(session, model_tpackage, None)
+        logger.debug("Parsing associations and inheritance")
         package_parse_associations(session, model_package)
         logger.debug("Sorting objects")
-        # package_sort_classes(model_package)
+        package_sort_classes(model_package)
 
     if 'test_package' in settings.keys():
         logger.info("Parsing test cases")
+        if settings['test_package'][0] == "{":
+            stmt = sqlalchemy.select(TPackage).where(TPackage.ea_guid == settings['test_package'])
+        else:
+            stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['test_package'])
+        test_tpackage: TPackage = session.execute(stmt).scalars().first()
+        if test_tpackage is None:
+            raise ValueError("Test package element not found. Settings has:{}".format(settings['test_package']))
+        test_package = package_parse(session, test_tpackage, None)
+        package_parse_associations(session, test_package)
+        test_package_parse_inheritance(test_package, model_package)
+        test_cases = parse_test_cases(test_package)
 
     return model_package, test_cases
 
 
-def parse_test_cases(package) -> List[UMLInstance]:
+def parse_test_cases(package: UMLPackage) -> List[UMLInstance]:
     """ Looks through package hierarchy for instances with request or response stereotype
     and returns list of instances.
-    :rtype: list<UMLInstance>
     """
     test_cases = []
 
@@ -133,10 +137,10 @@ def package_parse_children(session, package: UMLPackage):
             if cls.name is not None:
                 package.classes.append(cls)
 
-        # elif e_type == 'uml:InstanceSpecification':
-        #     ins = instance_parse(package, child, package._root_element)
-        #     if ins.name is not None:
-        #         package.instances.append(ins)
+        elif child_tobject.object_type == 'Object':
+            ins = instance_parse(session, package, child_tobject)
+            if ins.name is not None:
+                package.instances.append(ins)
 
         elif child_tobject.object_type == 'Enumeration':
             enumeration = enumeration_parse(session, package, child_tobject)
@@ -169,8 +173,50 @@ def package_parse_associations(session, package: UMLPackage):
                 if attr.classification is None:
                     logger.warn("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
 
+    for ins in package.instances:
+        stmt = sqlalchemy.select(TConnector).where(TConnector.start_object_id == ins.id)
+
+        for connector in session.execute(stmt).scalars().all():
+            dest = package.root_package.find_by_id(connector.end_object_id)
+
+            association = association_parse(session, connector, package, ins, dest)
+            if association is not None:
+                package.associations.append(association)
+
     for package_child in package.children:
         package_parse_associations(session, package_child)
+
+
+def test_package_parse_inheritance(test_package, model_package):
+    """ Links instances with the class they are instances of 
+        and sets the attribute types which wern't in the run_state where instance attrs are created from
+    """
+
+    for ins in test_package.instances:
+        if ins.classification_id is not None:
+            ins.classification = model_package.find_by_id(ins.classification_id)
+            if ins.classification is None:
+                ins.classification = test_package.find_by_id(ins.classification_id)
+                if ins.classification is None:
+                    logger.warn(f"Cannot find class which instance named {ins.name} is from id={ins.classification_id}")
+
+            if ins.classification is not None:
+                for attr in ins.attributes:
+                    for cls_attr in ins.classification.attributes:
+                        if attr.name == cls_attr.name:
+                            attr.type = cls_attr.type
+                            if attr.type.lower() in ['int', 'integer']:
+                                attr.value = int(attr.value)
+                            elif attr.type.lower() == ['float']:
+                                attr.value = float(attr.value)
+                            elif attr.type.lower() == ['decimal']:
+                                attr.value = Decimal(attr.value)
+                            break
+        else:
+            logger.warn("Instance object which is not from any class: id={}".format(ins.id))
+
+    for child in test_package.children:
+        test_package_parse_inheritance(child, model_package)
 
 
 def package_sort_classes(package):
@@ -199,29 +245,19 @@ def package_sort_classes(package):
         package_sort_classes(child)
 
 
-def instance_parse(package, source_element, root):
-    ins = UMLInstance(package, source_element.get('name'), source_element.get('id'))
+def instance_parse(session, package: UMLPackage, tobject: TObject):
+    ins = UMLInstance(package, tobject.name, tobject.object_id)
 
-    # Detail is sparx specific
-    # TODO: Put modelling tool in settings and use tool specific parser here
-    detail = root.xpath("//element[@xmi:idref='%s']" % ins.id)[0]
-    properties = detail.find('properties')
-    ins.stereotype = properties.get('stereotype')
-    ins.documentation = properties.get('documentation')
-    if ins.documentation is None:
-        ins.documentation = ""
-
-    project = detail.find('project')
-    ins.status = project.get('status')
+    ins.stereotype = tobject.stereotype
+    ins.documentation = tobject.note
+    ins.status = tobject.status
 
     # We need to link this instance to the class it is an instance of
-    ins.classification_id = source_element.get('classifier')
+    ins.classification_id = tobject.classifier
 
     # Create attributes for each item found in the runstate
-    # TODO: Change this to using an re
-    extended_properties = detail.find('extendedProperties')
-    if extended_properties is not None and extended_properties.get('runstate') is not None:
-        run_state = extended_properties.get('runstate')
+    run_state = tobject.runstate
+    if run_state is not None:
         vars = run_state.split('@ENDVAR;')
         for var in vars:
             if var != '':
@@ -250,11 +286,12 @@ def association_parse(session, tconnector: TConnector, package: UMLPackage, sour
     association.destination_multiplicity = association.string_to_multiplicity(tconnector.destcard)
 
     # Use opposing ends class name as attribute name for association
-    # If it's an association to or from a multiple then pluralize the name
+    association.source_name = association.source.name.lower()
     association.destination_name = association.destination.name.lower()
+
+    # If it's an association to or from a multiple then pluralize the name
     if association.destination_multiplicity[1] == '*':
         association.destination_name += 's'
-    association.source_name = association.source.name.lower()
     if association.source_multiplicity[1] == '*':
         association.source_name += 's'
 
@@ -288,9 +325,12 @@ def class_parse(session, package: UMLPackage, tobject: TObject):
         cls.is_abstract = False
 
     cls.alias = tobject.alias
-    cls.documentation = tobject.note
     cls.status = tobject.status
     cls.phase = tobject.phase
+    if tobject.note is not None:
+        cls.documentation = tobject.note
+    else:
+        cls.documentation = ""
 
     # TXref
     #   description @STEREO;Name=notifiable;GUID={ADC4E914-13DD-4f1b-A9DB-EDCB89896228};@ENDSTEREO;@STEREO;Name=auditable;GUID={C5DA655B-B862-4a27-96F8-FEB0B2EDD529};@ENDSTEREO;
@@ -323,7 +363,10 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
     if tattribute.classifier is not None and tattribute.classifier != "0":
         attr.classification_id = tattribute.classifier
 
-    attr.documentation = tattribute.notes
+    if tattribute.notes is not None:
+        attr.documentation = tattribute.notes
+    else:
+        attr.documentation = ""
 
     # @PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;
     stmt = sqlalchemy.select(TXref).where(TXref.client == tattribute.ea_guid, TXref.name == "CustomProperties")
