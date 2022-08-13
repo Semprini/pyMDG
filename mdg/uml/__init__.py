@@ -84,19 +84,19 @@ class UMLPackage:
         """ Finds UMLPackage, UMLClass, UMLEnumeration or UMLInstance object with specified Id
         Looks for classes part of this package and all sub-packages
         """
-        if self.id == id:
+        if str(self.id) == str(id):
             return self
 
         for cls in self.classes:
-            if cls.id == id:
+            if str(cls.id) == str(id):
                 return cls
 
         for ins in self.instances:
-            if ins.id == id:
+            if str(ins.id) == str(id):
                 return ins
 
         for enum in self.enumerations:
-            if enum.id == id:
+            if str(enum.id) == str(id):
                 return enum
 
         for child in self.children:
@@ -194,7 +194,7 @@ class UMLAssociation:
         return cardinality
 
     def string_to_multiplicity(self, value):
-        output = ('', '')
+        output = ('1', '1')
         if value == "0..*":
             output = ("0", "*")
         elif value == "1..*":
