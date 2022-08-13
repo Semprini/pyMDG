@@ -45,9 +45,10 @@ Indices and tables
    :caption: Features:
    :glob:
 
-   feature*
+   feature-tools
    recipes
    templates
+   feature-tests
 
 
 .. toctree::
