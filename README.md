@@ -2,7 +2,7 @@
 # pyMDG
 
 ## Overview
-Parser and tools to perform model driven generation of artifacts (code, schema, documentation etc) from UML models. Current version supports Sparx EA Generated XMI 2.1, Sparx DB (including sqlite which is the '.qea' native file format for Sparx v16+) or diagrams.net XML
+Parser and tools to perform model driven generation of artifacts (code, schema, documentation etc) from UML models. Current version supports Sparx EA Generated XMI 2.1, Sparx DB (including sqlite which is the '.qea' native file format for Sparx v16+) or diagrams.net XML. Coming soon is ERWIN XMI 1.0
 
 Used to parse model files to native classes (see metamodel below) which are passed to jinja2 templates for generation of code (POJO, POCO, Django etc), JSON data and HTML documentation.
 

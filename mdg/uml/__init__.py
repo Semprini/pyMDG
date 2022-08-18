@@ -10,6 +10,8 @@ from mdg.config import settings
 from mdg.tools.io import obj_to_dict
 
 
+# TODO: Add a UMLObject abstract class which UMLClass, UMLEnumeration and UMLComponent inherit from. Update obj_to_dict to handle inheritance.
+
 class UMLStatuses(Enum):
     Proposed = 1
     Approved = 2
@@ -32,12 +34,15 @@ class Cardinality(Enum):
 
 
 class UMLPackage:
-    classes: List[UMLClass]
-    associations: List[UMLAssociation]
+    parent: Optional[UMLPackage] = None
     children: List[UMLPackage]
+
+    classes: List[UMLClass]
+    components: List[UMLComponent]
+    associations: List[UMLAssociation]
     instances: List[UMLInstance]
     enumerations: List[UMLEnumeration]
-    parent: Optional[UMLPackage] = None
+
     stereotype: Optional[str] = None
     name: str
     id: Union[int, str]
@@ -47,15 +52,18 @@ class UMLPackage:
 
     class Meta:
         id_field = 'id'
-        owned_subobjects: List = ['classes', 'associations', 'children', 'enumerations']
+        owned_subobjects: List = ['classes', 'associations', 'children', 'enumerations', 'components']
 
     def __init__(self, id: Union[int, str], name: str, parent: Optional[UMLPackage] = None, stereotype: Optional[str] = None) -> None:
-        self.classes = []
-        self.associations = []
+        self.parent = parent
         self.children = []
+
+        self.classes = []
+        self.components = []
+        self.associations = []
         self.instances = []
         self.enumerations = []
-        self.parent = parent
+
         self.stereotype = stereotype
         self.inherited_stereotypes: List[Tuple[str, UMLPackage]] = []
         self.name = name
@@ -147,11 +155,11 @@ class UMLAssociation:
     documentation: str
 
     association_type: UMLAssociationType
-    source: Union[UMLClass, UMLInstance]
+    source: Union[UMLClass, UMLInstance, UMLComponent]
     source_name: Optional[str]
     source_multiplicity: Tuple[str, str]
 
-    destination: Union[UMLClass, UMLInstance]
+    destination: Union[UMLClass, UMLInstance, UMLComponent]
     destination_multiplicity: Tuple[str, str]
     destination_name: Optional[str]
 
@@ -159,7 +167,7 @@ class UMLAssociation:
         id_field = 'id'
         owned_subobjects: List = []
 
-    def __init__(self, package: UMLPackage, source: Union[UMLClass, UMLInstance], destination: Union[UMLClass, UMLInstance], id: Union[int, str], assoc_type=UMLAssociationType.ASSOCIATION):
+    def __init__(self, package: UMLPackage, source: Union[UMLClass, UMLInstance, UMLComponent], destination: Union[UMLClass, UMLInstance, UMLComponent], id: Union[int, str], assoc_type=UMLAssociationType.ASSOCIATION):
         self.package: UMLPackage = package
         self.id = id
         self.documentation = ""
@@ -197,12 +205,12 @@ class UMLAssociation:
         map = {
             "0..*": ("0", "*"),
             "1..*": ("1", "*"),
-            "1":    ("0", "1"),
+            "1": ("0", "1"),
             "0..1": ("0", "1"),
             "1..1": ("1", "1"),
             "*..1": ("*", "1"),
             "*..0": ("*", "0"),
-            "*":    ("0", "*"),
+            "*": ("0", "*"),
         }
         output = ('1', '1')
         if value in map.keys():
@@ -212,10 +220,10 @@ class UMLAssociation:
 
 
 class UMLEnumeration:
-    values: List[str]
     package: UMLPackage
     name: str
     id: Union[int, str]
+    values: List[str]
     documentation: str
     status: Optional[UMLStatuses]
 
@@ -230,19 +238,20 @@ class UMLEnumeration:
         self.id = id
         self.documentation = ""
         self.status = None
+        self.id_attribute: Optional[UMLAttribute] = None
 
     def __str__(self) -> str:
         return f"{self.name}"
 
 
 class UMLClass:
+    package: UMLPackage
     name: str
     alias: Optional[str]
     id: Union[int, str]
     attributes: List[UMLAttribute]
     associations_from: List[UMLAssociation]
     associations_to: List[UMLAssociation]
-    package: UMLPackage
     generalization: Optional[UMLClass]
     specialized_by: List[UMLClass]
     stereotypes: List[str]
@@ -290,7 +299,7 @@ class UMLClass:
 
 
 class UMLAttribute:
-    parent: UMLClass
+    parent: Union[UMLClass, UMLEnumeration, UMLComponent]
     name: str
     alias: Optional[str]
     id: Union[int, str]
@@ -311,7 +320,7 @@ class UMLAttribute:
         id_field = 'id'
         owned_subobjects: List = []
 
-    def __init__(self, parent: UMLClass, name: str, id: Union[int, str]):
+    def __init__(self, parent: Union[UMLClass, UMLEnumeration, UMLComponent], name: str, id: Union[int, str]):
         self.parent = parent
         self.name = name
         self.alias = None
@@ -367,6 +376,39 @@ class UMLAttribute:
             return f"{self.alias}"
         else:
             return f"{self.name}"
+
+
+class UMLComponent:
+    package: UMLPackage
+    attributes: List[UMLAttribute]
+    stereotype: Optional[str]
+    name: str
+    id: Union[int, str]
+    documentation: str
+    status: Optional[UMLStatuses]
+    associations_from: List[UMLAssociation]
+    associations_to: List[UMLAssociation]
+    classification: Optional[UMLClass]
+
+    class Meta:
+        id_field = 'id'
+        owned_subobjects: List = ['attributes', ]
+
+    def __init__(self, package: UMLPackage, name: str, id: Union[int, str]) -> None:
+        self.attributes = []
+        self.associations_from = []
+        self.associations_to = []
+        self.package = package
+        self.stereotype = None
+        self.name = name
+        self.id = id
+        self.id_attribute: Optional[UMLAttribute] = None
+        self.documentation = ""
+        self.status = None
+        self.classification_id: Union[None, int, str] = None
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 
 def dumps(package: UMLPackage) -> str:

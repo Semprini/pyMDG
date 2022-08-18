@@ -1,5 +1,5 @@
 import re
-from typing import List, Tuple
+from typing import List, Tuple, Union
 from lxml import etree
 import logging
 from decimal import Decimal
@@ -9,6 +9,7 @@ from mdg.uml import (
     UMLAssociation,
     UMLAttribute,
     UMLClass,
+    UMLComponent,
     UMLEnumeration,
     UMLInstance,
     UMLPackage,
@@ -462,7 +463,7 @@ def class_parse(package, element, root):
     return cls
 
 
-def attr_parse(parent: UMLClass, element, root):
+def attr_parse(parent: Union[UMLClass, UMLEnumeration, UMLComponent], element, root):
     attr = UMLAttribute(parent, element.get('name'), element.get('{%s}id' % ns['xmi']))
 
     attr.visibility = element.get('visibility')

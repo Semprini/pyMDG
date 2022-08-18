@@ -6,6 +6,7 @@ from .sparx_xmi import parse_uml as sparx_parse_uml
 from .drawio_xml import parse_uml as drawio_parse_uml
 from .bouml_xmi import parse_uml as bouml_parse_uml
 from .sparx_db import parse_uml as sparx_db_parse_uml
+from .erwin_xmi import parse_uml as erwin_parse_uml
 
 
 logger = logging.getLogger(__name__)
@@ -26,6 +27,7 @@ def parse():
         'sparxdb': sparx_db_parse_uml,
         'drawio': drawio_parse_uml,
         'bouml': bouml_parse_uml,
+        'erwin': erwin_parse_uml,
     }
 
     # Find the parser

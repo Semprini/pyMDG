@@ -1,0 +1,792 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE XMI SYSTEM "XMI-UML-99-10-15_xmi_1.0_uml_1.3.dtd">
+<XMI xmi.version="1.0">
+<XMI.header>
+<XMI.documentation>
+<XMI.exporter>Meta Integration Model Bridge (in 'OMG XMI 1.0 for UML 1.3' mode)</XMI.exporter>
+<XMI.exporterVersion>6.0.3</XMI.exporterVersion>
+</XMI.documentation>
+<XMI.metamodel xmi.name="UML" xmi.version="1.3" />
+</XMI.header>
+<XMI.content>
+<Model_Management.Model xmi.id="_1">
+<Foundation.Core.ModelElement.name>Model_1</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Namespace.ownedElement>
+<Foundation.Core.DataType xmi.id="_3">
+<Foundation.Core.ModelElement.name>char[19]</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="_5">
+<Foundation.Core.ModelElement.name>char[19]</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="_7">
+<Foundation.Core.ModelElement.name>void*</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="_9">
+<Foundation.Core.ModelElement.name>time_t</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="_11">
+<Foundation.Core.ModelElement.name>int</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+</Foundation.Core.DataType>
+<Foundation.Core.DataType xmi.id="_13">
+<Foundation.Core.ModelElement.name>char[21]</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+</Foundation.Core.DataType>
+<Model_Management.Package xmi.id="_15">
+<Foundation.Core.ModelElement.name>Logical View</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Namespace.ownedElement>
+<Foundation.Core.Class xmi.id="_17">
+<Foundation.Core.ModelElement.name>ACCOUNT DETAILS</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Class.isActive  xmi.value="false" />
+<Foundation.Core.ModelElement.taggedValue>
+<Foundation.Extension_Mechanisms.TaggedValue xmi.id="_19">
+<Foundation.Extension_Mechanisms.TaggedValue.tag>persistence</Foundation.Extension_Mechanisms.TaggedValue.tag>
+<Foundation.Extension_Mechanisms.TaggedValue.value>persistent</Foundation.Extension_Mechanisms.TaggedValue.value>
+</Foundation.Extension_Mechanisms.TaggedValue>
+</Foundation.Core.ModelElement.taggedValue>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="_20">
+<Foundation.Core.ModelElement.name>CRS_Number</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.Feature.ownerScope  xmi.value="instance" />
+<Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_22">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_23">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Core.StructuralFeature.changeability  xmi.value="changeable" />
+<Foundation.Core.StructuralFeature.targetScope  xmi.value="instance" />
+<Foundation.Core.Attribute.initialValue>
+<Foundation.Data_Types.Expression>
+<Foundation.Data_Types.Expression.language></Foundation.Data_Types.Expression.language>
+<Foundation.Data_Types.Expression.body></Foundation.Data_Types.Expression.body>
+</Foundation.Data_Types.Expression>
+</Foundation.Core.Attribute.initialValue>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="_3" />
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+</Foundation.Core.Classifier.feature>
+</Foundation.Core.Class>
+<Foundation.Core.Class xmi.id="_24">
+<Foundation.Core.ModelElement.name>ADVISOR</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Class.isActive  xmi.value="false" />
+<Foundation.Core.ModelElement.taggedValue>
+<Foundation.Extension_Mechanisms.TaggedValue xmi.id="_26">
+<Foundation.Extension_Mechanisms.TaggedValue.tag>persistence</Foundation.Extension_Mechanisms.TaggedValue.tag>
+<Foundation.Extension_Mechanisms.TaggedValue.value>persistent</Foundation.Extension_Mechanisms.TaggedValue.value>
+</Foundation.Extension_Mechanisms.TaggedValue>
+</Foundation.Core.ModelElement.taggedValue>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="_27">
+<Foundation.Core.ModelElement.name>Sequence Number</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.Feature.ownerScope  xmi.value="instance" />
+<Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_29">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_30">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Core.StructuralFeature.changeability  xmi.value="changeable" />
+<Foundation.Core.StructuralFeature.targetScope  xmi.value="instance" />
+<Foundation.Core.Attribute.initialValue>
+<Foundation.Data_Types.Expression>
+<Foundation.Data_Types.Expression.language></Foundation.Data_Types.Expression.language>
+<Foundation.Data_Types.Expression.body></Foundation.Data_Types.Expression.body>
+</Foundation.Data_Types.Expression>
+</Foundation.Core.Attribute.initialValue>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="_3" />
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Attribute xmi.id="_31">
+<Foundation.Core.ModelElement.name>Advisor</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.Feature.ownerScope  xmi.value="instance" />
+<Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_33">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_34">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Core.StructuralFeature.changeability  xmi.value="changeable" />
+<Foundation.Core.StructuralFeature.targetScope  xmi.value="instance" />
+<Foundation.Core.Attribute.initialValue>
+<Foundation.Data_Types.Expression>
+<Foundation.Data_Types.Expression.language></Foundation.Data_Types.Expression.language>
+<Foundation.Data_Types.Expression.body></Foundation.Data_Types.Expression.body>
+</Foundation.Data_Types.Expression>
+</Foundation.Core.Attribute.initialValue>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="_3" />
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+</Foundation.Core.Classifier.feature>
+</Foundation.Core.Class>
+<Foundation.Core.Class xmi.id="_35">
+<Foundation.Core.ModelElement.name>BANK ACCOUNT</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Class.isActive  xmi.value="false" />
+<Foundation.Core.ModelElement.taggedValue>
+<Foundation.Extension_Mechanisms.TaggedValue xmi.id="_37">
+<Foundation.Extension_Mechanisms.TaggedValue.tag>persistence</Foundation.Extension_Mechanisms.TaggedValue.tag>
+<Foundation.Extension_Mechanisms.TaggedValue.value>persistent</Foundation.Extension_Mechanisms.TaggedValue.value>
+</Foundation.Extension_Mechanisms.TaggedValue>
+</Foundation.Core.ModelElement.taggedValue>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="_38">
+<Foundation.Core.ModelElement.name>Bank Account Type</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.Feature.ownerScope  xmi.value="instance" />
+<Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_40">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_41">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Core.StructuralFeature.changeability  xmi.value="changeable" />
+<Foundation.Core.StructuralFeature.targetScope  xmi.value="instance" />
+<Foundation.Core.Attribute.initialValue>
+<Foundation.Data_Types.Expression>
+<Foundation.Data_Types.Expression.language></Foundation.Data_Types.Expression.language>
+<Foundation.Data_Types.Expression.body></Foundation.Data_Types.Expression.body>
+</Foundation.Data_Types.Expression>
+</Foundation.Core.Attribute.initialValue>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="_3" />
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+<Foundation.Core.Attribute xmi.id="_42">
+<Foundation.Core.ModelElement.name>Bank Account Number</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.Feature.ownerScope  xmi.value="instance" />
+<Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_44">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_45">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Core.StructuralFeature.changeability  xmi.value="changeable" />
+<Foundation.Core.StructuralFeature.targetScope  xmi.value="instance" />
+<Foundation.Core.Attribute.initialValue>
+<Foundation.Data_Types.Expression>
+<Foundation.Data_Types.Expression.language></Foundation.Data_Types.Expression.language>
+<Foundation.Data_Types.Expression.body></Foundation.Data_Types.Expression.body>
+</Foundation.Data_Types.Expression>
+</Foundation.Core.Attribute.initialValue>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="_3" />
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+</Foundation.Core.Classifier.feature>
+</Foundation.Core.Class>
+<Foundation.Core.Class xmi.id="_46">
+<Foundation.Core.ModelElement.name>CONTACT ADDRESS DETAILS</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Class.isActive  xmi.value="false" />
+<Foundation.Core.ModelElement.taggedValue>
+<Foundation.Extension_Mechanisms.TaggedValue xmi.id="_48">
+<Foundation.Extension_Mechanisms.TaggedValue.tag>persistence</Foundation.Extension_Mechanisms.TaggedValue.tag>
+<Foundation.Extension_Mechanisms.TaggedValue.value>persistent</Foundation.Extension_Mechanisms.TaggedValue.value>
+</Foundation.Extension_Mechanisms.TaggedValue>
+</Foundation.Core.ModelElement.taggedValue>
+</Foundation.Core.Class>
+<Foundation.Core.Class xmi.id="_49">
+<Foundation.Core.ModelElement.name>CONTACT DETAILS</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Class.isActive  xmi.value="false" />
+<Foundation.Core.ModelElement.taggedValue>
+<Foundation.Extension_Mechanisms.TaggedValue xmi.id="_51">
+<Foundation.Extension_Mechanisms.TaggedValue.tag>persistence</Foundation.Extension_Mechanisms.TaggedValue.tag>
+<Foundation.Extension_Mechanisms.TaggedValue.value>persistent</Foundation.Extension_Mechanisms.TaggedValue.value>
+</Foundation.Extension_Mechanisms.TaggedValue>
+</Foundation.Core.ModelElement.taggedValue>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="_52">
+<Foundation.Core.ModelElement.name>Sequence Number</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.Feature.ownerScope  xmi.value="instance" />
+<Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_54">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_55">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Core.StructuralFeature.changeability  xmi.value="changeable" />
+<Foundation.Core.StructuralFeature.targetScope  xmi.value="instance" />
+<Foundation.Core.Attribute.initialValue>
+<Foundation.Data_Types.Expression>
+<Foundation.Data_Types.Expression.language></Foundation.Data_Types.Expression.language>
+<Foundation.Data_Types.Expression.body></Foundation.Data_Types.Expression.body>
+</Foundation.Data_Types.Expression>
+</Foundation.Core.Attribute.initialValue>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="_3" />
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+</Foundation.Core.Classifier.feature>
+</Foundation.Core.Class>
+<Foundation.Core.Class xmi.id="_56">
+<Foundation.Core.ModelElement.name>FATCA DETAILS</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Class.isActive  xmi.value="false" />
+<Foundation.Core.ModelElement.taggedValue>
+<Foundation.Extension_Mechanisms.TaggedValue xmi.id="_58">
+<Foundation.Extension_Mechanisms.TaggedValue.tag>persistence</Foundation.Extension_Mechanisms.TaggedValue.tag>
+<Foundation.Extension_Mechanisms.TaggedValue.value>persistent</Foundation.Extension_Mechanisms.TaggedValue.value>
+</Foundation.Extension_Mechanisms.TaggedValue>
+</Foundation.Core.ModelElement.taggedValue>
+</Foundation.Core.Class>
+<Foundation.Core.Association xmi.id="_59">
+<Foundation.Core.ModelElement.name>R/1</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Association.connection>
+<Foundation.Core.AssociationEnd xmi.id="_61">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="none" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_63">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_64">
+<Foundation.Data_Types.MultiplicityRange.lower>0</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>-1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_35" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+<Foundation.Core.AssociationEnd xmi.id="_65">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="aggregate" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_67">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_68">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_17" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+</Foundation.Core.Association.connection>
+</Foundation.Core.Association>
+<Foundation.Core.Association xmi.id="_69">
+<Foundation.Core.ModelElement.name>R/2</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Association.connection>
+<Foundation.Core.AssociationEnd xmi.id="_71">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="none" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_73">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_74">
+<Foundation.Data_Types.MultiplicityRange.lower>0</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_56" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+<Foundation.Core.AssociationEnd xmi.id="_75">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="aggregate" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_77">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_78">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_17" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+</Foundation.Core.Association.connection>
+</Foundation.Core.Association>
+<Foundation.Core.Association xmi.id="_79">
+<Foundation.Core.ModelElement.name>R/3</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Association.connection>
+<Foundation.Core.AssociationEnd xmi.id="_81">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="none" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_83">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_84">
+<Foundation.Data_Types.MultiplicityRange.lower>0</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>-1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_24" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+<Foundation.Core.AssociationEnd xmi.id="_85">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="aggregate" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_87">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_88">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_17" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+</Foundation.Core.Association.connection>
+</Foundation.Core.Association>
+<Foundation.Core.Association xmi.id="_89">
+<Foundation.Core.ModelElement.name>R/4</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Association.connection>
+<Foundation.Core.AssociationEnd xmi.id="_91">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="none" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_93">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_94">
+<Foundation.Data_Types.MultiplicityRange.lower>0</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>-1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_49" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+<Foundation.Core.AssociationEnd xmi.id="_95">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="aggregate" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_97">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_98">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_17" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+</Foundation.Core.Association.connection>
+</Foundation.Core.Association>
+<Foundation.Core.Association xmi.id="_99">
+<Foundation.Core.ModelElement.name>R/5</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Association.connection>
+<Foundation.Core.AssociationEnd xmi.id="_101">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="none" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_103">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_104">
+<Foundation.Data_Types.MultiplicityRange.lower>0</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_46" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+<Foundation.Core.AssociationEnd xmi.id="_105">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="aggregate" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_107">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_108">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_49" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+</Foundation.Core.Association.connection>
+</Foundation.Core.Association>
+<Foundation.Core.Association xmi.id="_109">
+<Foundation.Core.ModelElement.name>R/6</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Association.connection>
+<Foundation.Core.AssociationEnd xmi.id="_111">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="none" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_113">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_114">
+<Foundation.Data_Types.MultiplicityRange.lower>0</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>-1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_115" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+<Foundation.Core.AssociationEnd xmi.id="_117">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="aggregate" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_119">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_120">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_17" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+</Foundation.Core.Association.connection>
+</Foundation.Core.Association>
+<Foundation.Core.Association xmi.id="_121">
+<Foundation.Core.ModelElement.name>R/7</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Association.connection>
+<Foundation.Core.AssociationEnd xmi.id="_123">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="none" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_125">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_126">
+<Foundation.Data_Types.MultiplicityRange.lower>0</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_127" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+<Foundation.Core.AssociationEnd xmi.id="_129">
+<Foundation.Core.ModelElement.name></Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.AssociationEnd.isNavigable  xmi.value="true" />
+<Foundation.Core.AssociationEnd.ordering  xmi.value="unordered" />
+<Foundation.Core.AssociationEnd.aggregation  xmi.value="aggregate" />
+<Foundation.Core.AssociationEnd.targetScope  xmi.value="instance" />
+<Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_131">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_132">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.AssociationEnd.multiplicity>
+<Foundation.Core.AssociationEnd.changeability  xmi.value="changeable" />
+<Foundation.Core.AssociationEnd.type>
+<Foundation.Core.Class xmi.idref="_17" />
+</Foundation.Core.AssociationEnd.type>
+</Foundation.Core.AssociationEnd>
+</Foundation.Core.Association.connection>
+</Foundation.Core.Association>
+<Foundation.Core.Class xmi.id="_115">
+<Foundation.Core.ModelElement.name>REGISTRATION DETAILS</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Class.isActive  xmi.value="false" />
+<Foundation.Core.ModelElement.taggedValue>
+<Foundation.Extension_Mechanisms.TaggedValue xmi.id="_133">
+<Foundation.Extension_Mechanisms.TaggedValue.tag>persistence</Foundation.Extension_Mechanisms.TaggedValue.tag>
+<Foundation.Extension_Mechanisms.TaggedValue.value>persistent</Foundation.Extension_Mechanisms.TaggedValue.value>
+</Foundation.Extension_Mechanisms.TaggedValue>
+</Foundation.Core.ModelElement.taggedValue>
+<Foundation.Core.Classifier.feature>
+<Foundation.Core.Attribute xmi.id="_134">
+<Foundation.Core.ModelElement.name>Sequence Number</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.Feature.ownerScope  xmi.value="instance" />
+<Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Data_Types.Multiplicity xmi.id="_136">
+<Foundation.Data_Types.Multiplicity.range>
+<Foundation.Data_Types.MultiplicityRange xmi.id="_137">
+<Foundation.Data_Types.MultiplicityRange.lower>1</Foundation.Data_Types.MultiplicityRange.lower>
+<Foundation.Data_Types.MultiplicityRange.upper>1</Foundation.Data_Types.MultiplicityRange.upper>
+</Foundation.Data_Types.MultiplicityRange>
+</Foundation.Data_Types.Multiplicity.range>
+</Foundation.Data_Types.Multiplicity>
+</Foundation.Core.StructuralFeature.multiplicity>
+<Foundation.Core.StructuralFeature.changeability  xmi.value="changeable" />
+<Foundation.Core.StructuralFeature.targetScope  xmi.value="instance" />
+<Foundation.Core.Attribute.initialValue>
+<Foundation.Data_Types.Expression>
+<Foundation.Data_Types.Expression.language></Foundation.Data_Types.Expression.language>
+<Foundation.Data_Types.Expression.body></Foundation.Data_Types.Expression.body>
+</Foundation.Data_Types.Expression>
+</Foundation.Core.Attribute.initialValue>
+<Foundation.Core.StructuralFeature.type>
+<Foundation.Core.DataType xmi.idref="_3" />
+</Foundation.Core.StructuralFeature.type>
+</Foundation.Core.Attribute>
+</Foundation.Core.Classifier.feature>
+</Foundation.Core.Class>
+<Foundation.Core.Class xmi.id="_127">
+<Foundation.Core.ModelElement.name>SHAREHOLDER</Foundation.Core.ModelElement.name>
+<Foundation.Core.ModelElement.visibility  xmi.value="public" />
+<Foundation.Core.ModelElement.isSpecification  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isRoot  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isLeaf  xmi.value="false" />
+<Foundation.Core.GeneralizableElement.isAbstract  xmi.value="false" />
+<Foundation.Core.Class.isActive  xmi.value="false" />
+<Foundation.Core.ModelElement.taggedValue>
+<Foundation.Extension_Mechanisms.TaggedValue xmi.id="_138">
+<Foundation.Extension_Mechanisms.TaggedValue.tag>persistence</Foundation.Extension_Mechanisms.TaggedValue.tag>
+<Foundation.Extension_Mechanisms.TaggedValue.value>persistent</Foundation.Extension_Mechanisms.TaggedValue.value>
+</Foundation.Extension_Mechanisms.TaggedValue>
+</Foundation.Core.ModelElement.taggedValue>
+</Foundation.Core.Class>
+</Foundation.Core.Namespace.ownedElement>
+</Model_Management.Package>
+</Foundation.Core.Namespace.ownedElement>
+</Model_Management.Model>
+</XMI.content>
+</XMI>

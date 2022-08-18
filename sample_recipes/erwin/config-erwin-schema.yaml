@@ -1,0 +1,18 @@
+root_package: _15
+model_package: _15
+source: ./sample_recipes/erwin/erwin_sample.xmi
+parser: erwin
+dest_root: ./build/sample_erwin_schema
+templates_folder: ./mdg/templates
+generation_type: default
+model_templates:
+# Avro Schema
+- dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
+  level: class
+  source: "Schema/avro.avsc.jinja"
+# OpenAPI Schema
+- dest: "openapi/{{ package.name }}.yaml"
+  level: package
+  source: Schema/openapi.yaml.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+test_templates:
