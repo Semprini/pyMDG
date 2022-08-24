@@ -299,7 +299,7 @@ class UMLClass:
 
 
 class UMLAttribute:
-    parent: Union[UMLClass, UMLEnumeration, UMLComponent]
+    parent: Union[UMLClass, UMLEnumeration, UMLComponent, UMLInstance]
     name: str
     alias: Optional[str]
     id: Union[int, str]
@@ -320,7 +320,7 @@ class UMLAttribute:
         id_field = 'id'
         owned_subobjects: List = []
 
-    def __init__(self, parent: Union[UMLClass, UMLEnumeration, UMLComponent], name: str, id: Union[int, str]):
+    def __init__(self, parent: Union[UMLClass, UMLEnumeration, UMLComponent, UMLInstance], name: str, id: Union[int, str]):
         self.parent = parent
         self.name = name
         self.alias = None

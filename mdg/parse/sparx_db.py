@@ -1,5 +1,5 @@
 # import enum
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Union
 import logging
 import re
 from decimal import Decimal
@@ -12,6 +12,7 @@ from mdg.parse.sparx_db_models import (
     TPackage,
     TXref,
     TAttribute,
+    TAttributeconstraint,
     TConnector,
 )
 
@@ -188,7 +189,7 @@ def package_parse_associations(session, package: UMLPackage):
 
 
 def test_package_parse_inheritance(test_package, model_package):
-    """ Links instances with the class they are instances of 
+    """ Links instances with the class they are instances of
         and sets the attribute types which wern't in the run_state where instance attrs are created from
     """
 
@@ -271,7 +272,7 @@ def instance_parse(session, package: UMLPackage, tobject: TObject):
     return ins
 
 
-def association_parse(session, tconnector: TConnector, package: UMLPackage, source: UMLClass, dest: UMLClass):
+def association_parse(session, tconnector: TConnector, package: UMLPackage, source: Union[UMLClass, UMLInstance], dest: Union[UMLClass, UMLInstance]):
     association = UMLAssociation(package, source, dest, tconnector.connector_id)
     association.documentation = tconnector.notes
 
@@ -379,14 +380,12 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
 
     attr.stereotype = tattribute.stereotype
 
-    # constraints = detail.find('Constraints')
-    # if constraints is not None:
-    #     for constraint in constraints:
-    #         name = constraint.get('name')
-    #         if name == 'unique':
-    #             attr.is_unique = True
-    #         elif name.startswith('length'):
-    #             attr.length = int(name.split("=")[1])
+    stmt = sqlalchemy.select(TAttributeconstraint).where(TAttributeconstraint.id == tattribute.id)
+    for constraint in session.execute(stmt).scalars().all():
+        if constraint.Constraint == 'unique':
+            attr.is_unique = True
+        elif constraint.Constraint.startswith('length'):
+            attr.length = int(constraint.Constraint.split("=")[1])
 
     logger.debug(f"Added Attribute {attr.parent.name}/{attr.name}")
 

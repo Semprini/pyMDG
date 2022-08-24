@@ -254,3 +254,14 @@ class TConnector(Base):
     sourcestyle = Column(Text)
     deststyle = Column(Text)
     eventflags = Column(String(255))
+
+
+class TAttributeconstraint(Base):
+    __tablename__ = 't_attributeconstraints'
+
+    object_id = Column(Integer, index=True, server_default=text("0"))
+    Constraint = Column(String(255), primary_key=True, nullable=False)
+    attname = Column(String(255))
+    type = Column(String(255))
+    notes = Column(Text)
+    id = Column(Integer, primary_key=True, nullable=False)
