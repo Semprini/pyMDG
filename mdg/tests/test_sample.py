@@ -14,7 +14,7 @@ class TestSample_DrawIO_Django(unittest.TestCase):
         self.model_package, self.test_cases = parse()
 
     def test_parse(self):
-        self.assertEqual("SampleIndustry", self.model_package.name)
+        self.assertEqual("Model", self.model_package.name)
 
     def test_validate(self):
         # Deliberate error in test config
