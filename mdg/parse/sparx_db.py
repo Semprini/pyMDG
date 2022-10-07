@@ -373,8 +373,9 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
     stmt = sqlalchemy.select(TXref).where(TXref.client == tattribute.ea_guid, TXref.name == "CustomProperties")
     txref = session.execute(stmt).scalars().first()
     if txref is not None:
-        attr.is_id = bool(re.findall('@NAME=isID.*@VALU=(.*?)@ENDVALU;', txref.description))
-        attr.parent.id_attribute = attr
+        attr.is_id = bool(re.findall('@NAME=isID.*@VALU=0(.*?)@ENDVALU;', txref.description))
+        if attr.is_id:
+            attr.parent.id_attribute = attr
     else:
         attr.is_id = False
 

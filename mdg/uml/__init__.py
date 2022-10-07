@@ -34,7 +34,7 @@ class Cardinality(Enum):
 
 
 class UMLPackage:
-    parent: Optional[UMLPackage] = None
+    parent: Optional[UMLPackage]
     children: List[UMLPackage]
 
     classes: List[UMLClass]
@@ -43,7 +43,7 @@ class UMLPackage:
     instances: List[UMLInstance]
     enumerations: List[UMLEnumeration]
 
-    stereotype: Optional[str] = None
+    stereotype: Optional[str]
     name: str
     id: Union[int, str]
     diagrams: Any
