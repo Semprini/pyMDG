@@ -40,7 +40,6 @@ def parse():
 
     # Call the parser
     model_package, test_cases = parser()
-    model_package.name = settings['root_package']
     logger.info("Base Model Package: " + model_package.name)
 
     logger.debug("parse end")

@@ -79,7 +79,7 @@ class UMLPackage:
 
         if self.parent is None:
             self.root_package = self
-            self.path = '/' + settings['root_package'] + '/'
+            self.path = '/' + self.name + '/'
         else:
             self.root_package = self.parent.root_package
             self.inherited_stereotypes += self.parent.inherited_stereotypes
