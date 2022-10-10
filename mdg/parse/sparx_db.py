@@ -155,7 +155,7 @@ def package_parse_associations(session, package: UMLPackage):
         stmt = sqlalchemy.select(TConnector).where(TConnector.start_object_id == cls.id)
 
         for connector in session.execute(stmt).scalars().all():
-            dest = package.root_package.find_by_id(connector.end_object_id)
+            dest = package.root_package.find_by_id(connector.end_object_id, 'class')
 
             if connector.connector_type in ["Association", "Aggregation"]:
                 association = association_parse(session, connector, package, cls, dest)
@@ -170,7 +170,7 @@ def package_parse_associations(session, package: UMLPackage):
 
         for attr in cls.attributes:
             if attr.classification_id is not None:
-                attr.classification = package.root_package.find_by_id(attr.classification_id)
+                attr.classification = package.root_package.find_by_id(attr.classification_id, 'class')
                 if attr.classification is None:
                     logger.warn("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
 
@@ -178,7 +178,7 @@ def package_parse_associations(session, package: UMLPackage):
         stmt = sqlalchemy.select(TConnector).where(TConnector.start_object_id == ins.id)
 
         for connector in session.execute(stmt).scalars().all():
-            dest = package.root_package.find_by_id(connector.end_object_id)
+            dest = package.root_package.find_by_id(connector.end_object_id,'instance')
 
             association = association_parse(session, connector, package, ins, dest)
             if association is not None:
