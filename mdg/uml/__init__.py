@@ -49,6 +49,7 @@ class UMLPackage:
     diagrams: Any
     documentation: str
     status: Optional[UMLStatuses]
+    version: Optional[str]
 
     class Meta:
         id_field = 'id'
@@ -71,6 +72,7 @@ class UMLPackage:
         self.diagrams = []
         self.documentation = ""
         self.status = None
+        self.version = None
 
         self._element: Any = None
         self._root_element: Any = None

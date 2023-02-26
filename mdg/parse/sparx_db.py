@@ -115,6 +115,7 @@ def package_parse(session, tpackage: TPackage, parent_package: Optional[UMLPacka
         package.documentation = ""
 
     package.status = tobject.status
+    package.version = f"{tpackage.version}"
 
     logger.debug("Added UMLPackage {}".format(package.path))
 

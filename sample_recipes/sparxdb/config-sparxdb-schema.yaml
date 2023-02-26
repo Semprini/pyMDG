@@ -11,7 +11,7 @@ model_templates:
   level: class
   source: "Schema/avro.avsc.jinja"
 # OpenAPI Schema
-- dest: "openapi/{{ package.name }}.yaml"
+- dest: "openapi/{{ package.name }}/{{ package.version }}.yaml"
   level: package
   source: Schema/openapi.yaml.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
