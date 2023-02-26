@@ -157,8 +157,10 @@ def package_parse_associations(session, package: UMLPackage):
 
         for connector in session.execute(stmt).scalars().all():
             dest = package.root_package.find_by_id(connector.end_object_id, 'class')
+            if dest is None:
+                logger.warn(f"Cannot find associated class from {cls}. Association Id:{connector.id}, Destination Id: {connector.end_object_id}")
 
-            if connector.connector_type in ["Association", "Aggregation"]:
+            elif connector.connector_type in ["Association", "Aggregation"]:
                 association = association_parse(session, connector, package, cls, dest)
                 if association is not None:
                     package.associations.append(association)
