@@ -33,6 +33,13 @@ class Cardinality(Enum):
     ONE_TO_ONE = 4
 
 
+class SearchTypes(Enum):
+    ENUM = "enumeration"
+    CLASS = "class"
+    PACKAGE = "package"
+    INSTANCE = "instance"
+
+
 class UMLPackage:
     parent: Optional[UMLPackage]
     children: List[UMLPackage]
@@ -90,23 +97,23 @@ class UMLPackage:
     def __str__(self):
         return f"{self.name}"
 
-    def find_by_id(self, id: Union[int, str], find_type: Optional[str] = None):
+    def find_by_id(self, id: Union[int, str], find_type: Optional[SearchTypes] = None):
         """ Finds UMLPackage, UMLClass, UMLEnumeration or UMLInstance object with specified Id
         Looks for classes part of this package and all sub-packages
         """
-        if str(self.id) == str(id) and find_type in (None, "package"):
+        if str(self.id) == str(id) and find_type in (None, SearchTypes.PACKAGE):
             return self
 
         for cls in self.classes:
-            if str(cls.id) == str(id) and find_type in (None, "class"):
+            if str(cls.id) == str(id) and find_type in (None, SearchTypes.CLASS):
                 return cls
 
         for ins in self.instances:
-            if str(ins.id) == str(id) and find_type in (None, "instance"):
+            if str(ins.id) == str(id) and find_type in (None, SearchTypes.INSTANCE):
                 return ins
 
         for enum in self.enumerations:
-            if str(enum.id) == str(id) and find_type in (None, "enumeration"):
+            if str(enum.id) == str(id) and find_type in (None, SearchTypes.ENUM):
                 return enum
 
         for child in self.children:

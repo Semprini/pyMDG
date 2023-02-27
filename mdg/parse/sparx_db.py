@@ -25,6 +25,7 @@ from mdg.uml import (
     UMLInstance,
     UMLPackage,
     UMLAssociationType,
+    SearchTypes,
 )
 
 
@@ -156,7 +157,7 @@ def package_parse_associations(session, package: UMLPackage):
         stmt = sqlalchemy.select(TConnector).where(TConnector.start_object_id == cls.id)
 
         for connector in session.execute(stmt).scalars().all():
-            dest = package.root_package.find_by_id(connector.end_object_id, 'class')
+            dest = package.root_package.find_by_id(connector.end_object_id, SearchTypes.CLASS)
             if dest is None:
                 logger.warn(f"Cannot find associated class from {cls}. Association Id:{connector.id}, Destination Id: {connector.end_object_id}")
 
@@ -171,9 +172,10 @@ def package_parse_associations(session, package: UMLPackage):
                 if cls.id_attribute is None:
                     cls.id_attribute = dest.id_attribute
 
+        # Find enumeration attributes of class and link to attribute
         for attr in cls.attributes:
             if attr.classification_id is not None:
-                attr.classification = package.root_package.find_by_id(attr.classification_id, 'class')
+                attr.classification = package.root_package.find_by_id(attr.classification_id, SearchTypes.ENUM)
                 if attr.classification is None:
                     logger.warn("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
 
@@ -181,7 +183,7 @@ def package_parse_associations(session, package: UMLPackage):
         stmt = sqlalchemy.select(TConnector).where(TConnector.start_object_id == ins.id)
 
         for connector in session.execute(stmt).scalars().all():
-            dest = package.root_package.find_by_id(connector.end_object_id,'instance')
+            dest = package.root_package.find_by_id(connector.end_object_id, SearchTypes.INSTANCE)
 
             association = association_parse(session, connector, package, ins, dest)
             if association is not None:
@@ -282,7 +284,8 @@ def association_parse(session, tconnector: TConnector, package: UMLPackage, sour
     if tconnector.connector_type == "Aggregation":
         if tconnector.subtype == "Strong":
             association.association_type = UMLAssociationType.COMPOSITION
-            dest.composed_of.append(source)
+            if isinstance(dest, UMLClass) and isinstance(source, UMLClass):
+                dest.composed_of.append(source)
         else:
             association.association_type = UMLAssociationType.AGGREGATION
 
@@ -377,7 +380,7 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
     txref = session.execute(stmt).scalars().first()
     if txref is not None:
         attr.is_id = bool(re.findall('@NAME=isID.*@VALU=1(.*?)@ENDVALU;', txref.description))
-        if attr.is_id:
+        if attr.is_id and isinstance(attr.parent, UMLClass):
             attr.parent.id_attribute = attr
     else:
         attr.is_id = False

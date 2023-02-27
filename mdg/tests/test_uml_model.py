@@ -1,6 +1,6 @@
 import unittest
 
-from mdg.uml import UMLClass, UMLPackage, UMLAssociation, Cardinality, UMLAssociationType, UMLAttribute
+from mdg.uml import UMLClass, UMLPackage, UMLAssociation, Cardinality, UMLAssociationType, UMLAttribute, UMLEnumeration, SearchTypes
 
 
 class TestUMLModel(unittest.TestCase):
@@ -10,6 +10,10 @@ class TestUMLModel(unittest.TestCase):
         self.root_package.children.append(child)
         cls = UMLClass(child, "class1", "3")
         child.classes.append(cls)
+        cls = UMLClass(child, "class2", "4")
+        child.classes.append(cls)
+        enum = UMLEnumeration(child, "enum1", "4")
+        child.enumerations.append(enum)
 
     def test_find_package(self):
         res = self.root_package.find_by_id("2")
@@ -17,9 +21,18 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual("child1", res.name)
 
     def test_find_class(self):
-        res = self.root_package.find_by_id("3")
+        res = self.root_package.find_by_id("3", SearchTypes.CLASS)
         self.assertEqual(UMLClass, type(res))
         self.assertEqual("class1", res.name)
+
+    def test_find_enumeration(self):
+        # Check that we don't find the wrong thing
+        res = self.root_package.find_by_id("3", SearchTypes.ENUM)
+        self.assertEqual(None, res)
+        # Check that we find the enum with the id=4, not the class with id=4
+        res = self.root_package.find_by_id("4", SearchTypes.ENUM)
+        self.assertEqual(UMLEnumeration, type(res))
+        self.assertEqual("enum1", res.name)
 
     def test_string_to_multiplicity(self):
         assoc = UMLAssociation(self.root_package, self.root_package.children[0].classes[0], self.root_package.children[0].classes[0], 1)
