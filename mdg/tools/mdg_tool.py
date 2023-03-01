@@ -41,6 +41,12 @@ def startproject(args):
     print('Val:((%s))' % args)
 
 
+def daemon(args):
+    os.environ.setdefault("PYMDG_SETTINGS_MODULE", args.recipe_path)
+    from mdg.tools.daemon import poller
+    poller(args.poll_seconds)
+
+
 def main():
     import argparse
 
@@ -64,6 +70,11 @@ def main():
     parser_c.add_argument('project_type', choices=['django', 'schema', 'java'], help='The type of project')
     parser_c.add_argument('project_path', type=str, help='The path to the project')
     parser_c.set_defaults(func=startproject)
+
+    parser_d = subparsers.add_parser('daemon', help='Poll package versions and run generation jobs on change')
+    parser_d.add_argument('recipe_path', type=str, help='The path to the recipe config file')
+    parser_d.add_argument('poll_seconds', type=int, help='Seconds between polls')
+    parser_d.set_defaults(func=daemon)
 
     args = parser.parse_args()
     if args.verbose == 0:
