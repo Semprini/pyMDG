@@ -81,3 +81,7 @@ class TestUMLModel(unittest.TestCase):
         attr = UMLAttribute(None, "test", 123)
         attr.set_type('String')
         self.assertEqual(attr.get_type('default'), 'string')
+
+    def test_get_all_(self):
+        self.assertEqual(len(self.root_package.get_all_classes()), 2)
+        self.assertEqual(len(self.root_package.get_all_enums()), 1)

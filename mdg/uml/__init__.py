@@ -126,6 +126,22 @@ class UMLPackage:
         self.children.append(package)
         return package
 
+    def get_all_classes(self) -> list:
+        """ Returns a list of all classes in the tree of packages """
+
+        result = self.classes
+        for package in self.children:
+            result += package.get_all_classes()
+        return result
+
+    def get_all_enums(self) -> list:
+        """ Returns a list of all enums in the tree of packages """
+
+        result = self.enumerations
+        for package in self.children:
+            result += package.get_all_enums()
+        return result
+
 
 class UMLInstance:
     package: UMLPackage
