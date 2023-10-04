@@ -4,11 +4,11 @@
 ## Overview
 The problem with most model driven generation is that tools force the modeller to effectively "code up" the output representation of the artifact being generated in an output specific, non-reusable model. It always ends up being simpler just to actually code up the end result.
 
-pyMDGs goal is to a logical model as the source, combine with business rules to output physical level artifacts (code, schema, documentation etc). Current version supports Sparx DB (including sqlite which is the '.qea' native file format for Sparx v16+) or diagrams.net XML.
+pyMDGs goal is to use a logical model as the source, then combine with business rules to output physical level artifacts (code, schema, documentation etc). Current version supports Sparx DB (including sqlite which is the '.qea' native file format for Sparx v16+) or diagrams.net XML.
 
 A single logical model is rich enough to generate API schemas, DB schemas, POJOs, Python Data classes etc.
 
-The tool parses your models to generaic UML classes (see metamodel below) which are then passed to jinja2 templates for generation.
+The tool parses your models into generic UML classes (see metamodel below) which are then passed to jinja2 templates for generation.
 
 Quickstart and docs can be found here: [readthedocs](https://pymdg.readthedocs.io/en/latest/index.html)
 
