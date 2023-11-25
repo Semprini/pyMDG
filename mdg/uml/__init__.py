@@ -322,6 +322,58 @@ class UMLClass:
         else:
             return f"{self.name}"
 
+    def get_object_relationships(self) -> list:
+        """ Returns all related classes where this class is singular:
+                - associations from: one to one, one to many
+                - associations to: one to one, many to one
+                - generalization
+        """
+        result = []
+        if self.generalization is not None:
+            result.append(self.generalization)
+        for assoc in self.associations_from:
+            if assoc.cardinality in [Cardinality.ONE_TO_MANY, Cardinality.ONE_TO_ONE]:
+                result.append(assoc.destination)
+        for assoc in self.associations_to:
+            if assoc.cardinality in [Cardinality.MANY_TO_ONE, Cardinality.ONE_TO_ONE]:
+                result.append(assoc.source)
+
+        return result
+
+    def get_array_relationships(self) -> list:
+        """ Returns all related classes where this class is part of an array:
+                - associations from: many to one
+                - associations to: one to many
+        """
+        result = []
+        for assoc in self.associations_from:
+            if assoc.cardinality == Cardinality.MANY_TO_ONE:
+                result.append(assoc.destination)
+        for assoc in self.associations_to:
+            if assoc.cardinality == Cardinality.ONE_TO_MANY:
+                result.append(assoc.source)
+
+        return result
+
+    def get_all_attributes(self, abstract_only=True) -> list[UMLAttribute]:
+        """ Returns attributes of this class and inherited attrs from generalised classes
+        """
+        result = self.attributes
+        parent = self.generalization
+        #if parent is not None:
+        #    print(f"    {parent} | {parent.generalization}")
+        if parent is not None:
+            # print(self)
+            # for a in result:
+            #     print(f"    {a.name}")
+            print(self)
+            print(parent)
+            attrs = parent.get_all_attributes(abstract_only)
+
+            for a in attrs:
+                print(f"    {a.name}")
+        return result
+
 
 class UMLAttribute:
     parent: Union[UMLClass, UMLEnumeration, UMLComponent, UMLInstance]

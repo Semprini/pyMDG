@@ -1,0 +1,11 @@
+{% set classes = package.get_all_classes() %}{% for cls in classes %}{% if cls.is_abstract == False and cls.id_attribute %}{% set attrs=cls.get_all_attributes() %}
+CREATE TABLE public.{{ cls.package.name | snakecase }}__{{ cls.name | snakecase }} ({% for attr in attrs %}
+    {{ attr.name | snakecase }} {{ attr.dest_type }}{% if attr == cls.id_attribute %} NOT NULL{% endif %}{% if loop.index != attrs|count %},{% endif %}{% endfor %}
+);
+
+COMMENT ON TABLE public.{{ cls.package.name | snakecase }}__{{ cls.name | snakecase }} IS 'A type of Party Location';
+
+ALTER TABLE ONLY public.{{ cls.package.name | snakecase }}__{{ cls.name | snakecase }}
+    ADD CONSTRAINT {{ cls.package.name | snakecase }}__{{ cls.name | snakecase }}_pkey 
+        PRIMARY KEY ({{ cls.id_attribute.name | snakecase }});
+{% endif %}{% endfor %}

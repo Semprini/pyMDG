@@ -10,6 +10,10 @@ model_templates:
 - dest: "{{package.children[0].name | snakecase}}__metadata.json"
   level: root
   source: "hasura.json.jinja"
+# PostgreSQL Schema
+- dest: "{{package.children[0].name | snakecase}}.sql"
+  level: root
+  source: "postgresql.sql.jinja"
 test_templates:
 - dest: "build/test/{{ins.package.path}}/{{ins.stereotype}}.json"
   format: json
