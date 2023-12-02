@@ -129,7 +129,7 @@ class UMLPackage:
     def get_all_classes(self) -> list:
         """ Returns a list of all classes in the tree of packages """
 
-        result = self.classes
+        result = self.classes.copy()
         for package in self.children:
             result += package.get_all_classes()
         return result
@@ -137,7 +137,7 @@ class UMLPackage:
     def get_all_enums(self) -> list:
         """ Returns a list of all enums in the tree of packages """
 
-        result = self.enumerations
+        result = self.enumerations.copy()
         for package in self.children:
             result += package.get_all_enums()
         return result
