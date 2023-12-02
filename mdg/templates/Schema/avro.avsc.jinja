@@ -16,7 +16,7 @@
 							"{{ enum | uppercase | replace(" ","_")}}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_") }}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string",{% endif %}"null"{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "undefined"{% endif %}{% endif %}
+					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string",{% endif %}"null", {% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "undefined"{% endif %}{% endif %}
 			},{% endfor %}{% endif %}{% for attr in assoc.source.attributes[:-1] %}
 			{ 
 				"name": "{{ attr.name | case_attribute }}", 
@@ -70,7 +70,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_") }}"
 						]
-					}{% else %}"type": ["{{attr.dest_type}}"{% if not attr.is_id %}, "null" ], "default": "undefined"{% else %}]{% endif %}{% endif %} 
+					}{% else %}"type": [{% if attr.dest_type!="string" %}"string", {% endif %}"{{attr.dest_type}}"{% if not attr.is_id %}, "null" ], "default": "undefined"{% else %}]{% endif %}{% endif %} 
 			},{% endfor %}{% endif %}{% for attr in cls.attributes[:-1] %}
 			{ 
 				"name": "{{ attr.name | case_attribute }}",
