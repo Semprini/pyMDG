@@ -358,20 +358,13 @@ class UMLClass:
     def get_all_attributes(self, abstract_only=True) -> list[UMLAttribute]:
         """ Returns attributes of this class and inherited attrs from generalised classes
         """
-        result = self.attributes
+        result = self.attributes.copy()
         parent = self.generalization
-        #if parent is not None:
-        #    print(f"    {parent} | {parent.generalization}")
-        if parent is not None:
-            # print(self)
-            # for a in result:
-            #     print(f"    {a.name}")
-            print(self)
-            print(parent)
-            attrs = parent.get_all_attributes(abstract_only)
 
-            for a in attrs:
-                print(f"    {a.name}")
+        if parent is not None:
+            if parent.is_abstract or abstract_only==False:
+                result += parent.get_all_attributes(abstract_only)
+
         return result
 
 

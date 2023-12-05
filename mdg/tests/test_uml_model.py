@@ -20,11 +20,6 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual(UMLPackage, type(res))
         self.assertEqual("child1", res.name)
 
-    def test_find_class(self):
-        res = self.root_package.find_by_id("3", SearchTypes.CLASS)
-        self.assertEqual(UMLClass, type(res))
-        self.assertEqual("class1", res.name)
-
     def test_find_enumeration(self):
         # Check that we don't find the wrong thing
         res = self.root_package.find_by_id("3", SearchTypes.ENUM)
@@ -85,3 +80,42 @@ class TestUMLModel(unittest.TestCase):
     def test_get_all_(self):
         self.assertEqual(len(self.root_package.get_all_classes()), 2)
         self.assertEqual(len(self.root_package.get_all_enums()), 1)
+
+
+class TestUMLClassFunctions(unittest.TestCase):
+    def setUp(self):
+        self.root_package = UMLPackage("1", "root")
+        child = UMLPackage("2", "child1", self.root_package)
+        self.root_package.children.append(child)
+
+        # Ceate class to be specialized by with an attribute
+        cls = UMLClass(child, "class1", "3")
+        child.classes.append(cls)
+        att = UMLAttribute(cls, "foo", 4)
+        cls.attributes.append(att)
+
+        # Create simple class with no attributes
+        cls = UMLClass(child, "class2", "4")
+        child.classes.append(cls)
+
+        # Create inheitance
+        child.classes[1].generalization = child.classes[0]
+        child.classes[0].specialized_by.append(child.classes[1])       # TODO: Setter function which does this linking
+
+    def test_find_class(self):
+        res = self.root_package.find_by_id("3", SearchTypes.CLASS)
+        self.assertEqual(UMLClass, type(res))
+        self.assertEqual("class1", res.name)
+
+    def test_get_all_attributes(self):
+        # Grab class which inheits fom a class
+        cls = self.root_package.children[0].classes[1]
+        self.assertEqual("class2", cls.name)
+
+        # Inherited class is not abstact so expect an empty result set
+        res = cls.get_all_attributes(abstract_only=True)
+        self.assertEqual([], res)
+
+        # Include attributes of non abstract class so expect an attribute
+        res = cls.get_all_attributes(abstract_only=False)
+        self.assertEqual(1, len(res))
