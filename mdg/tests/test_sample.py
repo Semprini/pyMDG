@@ -1,7 +1,7 @@
 import unittest
 
 from mdg.parse import parse
-from mdg.tools.validate import validate_package
+from mdg.uml.validate import validate_package
 from mdg.generate.render import output_model
 
 

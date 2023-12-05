@@ -5,7 +5,7 @@ import logging
 from typing import Dict, Optional, List, Any
 
 from jinja2 import Environment, FileSystemLoader, Template, BaseLoader
-
+from jinja2.exceptions import TemplateNotFound
 
 from mdg.config import settings
 from mdg.tools.filters import get_filters
@@ -148,28 +148,31 @@ def output_model(package: UMLPackage) -> None:
                 output_level_copy(source_file, dest_file_template, package)
         else:
             # Create jinja2 teemplates for the source file and dest file name
-            source_template: Template = source_env.get_template(template_definition['source'])
+            try:
+                source_template: Template = source_env.get_template(template_definition['source'])
 
-            # Filter template is optional and used to skip a file generation.
-            filter_template: Optional[Template] = None
-            if 'filter' in template_definition.keys():
-                filter_template = Template(template_definition['filter'])
+                # Filter template is optional and used to skip a file generation.
+                filter_template: Optional[Template] = None
+                if 'filter' in template_definition.keys():
+                    filter_template = Template(template_definition['filter'])
 
-            # Select the output renderer based on the level requested
-            if template_definition['level'] == 'package':
-                if filter_template is None or filter_template.render(package=package) == "True":
-                    output_level_package(source_template, dest_file_template, package)
-            elif template_definition['level'] == 'class':
-                output_level_class(source_template, dest_file_template, filter_template, package)
-            elif template_definition['level'] == 'enumeration':
-                output_level_enum(source_template, dest_file_template, filter_template, package)
-            elif template_definition['level'] == 'assocication':
-                output_level_assoc(source_template, dest_file_template, filter_template, package)
-            elif template_definition['level'] == 'root':
-                if package.parent is None:
-                    output_level_package(source_template, dest_file_template, package)
-            else:
-                raise ValueError("'{}' is not a valid template level".format(template_definition['level']))
+                # Select the output renderer based on the level requested
+                if template_definition['level'] == 'package':
+                    if filter_template is None or filter_template.render(package=package) == "True":
+                        output_level_package(source_template, dest_file_template, package)
+                elif template_definition['level'] == 'class':
+                    output_level_class(source_template, dest_file_template, filter_template, package)
+                elif template_definition['level'] == 'enumeration':
+                    output_level_enum(source_template, dest_file_template, filter_template, package)
+                elif template_definition['level'] == 'assocication':
+                    output_level_assoc(source_template, dest_file_template, filter_template, package)
+                elif template_definition['level'] == 'root':
+                    if package.parent is None:
+                        output_level_package(source_template, dest_file_template, package)
+                else:
+                    raise ValueError("'{}' is not a valid template level".format(template_definition['level']))
+            except TemplateNotFound:
+                logger.error(f"Could not find template to render from '{template_definition['source']}' in either the configured templates folder or the default templates folder. Check your templates_folder and source in settings.")
 
     # Walk through the package hierarchy and recurse output
     child: UMLPackage

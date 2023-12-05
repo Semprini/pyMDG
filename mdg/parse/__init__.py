@@ -11,6 +11,14 @@ from .erwin_xmi import parse_uml as erwin_parse_uml
 
 logger = logging.getLogger(__name__)
 
+PARSERS = {
+    'sparx': sparx_parse_uml,
+    'sparxdb': sparx_db_parse_uml,
+    'drawio': drawio_parse_uml,
+    'bouml': bouml_parse_uml,
+    'erwin': erwin_parse_uml,
+}
+
 
 class ParseError(Exception):
     pass
@@ -20,15 +28,6 @@ def parse():
     """ Calls parser to turn model and tests into python native (see UML metamodel)
     """
     logger.debug("parse begin")
-
-    # TODO: change to using a registration decorator
-    PARSERS = {
-        'sparx': sparx_parse_uml,
-        'sparxdb': sparx_db_parse_uml,
-        'drawio': drawio_parse_uml,
-        'bouml': bouml_parse_uml,
-        'erwin': erwin_parse_uml,
-    }
 
     # Find the parser
     parser = None
