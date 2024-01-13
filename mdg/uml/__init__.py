@@ -317,33 +317,44 @@ class UMLClass:
         return f"{self.name}"
 
     def get_name(self) -> str:
+        """ Returns the name or alias if the instace has one defined.
+        """
         if self.alias and settings['use_alias']:
             return f"{self.alias}"
         else:
             return f"{self.name}"
+
+    def get_class_association(self, cls: UMLClass) -> Union[UMLAssociation, None]:
+        for assoc in self.associations_from:
+            if assoc.destination == cls:
+                return assoc
+        for assoc in self.associations_to:
+            if assoc.source == cls:
+                return assoc
+        return None
+
+    def get_array_relationships(self) -> list:
+        """ Returns all related classes where this class is part of an array:
+                - associations from: many to one
+                - associations to: one to many
+        """
+        result = []
+        if self.generalization is not None:
+            result.append(self.generalization)
+        for assoc in self.associations_from:
+            if assoc.cardinality in [Cardinality.ONE_TO_MANY, Cardinality.ONE_TO_ONE, Cardinality.MANY_TO_MANY]:
+                result.append(assoc.destination)
+        for assoc in self.associations_to:
+            if assoc.cardinality in [Cardinality.MANY_TO_ONE, Cardinality.ONE_TO_ONE, Cardinality.MANY_TO_MANY]:
+                result.append(assoc.source)
+
+        return result
 
     def get_object_relationships(self) -> list:
         """ Returns all related classes where this class is singular:
                 - associations from: one to one, one to many
                 - associations to: one to one, many to one
                 - generalization
-        """
-        result = []
-        if self.generalization is not None:
-            result.append(self.generalization)
-        for assoc in self.associations_from:
-            if assoc.cardinality in [Cardinality.ONE_TO_MANY, Cardinality.ONE_TO_ONE]:
-                result.append(assoc.destination)
-        for assoc in self.associations_to:
-            if assoc.cardinality in [Cardinality.MANY_TO_ONE, Cardinality.ONE_TO_ONE]:
-                result.append(assoc.source)
-
-        return result
-
-    def get_array_relationships(self) -> list:
-        """ Returns all related classes where this class is part of an array:
-                - associations from: many to one
-                - associations to: one to many
         """
         result = []
         for assoc in self.associations_from:
@@ -414,6 +425,8 @@ class UMLAttribute:
         return f"{self.name}"
 
     def get_type(self, translator: Optional[str] = None) -> str:
+        """ Returns either the attribute type or a translated type if the dialect is specified in the args
+        """
         if not translator:
             return f"{self.dest_type}"
         if self.type in generation_fields[translator].keys():
@@ -421,7 +434,8 @@ class UMLAttribute:
         return f"{self.type}"
 
     def set_type(self, source_type: str):
-        # Allow setting of length or scale and precision either: <type> (<precision>,<scale>) or <type> (<length>)
+        """ Sets the type and allows setting of length or scale and precision either: <type> (<precision>,<scale>) or <type> (<length>)
+        """
         split: List[str] = source_type.split('(')
         if len(split) > 1:
             source_type = split[0].strip()
@@ -442,6 +456,8 @@ class UMLAttribute:
             self.dest_type = source_type
 
     def get_name(self) -> str:
+        """ Returns the name or alias if the instace has one defined.
+        """
         if self.alias and settings['use_alias']:
             return f"{self.alias}"
         else:

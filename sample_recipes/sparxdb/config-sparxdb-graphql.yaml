@@ -1,19 +1,17 @@
-model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
-test_package: "{C2E30D48-F8AB-4c6f-9FA3-AFE44653D5EB}"
+model_package: "{AEB30CD7-DECA-4310-BFD6-9225F9251D9A}"
 source: sqlite:///./sample_recipes/sparxdb/sample.qea
 parser: sparxdb
 dest_root: ./build/sample_sparxdb_graphql
 templates_folder: ./mdg/templates
-generation_type: default
+generation_type: django
 model_templates:
 # Hasura Schema
-- dest: "{{package.children[0].name | snakecase}}__metadata.json"
+- dest: "{{package.name | camelcase}}-hasura_metadata.json"
   level: root
   source: "hasura.json.jinja"
-# PostgreSQL Schema
-- dest: "{{package.children[0].name | snakecase}}.sql"
-  level: root
-  source: "postgresql.sql.jinja"
-test_templates:
-- dest: "build/test/{{ins.package.path}}/{{ins.stereotype}}.json"
-  format: json
+
+# Django app
+- dest: "{{package.root_package.name | camelcase}}/{{package.name | camelcase}}/models.py"
+  level: package
+  source: "django/app/models.py.jinja"
+  filter: "{% if package.classes != [] %}True{% else %}False{% endif %}"

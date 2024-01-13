@@ -10,6 +10,8 @@ A single logical model is rich enough to generate API schemas, DB schemas, POJOs
 
 The tool parses your models into generic UML classes (see metamodel below) which are then passed to jinja2 templates for generation.
 
+My current favorite generation recipie is Hasura for a GraphQL API and generating DB migrations via Django. See sample_recipies/sparxdb/config-sparxdb-graphql.yaml
+
 Quickstart and docs can be found here: [readthedocs](https://pymdg.readthedocs.io/en/latest/index.html)
 
 ## Test
