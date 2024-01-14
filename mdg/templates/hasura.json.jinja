@@ -40,14 +40,14 @@
                         }
                     }{% if loop.index != objects|count %},{% endif %}{% endfor %}
                 ]{% endif %}{% if array_objects|count > 0 %},
-                "array_relationships": [{% for obj in array_objects %}
+                "array_relationships": [{% for obj in array_objects %}{% set assoc = cls.get_class_association(obj) %}
                     {
-                        "name": "list_{{ obj.package.name | camelcase }}_{{ obj.name | snakecase }}",
+                        "name": "list_{{ obj.package.name | camelcase }}_{{ obj.name | snakecase }}s",
                         "using": {
                             "foreign_key_constraint_on": {
-                                "column": "{{ package.name | snakecase }}_{{ obj.id_attribute.name | snakecase }}",
+                                "column": "{{ cls.name | snakecase }}_{{ obj.id_attribute.name | snakecase }}",
                                 "table": {
-                                    {% set assoc = cls.get_class_association(obj) %}{% if assoc.cardinality.name == "MANY_TO_MANY" %}
+                                    {% if assoc.cardinality.name == "MANY_TO_MANY" %}
                                     "name": "{{ assoc.source.package.name | camelcase }}_{{ assoc.source.name | snakecase }}_{{ assoc.destination.name | snakecase }}s",{% else %}
                                     "name": "{{ obj.package.name | camelcase }}_{{ obj.name | snakecase }}",{% endif %}
                                     "schema": "public"
