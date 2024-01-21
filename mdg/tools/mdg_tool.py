@@ -37,11 +37,36 @@ def dumps(args):
 
 
 def startproject(args):
-    print("Unimplemented")
+    """ mdg-tool startproject --source="sqlite:///Customer Model.qea" --parser=sparx --model_package=<GUID> --dialect=django config-customer-graphql.yaml
+    """
+    
+    with open(args.project_path, "w") as f:
+        f.write(f"source: {args.source}\n")
+        f.write(f"parser: {args.parser}\n")
+        f.write(f"model_package: {args.model_package}\n")
+        f.write("dest_root: ./build\n")
+        f.write(f"templates_folder: ./templates\n")
+        f.write(f"dialect: {args.dialect}\n")
+        f.write("model_templates:\n")
 
 
 def addtemplate(args):
-    print("Unimplemented")
+    """
+    """
+    templates = {
+        "django_model":"""
+- dest: "{{package.root_package.name | camelcase}}/{{package.name | camelcase}}/models.py"
+  level: package
+  source: "django/app/models.py.jinja"
+  filter: "{% if package.classes != [] %}True{% else %}False{% endif %}"
+""",
+        "hasura":"""
+- dest: "{{package.name | camelcase}}-hasura_metadata.json"
+  level: root
+  source: "hasura.json.jinja"  
+"""}
+    with open(args.project_path, "a") as f:
+        f.write(templates[args.template_type])
 
 
 def daemon(args):
