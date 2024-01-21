@@ -71,7 +71,7 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
 
       | dest_root: ./build
       | templates_folder: ./mdg/templates
-      | generation_type: default
+      | dialect: default
 
    | Lastly we add a list of the artifacts we want to generate::
 

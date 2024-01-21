@@ -37,8 +37,11 @@ def dumps(args):
 
 
 def startproject(args):
-    print('Not Implemented Yet')
-    print('Val:((%s))' % args)
+    print("Unimplemented")
+
+
+def addtemplate(args):
+    print("Unimplemented")
 
 
 def daemon(args):
@@ -51,7 +54,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description='Model Driven Generation Engine')
-    parser.add_argument('--verbose', '-v', action='count', default=0)
+    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
     subparsers = parser.add_subparsers(title='subcommands', description='valid subcommands', help='subcommand help')
 
     parser_a = subparsers.add_parser('generate', help='Generate files from a model using a recipe')
@@ -67,9 +70,17 @@ def main():
     parser_a.set_defaults(func=dumps)
 
     parser_c = subparsers.add_parser('startproject', help='Create project with recipe and templates')
-    parser_c.add_argument('project_type', choices=['django', 'schema', 'java'], help='The type of project')
+    parser_c.add_argument('-s', '--source', type=str, help="The source model file/DB connection")
+    parser_c.add_argument('-p', '--parser', type=str, choices=['sparx', 'drawio'], help='The format of the source.')
+    parser_c.add_argument('-d', '--dialect', type=str, choices=['default', 'django', 'schema', 'java'], help='The type of project')
+    parser_c.add_argument('-m', '--model_package', type=str, help='The ID of the root package in ther source.')
     parser_c.add_argument('project_path', type=str, help='The path to the project')
     parser_c.set_defaults(func=startproject)
+
+    parser_c = subparsers.add_parser('addtemplate', help='Add a generation template to a config')
+    parser_c.add_argument('template_type', type=str, choices=["django_model", "hasura"], help='The type of template to add')
+    parser_c.add_argument('project_path', type=str, help='The path to the project')
+    parser_c.set_defaults(func=addtemplate)
 
     parser_d = subparsers.add_parser('daemon', help='Poll package versions and run generation jobs on change')
     parser_d.add_argument('recipe_path', type=str, help='The path to the recipe config file')

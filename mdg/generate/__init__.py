@@ -14,8 +14,8 @@ def validate_settings():
     logger.debug("Validating settings")
     
     errors = []
-    if settings['generation_type'] not in generation_fields.keys():
-        errors.append( f"Settings generation_type of '{settings['generation_type']}' is not valid. Generation types are a dictionay of how to map UML attrribute types to physical types. Options are: {generation_fields.keys()}" )
+    if settings['dialect'] not in generation_fields.keys():
+        errors.append( f"Settings dialect of '{settings['dialect']}' is not valid. Generation types are a dictionay of how to map UML attrribute types to physical types. Options are: {generation_fields.keys()}" )
 
     if settings['parser'] not in PARSERS.keys():
         errors.append( f"Settings parser of '{settings['parser']}' is not valid. Parser must match the input modelling tool type defined in 'source'. Options are: {PARSERS.keys()}" )

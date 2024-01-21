@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 model_templates: List[Dict] = []
 
 defaults: Dict = {
-    "generation_type": "default",
+    "dialect": "default",
     "root_package": "default",
     "model_templates": model_templates,
     "case_package": "CamelCase",

@@ -4,7 +4,7 @@ source: sqlite:///./sample_recipes/sparxdb/sample.qea
 parser: sparxdb
 dest_root: ./build/sample_sparxdb_schema
 templates_folder: ./mdg/templates
-generation_type: default
+dialect: default
 model_templates:
 # Avro Schema
 - dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"

@@ -1,0 +1,16 @@
+source: sqlite:///Customer Model.qea
+parser: sparx
+model_package: AEB30CD7-DECA-4310-BFD6-9225F9251D9A
+dest_root: ./build
+templates_folder: ./templates
+dialect: django
+model_templates:
+
+- dest: "{{package.root_package.name | camelcase}}/{{package.name | camelcase}}/models.py"
+  level: package
+  source: "django/app/models.py.jinja"
+  filter: "{% if package.classes != [] %}True{% else %}False{% endif %}"
+  
+- dest: "{{package.name | camelcase}}-hasura_metadata.json"
+  level: root
+  source: "hasura.json.jinja"  

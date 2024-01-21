@@ -3,7 +3,7 @@ source: sqlite:///./sample_recipes/sparxdb/sample.qea
 parser: sparxdb
 dest_root: ./build/sample_sparxdb_graphql
 templates_folder: ./mdg/templates
-generation_type: django
+dialect: django
 model_templates:
 # Hasura Schema
 - dest: "{{package.name | camelcase}}-hasura_metadata.json"

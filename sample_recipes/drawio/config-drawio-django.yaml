@@ -5,7 +5,7 @@ source: ./sample_recipes/drawio/sample.xml
 parser: drawio
 dest_root: ./build/sample_drawio_django
 templates_folder: ./mdg/templates
-generation_type: django
+dialect: django
 model_templates:
 # Avro Schema
 - dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"

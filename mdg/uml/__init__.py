@@ -450,8 +450,8 @@ class UMLAttribute:
             self.length = 100
 
         self.type = source_type
-        if source_type in generation_fields[settings['generation_type']].keys():
-            self.dest_type = generation_fields[settings['generation_type']][source_type]
+        if source_type in generation_fields[settings['dialect']].keys():
+            self.dest_type = generation_fields[settings['dialect']][source_type]
         else:
             self.dest_type = source_type
 

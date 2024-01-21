@@ -5,7 +5,7 @@ source: ./sample_recipes/sparx/sample_industry.xmi
 parser: sparx
 dest_root: ./build/
 templates_folder: ./templates
-generation_type: sqlalchemy
+dialect: sqlalchemy
 model_templates:
 # Python: SQL Alchemy
 - dest: "sqlalchemy{{package.path | case_package}}/models.py"
