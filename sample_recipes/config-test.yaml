@@ -5,11 +5,11 @@ source: ./sample_recipes/sample-test.xml
 parser: drawio
 dest_root: ./build/test
 templates_folder: does_not_exist_so_will_use_default
-dialect: django
+default_dialect: django
 case_package: CamelCase
 case_class: CamelCase
 case_attribute: snake_case
-model_templates:
+generation_artifacts:
 - dest: "{{ cls.name | case_class }}.avsc"
   level: class
   source: "Schema/avro.avsc.jinja"

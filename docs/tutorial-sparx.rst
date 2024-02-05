@@ -71,11 +71,11 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
 
       | dest_root: ./build
       | templates_folder: ./mdg/templates
-      | dialect: default
+      | default_dialect: default
 
    | Lastly we add a list of the artifacts we want to generate::
 
-      | model_templates:
+      | generation_artifacts:
       | # Avro Schema
       | - dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
       |   level: class

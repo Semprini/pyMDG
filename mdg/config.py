@@ -6,12 +6,12 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-model_templates: List[Dict] = []
+generation_artifacts: List[Dict] = []
 
 defaults: Dict = {
-    "dialect": "default",
+    "default_dialect": "default",
     "root_package": "default",
-    "model_templates": model_templates,
+    "generation_artifacts": generation_artifacts,
     "case_package": "CamelCase",
     "case_class": "CamelCase",
     "case_attribute": "snake_case",

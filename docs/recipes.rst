@@ -10,8 +10,8 @@ The gitgub project has a sample_recipes which has some examples. Each recipe con
     parser: # <sparx, sparxdb or drawio>
     dest_root: # <base path where to put each generated artifact>
     templates_folder: # <base path where to find custom templates>
-    dialect: # <language to translate attributes into optios are: default, spring data rest, django, marshmallow, sqlalchemy, python, ddl>
-    model_templates: # <list of artifacts to generate, see below for details>
+    default_dialect: # <language to translate attributes into optios are: default, spring data rest, django, marshmallow, sqlalchemy, python, ddl>
+    generation_artifacts: # <list of artifacts to generate, see below for details>
     - dest: # <jinja template string which parses to the output file name>
       level: # <package, class, root, copy>
       source: # <path to jinja template file to render>
@@ -22,7 +22,7 @@ Model Templates Detail
 
 In the config yaml for your project there is a list called::
 
-    model_templates:
+    generation_artifacts:
 
 This is a list of files to render based on the parsed classes as discussed in the Metamodel page
 

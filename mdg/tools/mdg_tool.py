@@ -37,7 +37,7 @@ def dumps(args):
 
 
 def startproject(args):
-    """ mdg-tool startproject --source="sqlite:///Customer Model.qea" --parser=sparx --model_package=<GUID> --dialect=django config-customer-graphql.yaml
+    """ mdg-tool startproject --source="sqlite:///Customer Model.qea" --parser=sparx --model_package=<GUID> --default_dialect=django config-customer-graphql.yaml
     """
     
     with open(args.project_path, "w") as f:
@@ -46,8 +46,8 @@ def startproject(args):
         f.write(f"model_package: {args.model_package}\n")
         f.write("dest_root: ./build\n")
         f.write(f"templates_folder: ./templates\n")
-        f.write(f"dialect: {args.dialect}\n")
-        f.write("model_templates:\n")
+        f.write(f"default_dialect: {args.default_dialect}\n")
+        f.write("generation_artifacts:\n")
 
 
 def addtemplate(args):
@@ -97,7 +97,7 @@ def main():
     parser_c = subparsers.add_parser('startproject', help='Create project with recipe and templates')
     parser_c.add_argument('-s', '--source', type=str, help="The source model file/DB connection")
     parser_c.add_argument('-p', '--parser', type=str, choices=['sparx', 'drawio'], help='The format of the source.')
-    parser_c.add_argument('-d', '--dialect', type=str, choices=['default', 'django', 'schema', 'java'], help='The type of project')
+    parser_c.add_argument('-d', '--default_dialect', type=str, choices=['default', 'django', 'schema', 'java'], help='The dialect to use if not specified per artifact')
     parser_c.add_argument('-m', '--model_package', type=str, help='The ID of the root package in ther source.')
     parser_c.add_argument('project_path', type=str, help='The path to the project')
     parser_c.set_defaults(func=startproject)

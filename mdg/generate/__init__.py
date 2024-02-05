@@ -14,13 +14,13 @@ def validate_settings():
     logger.debug("Validating settings")
     
     errors = []
-    if settings['dialect'] not in generation_fields.keys():
-        errors.append( f"Settings dialect of '{settings['dialect']}' is not valid. Generation types are a dictionay of how to map UML attrribute types to physical types. Options are: {generation_fields.keys()}" )
+    if settings['default_dialect'] not in generation_fields.keys():
+        errors.append( f"Settings default_dialect of '{settings['default_dialect']}' is not valid. Generation types are a dictionay of how to map UML attrribute types to physical types. Options are: {generation_fields.keys()}" )
 
     if settings['parser'] not in PARSERS.keys():
         errors.append( f"Settings parser of '{settings['parser']}' is not valid. Parser must match the input modelling tool type defined in 'source'. Options are: {PARSERS.keys()}" )
 
-    for template_definition in settings['model_templates']:
+    for template_definition in settings['generation_artifacts']:
         levels = ["root","copy","class","package","enumeration","assocication"]
         if template_definition["level"] not in levels:
             errors.append( f"Template level of '{template_definition['level']}' is not valid. Level defines how many times the output will be rendered and the objects passed to the template. Options are: {levels}" )

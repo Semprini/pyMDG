@@ -424,13 +424,13 @@ class UMLAttribute:
     def __str__(self) -> str:
         return f"{self.name}"
 
-    def get_type(self, translator: Optional[str] = None) -> str:
+    def get_type(self, dialect: Optional[str] = None) -> str:
         """ Returns either the attribute type or a translated type if the dialect is specified in the args
         """
-        if not translator:
+        if not dialect:
             return f"{self.dest_type}"
-        if self.type in generation_fields[translator].keys():
-            return generation_fields[translator][f"{self.type}"]
+        if self.type in generation_fields[dialect].keys():
+            return generation_fields[dialect][f"{self.type}"]
         return f"{self.type}"
 
     def set_type(self, source_type: str):
@@ -450,8 +450,8 @@ class UMLAttribute:
             self.length = 100
 
         self.type = source_type
-        if source_type in generation_fields[settings['dialect']].keys():
-            self.dest_type = generation_fields[settings['dialect']][source_type]
+        if source_type in generation_fields[settings['default_dialect']].keys():
+            self.dest_type = generation_fields[settings['default_dialect']][source_type]
         else:
             self.dest_type = source_type
 

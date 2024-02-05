@@ -3,8 +3,8 @@ parser: sparx
 model_package: AEB30CD7-DECA-4310-BFD6-9225F9251D9A
 dest_root: ./build
 templates_folder: ./templates
-dialect: django
-model_templates:
+default_dialect: django
+generation_artifacts:
 
 - dest: "{{package.root_package.name | camelcase}}/{{package.name | camelcase}}/models.py"
   level: package

@@ -137,7 +137,7 @@ def output_model(package: UMLPackage) -> None:
 
     # Loop through all template definitions in the config file
     template_definition: Dict
-    for template_definition in settings['model_templates']:
+    for template_definition in settings['generation_artifacts']:
         dest_file_template: Template = dest_env.from_string(os.path.join(settings['dest_root'], template_definition['dest']))
 
         if template_definition['level'] == 'copy':

@@ -4,8 +4,8 @@ source: ./sample_recipes/bouml/sample.xmi
 parser: bouml
 dest_root: ./build/sample_bouml_schema
 templates_folder: ./mdg/templates
-dialect: default
-model_templates:
+default_dialect: default
+generation_artifacts:
 # Avro Schema
 - dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
   level: class

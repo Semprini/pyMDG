@@ -5,8 +5,8 @@ source: ./sample_recipes/sparx/sample_industry.xmi
 parser: sparx
 dest_root: ./build/sample_sparx_schema
 templates_folder: ./mdg/templates
-dialect: default
-model_templates:
+default_dialect: default
+generation_artifacts:
 # Avro Schema
 - dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
   level: class

@@ -5,8 +5,8 @@ source: ./sample_recipes/sparx/sample_industry.xmi
 parser: sparx
 dest_root: ./build/sample_sparx_python
 templates_folder: ./mdg/templates
-dialect: django
-model_templates:
+default_dialect: django
+generation_artifacts:
 # Python: Django App
 - dest: django{{package.path}}/models.py
   level: package
