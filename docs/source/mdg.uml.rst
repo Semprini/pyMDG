@@ -8,3 +8,11 @@ Module contents
    :members:
    :undoc-members:
    :show-inheritance:
+
+mdg.uml.validate module
+-------------------------
+
+.. automodule:: mdg.uml.validate
+   :members:
+   :undoc-members:
+   :show-inheritance:

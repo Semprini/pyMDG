@@ -52,15 +52,6 @@ mdg.tools.sparx\_db\_models\_raw module
    :undoc-members:
    :show-inheritance:
 
-mdg.tools.validate module
--------------------------
-
-.. automodule:: mdg.tools.validate
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 Module contents
 ---------------
 
