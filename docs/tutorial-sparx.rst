@@ -39,7 +39,7 @@ pyMDG has a specific UML nomenclature, expects Sparx EA project to have a packag
 
 .. image:: https://github.com/Semprini/pyMDG/raw/master/docs/_static/image/sparx_tut_datamodel.png
 
-3. Exporting
+3. Exporting - needed for Sparx EA versions before 16
 
    | In the Sparx EA Browser window, single click on the "Tutorial Data Model" package.
    | In the top menu bar select "Publish" and choose "Publish As...". I prefer this to "Export Package" as it gives the option to export diagram images if we're generating documentation.
@@ -62,12 +62,12 @@ pyMDG parses the XMI into the internal classes shown in the metamodel section of
    | Our first step is to create a file in our tutorial1 folder called schemagen.yaml.
    | We then add info on how our project is set up::
 
-   | root_package: Tutorial Data Model
-   | model_package: Tutorial Data Model
-   | source: ./tutorial1.xmi
-   | parser: sparx
+      | root_package: Tutorial Data Model
+      | model_package: Tutorial Data Model
+      | source: ./tutorial1.xmi
+      | parser: sparx
 
-   | Next we add the generation type and where to find our jinja2 templates to the yml::
+   | Next we add the generation type and where to find our jinja2 templates to the yaml::
 
       | dest_root: ./build
       | templates_folder: ./mdg/templates
