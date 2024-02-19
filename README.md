@@ -10,7 +10,7 @@ A single logical model is rich enough to generate API schemas, DB schemas, POJOs
 
 The tool parses your models into generic UML classes (see metamodel below) which are then passed to jinja2 templates for generation.
 
-My current favorite generation recipie is Hasura for a GraphQL API and generating DB migrations via Django. See sample_recipies/sparxdb/config-sparxdb-graphql.yaml
+My current favorite generation recipie is Hasura for a GraphQL API and generating DB migrations via Django. See the tutorial here: [HasuraTutorial](https://pymdg.readthedocs.io/en/latest/tutorial-hasura.html) and check the example config in sample_recipies/sparxdb/config-sparxdb-graphql.yaml
 
 Quickstart and docs can be found here: [readthedocs](https://pymdg.readthedocs.io/en/latest/index.html)
 
@@ -40,7 +40,7 @@ The UML parser expects a specific package hierarchy, please see the sample EA fi
 - Export to folder where you want to generate from
 
 
-Note: Sparx V16+ does not need to be export. Parser uses native SQLite file format which is the same schema as database repositories.
+Note: Sparx V16+ does not need to be exported. The parser uses native SQLite file format which is the same schema as database repositories.
 
 ## Draw.io Export Process
 The UML parser expects a specific package layout which mimics the Sparx hierarchy, please see the sample files.
