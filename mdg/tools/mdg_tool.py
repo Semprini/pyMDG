@@ -43,7 +43,7 @@ def startproject(args):
     with open(args.project_path, "w") as f:
         f.write(f"source: {args.source}\n")
         f.write(f"parser: {args.parser}\n")
-        f.write(f"model_package: {args.model_package}\n")
+        f.write(f'model_package: "{args.model_package}"\n')
         f.write("dest_root: ./build\n")
         f.write(f"templates_folder: ./templates\n")
         f.write(f"default_dialect: {args.default_dialect}\n")
@@ -61,7 +61,7 @@ def addtemplate(args):
   filter: "{% if package.classes != [] %}True{% else %}False{% endif %}"
 """,
         "hasura":"""
-- dest: "{{package.name | camelcase}}-hasura_metadata.json"
+- dest: "{{package.root_package.name | camelcase}}/hasura_metadata.json"
   level: root
   source: "hasura.json.jinja"  
 """}
@@ -96,7 +96,7 @@ def main():
 
     parser_c = subparsers.add_parser('startproject', help='Create project with recipe and templates')
     parser_c.add_argument('-s', '--source', type=str, help="The source model file/DB connection")
-    parser_c.add_argument('-p', '--parser', type=str, choices=['sparx', 'drawio'], help='The format of the source.')
+    parser_c.add_argument('-p', '--parser', type=str, choices=['sparx', 'sparxdb', 'drawio'], help='The format of the source.')
     parser_c.add_argument('-d', '--default_dialect', type=str, choices=['default', 'django', 'schema', 'java'], help='The dialect to use if not specified per artifact')
     parser_c.add_argument('-m', '--model_package', type=str, help='The ID of the root package in ther source.')
     parser_c.add_argument('project_path', type=str, help='The path to the project')
