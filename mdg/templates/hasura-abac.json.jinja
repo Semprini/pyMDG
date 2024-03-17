@@ -1,0 +1,80 @@
+{
+  "resource_version": 40,
+  "metadata": {
+    "version": 3,
+    "sources": [
+      {
+        "name": "{{ package.name | snakecase }}",
+        "kind": "postgres",
+        "tables": [{% set classes = package.get_all_classes() %}{% for cls in classes %}{% if cls.is_abstract == False and cls.id_attribute %}{% set objects = cls.get_object_relationships() %}{% set array_objects = cls.get_array_relationships() %}
+            {% for obj in array_objects %}{% set assoc = cls.get_class_association(obj) %}{% if assoc.cardinality.name == "MANY_TO_MANY" and assoc.source == cls %}{
+              "table":{
+                  "name": "{{ assoc.source.package.name | camelcase }}_{{ assoc.source.name | snakecase }}_{{ assoc.destination.name | snakecase }}s",
+                  "schema": "public"
+              },
+              "object_relationships": [
+                  {
+                    "name": "{{ assoc.source.package.name | camelcase }}_{{ assoc.source.name | snakecase }}",
+                    "using": {
+                      "foreign_key_constraint_on": "{{ assoc.source.name | snakecase }}_{{ assoc.source.id_attribute.name | snakecase }}"
+                    }
+                  },
+                  {
+                    "name": "{{ assoc.destination.package.name | camelcase }}_{{ assoc.destination.name | snakecase }}",
+                    "using": {
+                      "foreign_key_constraint_on": "{{ assoc.destination.name | snakecase }}_{{ assoc.destination.id_attribute.name | snakecase }}"
+                    }
+                  }
+              ]
+            },{% endif %}{% endfor %}
+            {
+                "table":{
+                    "name": "{{ cls.package.name | camelcase }}_{{ cls.name | snakecase }}",
+                    "schema": "public"
+                }{% if objects|count > 0 %},
+                "object_relationships": [{% for obj in objects %}
+                    {
+                        "name": "obj_{{ obj.package.name | camelcase }}_{{ obj.name | snakecase }}",
+                        "using": {
+                            "foreign_key_constraint_on": "{{ package.name | snakecase }}_{{ obj.id_attribute.name | snakecase }}"
+                        }
+                    }{% if loop.index != objects|count %},{% endif %}{% endfor %}
+                ]{% endif %}{% if array_objects|count > 0 %},
+                "array_relationships": [{% for obj in array_objects %}{% set assoc = cls.get_class_association(obj) %}
+                    {
+                        "name": "list_{{ obj.package.name | camelcase }}_{{ obj.name | snakecase }}s",
+                        "using": {
+                            "foreign_key_constraint_on": {
+                                "column": "{{ cls.name | snakecase }}_{{ obj.id_attribute.name | snakecase }}",
+                                "table": {
+                                    {% if assoc.cardinality.name == "MANY_TO_MANY" %}
+                                    "name": "{{ assoc.source.package.name | camelcase }}_{{ assoc.source.name | snakecase }}_{{ assoc.destination.name | snakecase }}s",{% else %}
+                                    "name": "{{ obj.package.name | camelcase }}_{{ obj.name | snakecase }}",{% endif %}
+                                    "schema": "public"
+                                }
+                            }
+                        }
+                    }{% if loop.index != array_objects|count %},{% endif %}{% endfor %}
+                ]{% endif %}
+            }{% if cls != classes[-1] %},{% endif %}{% endif %}{% endfor %}
+        ],
+        "configuration": {
+          "connection_info": {
+            "database_url": "postgres://postgres:postgrespassword@postgres:5432/customer",
+            "isolation_level": "read-committed",
+            "use_prepared_statements": false
+          }
+        }
+      }
+    ],
+    "allowlist": [
+      {
+        "collection": "allowed-queries",
+        "scope": {
+          "global": true
+        }
+      }
+    ]    
+  }
+}
+
