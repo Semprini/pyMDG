@@ -7,11 +7,14 @@ from __future__ import annotations
 import re
 
 
-def camelcase(string):
+def camelcase(string:str) -> str:
     if string is None or string == "":
         return string
-    words = re.split(' |_', string)
-    return "".join(word[0].upper() + word[1:] for word in words)
+    words: list = re.split(' |_', string)
+    
+    # Can't use Title function in str library as this lowers all but the first char: does not handle existing camelCased input
+    words_camel: list = [(words[0][0].lower() + words[0][1:])] + list(word[0].upper() + word[1:] for word in words[1:])
+    return "".join(words_camel)
 
 
 def capitalcase(string: str) -> str:

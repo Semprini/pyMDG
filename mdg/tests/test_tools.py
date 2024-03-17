@@ -1,6 +1,6 @@
 import unittest
 
-from mdg.tools.case import camelcase, snakecase
+from mdg.tools.case import camelcase, snakecase, pascalcase
 from typing import List
 from mdg.tools.io import obj_to_dict, dict_to_obj
 
@@ -10,11 +10,24 @@ class TestUMLModel(unittest.TestCase):
         pass
 
     def test_camel(self):
-        self.assertEqual("TestCase", camelcase("TestCase"))
-        self.assertEqual("TestCase", camelcase("testCase"))
-        self.assertEqual("TestCase", camelcase("test case"))
-        self.assertEqual("TestCase", camelcase("Test Case"))
-        self.assertEqual("TestCase", camelcase("Test_Case"))
+        self.assertEqual("test", camelcase("test"))
+        self.assertEqual("test", camelcase("Test"))
+        self.assertEqual("testCase", camelcase("TestCase"))
+        self.assertEqual("testCase", camelcase("testCase"))
+        self.assertEqual("testCase", camelcase("test case"))
+        self.assertEqual("testCase", camelcase("Test Case"))
+        self.assertEqual("testCase", camelcase("Test_Case"))
+
+
+    def test_pascal(self):
+        self.assertEqual("Test", pascalcase("test"))
+        self.assertEqual("Test", pascalcase("Test"))
+        self.assertEqual("TestCase", pascalcase("TestCase"))
+        self.assertEqual("TestCase", pascalcase("testCase"))
+        self.assertEqual("TestCase", pascalcase("test case"))
+        self.assertEqual("TestCase", pascalcase("Test Case"))
+        self.assertEqual("TestCase", pascalcase("Test_Case"))
+
 
     def test_snake(self):
         self.assertEqual("test_case", snakecase("testCase"))
