@@ -12,6 +12,9 @@ class TestUMLModel(unittest.TestCase):
     def test_camel(self):
         self.assertEqual("test", camelcase("test"))
         self.assertEqual("test", camelcase("Test"))
+        self.assertEqual("test", camelcase("Test "))
+        self.assertEqual("test", camelcase("Test_"))
+        self.assertEqual("test", camelcase(" Test_"))
         self.assertEqual("testCase", camelcase("TestCase"))
         self.assertEqual("testCase", camelcase("testCase"))
         self.assertEqual("testCase", camelcase("test case"))
