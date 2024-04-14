@@ -7,21 +7,21 @@
 		"fields": [{% if assoc.source.generalization %}{% for attr in assoc.source.generalization.attributes %}
 			{ 
 				"name": "{{ attr.name | case_attribute }}", 
-				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "undefined"
-				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "undefined"{% elif attr.classification %}"type":
+				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "__"
+				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "__"{% elif attr.classification %}"type":
 					{
 						"type": "enum",
-						"name": "{{ attr.classification.name | case_class }}",
+						"name": "{{ attr.classification.name | case_class }}", 
 						"symbols": [{% for enum in attr.classification.values[:-1] %}
 							"{{ enum | uppercase | replace(" ","_")}}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_") }}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string",{% endif %}"null", {% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "undefined"{% endif %}{% endif %}
+					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string",{% endif %}"null", {% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "__"{% endif %}{% endif %}
 			},{% endfor %}{% endif %}{% for attr in assoc.source.attributes[:-1] %}
 			{ 
 				"name": "{{ attr.name | case_attribute }}", 
-				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "undefined"
-				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "undefined"{% elif attr.classification %}"type":
+				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "__"
+				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "__"{% elif attr.classification %}"type":
 					{
 						"type": "enum",
 						"name": "{{ attr.classification.name | case_class }}",
@@ -29,12 +29,12 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}"null",{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "undefined"{% endif %}{% endif %} 
+					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}"null",{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "__"{% endif %}{% endif %} 
 			},{% endfor %}
 			{ 
 				"name": "{{ assoc.source.attributes[-1].name | case_attribute }}", 
-				{% if assoc.source.attributes[-1].dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "undefined"
-				{% elif assoc.source.attributes[-1].dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "undefined"{% elif assoc.source.attributes[-1].classification %}"type":
+				{% if assoc.source.attributes[-1].dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "__"
+				{% elif assoc.source.attributes[-1].dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "__"{% elif assoc.source.attributes[-1].classification %}"type":
 					{
 						"type": "enum",
 						"name": "{{ assoc.source.attributes[-1].classification.name | case_class }}",
@@ -42,7 +42,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ assoc.source.attributes[-1].classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not assoc.source.attributes[-1].is_id %}[ {% if assoc.source.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{assoc.source.attributes[-1].dest_type}}"{% if not assoc.source.attributes[-1].is_id %} ], "default": "undefined"{% endif %}{% endif %}
+					}{% else %}"type": {% if not assoc.source.attributes[-1].is_id %}[ {% if assoc.source.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{assoc.source.attributes[-1].dest_type}}"{% if not assoc.source.attributes[-1].is_id %} ], "default": "__"{% endif %}{% endif %}
 			}{% for assoc in assoc.source.associations_from %}{% if assoc.association_type.name not in ['AGGREGATION', 'COMPOSITION'] %}
 			,{ 
 				"name": "{{ assoc.destination_name | case_attribute }}_id", 
@@ -50,7 +50,7 @@
 					{ 
 						"type": "array", 
 						"items": "string" 
-					}{% else %}], "default": "undefined"{% endif %} 
+					}{% else %}], "default": "__"{% endif %} 
 			}{% endif %}{% endfor %}
 		]
 	},{% endif %}{% endfor %}	
@@ -61,8 +61,8 @@
 		"fields": [{% if cls.generalization %}{% for attr in cls.generalization.attributes %}
 			{ 
 				"name": "{{ attr.name | case_attribute }}",
-				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "undefined"
-				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "undefined"{% elif attr.classification %}"type":
+				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "__"
+				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "__"{% elif attr.classification %}"type":
 					{
 						"type": "enum",
 						"name": "{{ attr.classification.name | case_class }}",
@@ -70,12 +70,12 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_") }}"
 						]
-					}{% else %}"type": [{% if attr.dest_type!="string" %}"string", {% endif %}"{{attr.dest_type}}"{% if not attr.is_id %}, "null" ], "default": "undefined"{% else %}]{% endif %}{% endif %} 
+					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string",{% endif %}"null", {% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "__"{% endif %}{% endif %}
 			},{% endfor %}{% endif %}{% for attr in cls.attributes[:-1] %}
 			{ 
 				"name": "{{ attr.name | case_attribute }}",
-				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "undefined"
-				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "undefined"{% elif attr.classification %}"type":
+				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "__"
+				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "__"{% elif attr.classification %}"type":
 					{
 						"type": "enum",
 						"name": "{{ attr.classification.name | case_class }}",
@@ -83,12 +83,12 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_")}}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %},"null" ], "default": "undefined"{% endif %}{% endif %} 
+					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %},"null" ], "default": "__"{% endif %}{% endif %} 
 			},{% endfor %}
 			{ 
 				"name": "{{ cls.attributes[-1].name | case_attribute }}",
-				{% if cls.attributes[-1].dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "undefined"
-				{% elif cls.attributes[-1].dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "undefined"{% elif cls.attributes[-1].classification %}"type":
+				{% if cls.attributes[-1].dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "__"
+				{% elif cls.attributes[-1].dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "__"{% elif cls.attributes[-1].classification %}"type":
 					{
 						"type": "enum",
 						"name": "{{ cls.attributes[-1].classification.name | case_class }}",
@@ -96,11 +96,11 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ cls.attributes[-1].classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not cls.attributes[-1].is_id %}[ {% if cls.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{cls.attributes[-1].dest_type}}"{% if not cls.attributes[-1].is_id %} ], "default": "undefined"{% endif %}{% endif %}
+					}{% else %}"type": {% if not cls.attributes[-1].is_id %}[ {% if cls.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{cls.attributes[-1].dest_type}}"{% if not cls.attributes[-1].is_id %} ], "default": "__"{% endif %}{% endif %}
 			}{% for assoc in cls.associations_from %}
 			,{ 
 				"name": "{{ assoc.destination_name | case_attribute }}_id",
-				"type": [{% if assoc.destination_multiplicity[1] == '*' %}{ "type": "array", "items": "string" }{% else %}"string"{% endif %}, "null"], "default": "undefined"
+				"type": [{% if assoc.destination_multiplicity[1] == '*' %}{ "type": "array", "items": "string" }{% else %}"string"{% endif %}, "null"], "default": "__"
 			}{% endfor %}{% for assoc in cls.associations_to %}{% if assoc.association_type.name in ['AGGREGATION', 'COMPOSITION'] %}
 			,{ 
 				"name": "{{ assoc.source.name | case_attribute }}", 
@@ -108,7 +108,7 @@
 					{ 
 						"type": "array", 
 						"items": "{{ assoc.source.name | case_class }}" 
-					}{% else %}"{{ assoc.source.name | case_class }}"{% endif %}], "default": "undefined",
+					}{% else %}"{{ assoc.source.name | case_class }}"{% endif %}], "default": "__",
 				"namespace": "{{ cls.package.path[1:-1] | replace("/",".") | snakecase }}"
 			}{% endif %}{% endfor %}
 		]
@@ -120,8 +120,8 @@
 		"fields": [
 			{% for attr in special.attributes[:-1] %}{ 
 				"name": "{{ attr.name | case_attribute }}",
-				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "undefined"
-				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "undefined"{% elif attr.classification %}"type":
+				{% if attr.dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "__"
+				{% elif attr.dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "__"{% elif attr.classification %}"type":
 					{
 						"type": "enum",
 						"name": "{{ attr.classification.name | case_class }}",
@@ -129,12 +129,12 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_")}}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %},"null" ], "default": "undefined"{% endif %}{% endif %} 
+					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %},"null" ], "default": "__"{% endif %}{% endif %} 
 			},{% endfor %}
 			{ 
 				"name": "{{ special.attributes[-1].name | case_attribute }}",
-				{% if special.attributes[-1].dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "undefined"
-				{% elif special.attributes[-1].dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "undefined"{% elif cls.attributes[-1].classification %}"type":
+				{% if special.attributes[-1].dest_type == "date" %}"type": ["string", "null", {"type": "int", "logicalType": "date"}], "default": "__"
+				{% elif special.attributes[-1].dest_type == "datetime" %}"type": ["string", "null", {"type" : "long", "logicalType": "timestamp-millis"}], "default": "__"{% elif cls.attributes[-1].classification %}"type":
 					{
 						"type": "enum",
 						"name": "{{ special.attributes[-1].classification.name | case_class }}",
@@ -142,7 +142,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ special.attributes[-1].classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not special.attributes[-1].is_id %}[ {% if special.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{special.attributes[-1].dest_type}}"{% if not special.attributes[-1].is_id %} ], "default": "undefined"{% endif %}{% endif %}
+					}{% else %}"type": {% if not special.attributes[-1].is_id %}[ {% if special.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{special.attributes[-1].dest_type}}"{% if not special.attributes[-1].is_id %} ], "default": "__"{% endif %}{% endif %}
 			}			
 		]
 	}{% endif %}{% endfor %}
