@@ -1,5 +1,5 @@
 [
-{% for assoc in cls.associations_to %}{% if assoc.association_type.name in ['AGGREGATION', 'COMPOSITION', 'ASSOCIATION'] %}
+{% for assoc in cls.associations_to %}{% if assoc.association_type.name in ['AGGREGATION', 'COMPOSITION', 'ASSOCIATION'] and "aggregate root" not in assoc.source.stereotypes %}
 	{
 		"namespace": "{{ assoc.source.package.path[1:-1] | replace("/",".") | snakecase }}",
 		"type": "record",
@@ -16,7 +16,7 @@
 							"{{ enum | uppercase | replace(" ","_")}}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_") }}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string",{% endif %}"null", {% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "__"{% endif %}{% endif %}
+					}{% else %}"type": {% if not attr.is_id %}[ "string", "null"{% if attr.dest_type != 'string' %}, "{{attr.dest_type}}"{% endif %} ], "default": "__"{% else %}"{{attr.dest_type}}"{% endif %}{% endif %}
 			},{% endfor %}{% endif %}{% for attr in assoc.source.attributes[:-1] %}
 			{ 
 				"name": "{{ attr.name | case_attribute }}", 
@@ -29,7 +29,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}"null",{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "__"{% endif %}{% endif %} 
+					}{% else %}"type": {% if not attr.is_id %}[ "string", "null"{% if attr.dest_type != 'string' %}, "{{attr.dest_type}}"{% endif %} ], "default": "__"{% else %}"{{attr.dest_type}}"{% endif %}{% endif %}
 			},{% endfor %}
 			{ 
 				"name": "{{ assoc.source.attributes[-1].name | case_attribute }}", 
@@ -42,7 +42,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ assoc.source.attributes[-1].classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not assoc.source.attributes[-1].is_id %}[ {% if assoc.source.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{assoc.source.attributes[-1].dest_type}}"{% if not assoc.source.attributes[-1].is_id %} ], "default": "__"{% endif %}{% endif %}
+					}{% else %}"type": {% if not assoc.source.attributes[-1].is_id %}[ "string", "null"{% if assoc.source.attributes[-1].dest_type != 'string' %}, "{{assoc.source.attributes[-1].dest_type}}"{% endif %} ], "default": "__"{% else %}"{{assoc.source.attributes[-1].dest_type}}"{% endif %}{% endif %}
 			}{% for assoc in assoc.source.associations_from %}{% if assoc.association_type.name not in ['AGGREGATION', 'COMPOSITION'] %}
 			,{ 
 				"name": "{{ assoc.destination_name | case_attribute }}_id", 
@@ -70,7 +70,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_") }}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string",{% endif %}"null", {% endif %}"{{attr.dest_type}}"{% if not attr.is_id %} ], "default": "__"{% endif %}{% endif %}
+					}{% else %}"type": {% if not attr.is_id %}[ "string", "null"{% if attr.dest_type != 'string' %}, "{{attr.dest_type}}"{% endif %} ], "default": "__"{% else %}"{{attr.dest_type}}"{% endif %}{% endif %}
 			},{% endfor %}{% endif %}{% for attr in cls.attributes[:-1] %}
 			{ 
 				"name": "{{ attr.name | case_attribute }}",
@@ -83,7 +83,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_")}}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %},"null" ], "default": "__"{% endif %}{% endif %} 
+					}{% else %}"type": {% if not attr.is_id %}[ "string", "null"{% if attr.dest_type != 'string' %}, "{{attr.dest_type}}"{% endif %} ], "default": "__"{% else %}"{{attr.dest_type}}"{% endif %}{% endif %}
 			},{% endfor %}
 			{ 
 				"name": "{{ cls.attributes[-1].name | case_attribute }}",
@@ -96,7 +96,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ cls.attributes[-1].classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not cls.attributes[-1].is_id %}[ {% if cls.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{cls.attributes[-1].dest_type}}"{% if not cls.attributes[-1].is_id %} ], "default": "__"{% endif %}{% endif %}
+					}{% else %}"type": {% if not cls.attributes[-1].is_id %}[ "string", "null"{% if cls.attributes[-1].dest_type != 'string' %}, "{{cls.attributes[-1].dest_type}}"{% endif %} ], "default": "__"{% else %}"{{cls.attributes[-1].dest_type}}"{% endif %}{% endif %}
 			}{% for assoc in cls.associations_from %}
 			,{ 
 				"name": "{{ assoc.destination_name | case_attribute }}_id",
@@ -112,7 +112,7 @@
 				"namespace": "{{ cls.package.path[1:-1] | replace("/",".") | snakecase }}"
 			}{% endif %}{% endfor %}
 		]
-	}{% for special in cls.specialized_by %}{% if "root aggregate" not in special.stereotypes %},
+	}{% for special in cls.specialized_by %}{% if "aggregate root" not in special.stereotypes %},
 	{
 		"namespace": "{{ special.package.path[1:-1] | replace("/",".") | snakecase }}",
 		"type": "record",
@@ -129,7 +129,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_")}}",{% endfor %}
 							"{{ attr.classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not attr.is_id %}[ {% if attr.dest_type != 'string' %}"string", {% endif %}{% endif %}"{{attr.dest_type}}"{% if not attr.is_id %},"null" ], "default": "__"{% endif %}{% endif %} 
+					}{% else %}"type": {% if not attr.is_id %}[ "string", "null"{% if attr.dest_type != 'string' %}, "{{attr.dest_type}}"{% endif %} ], "default": "__"{% else %}"{{attr.dest_type}}"{% endif %}{% endif %}
 			},{% endfor %}
 			{ 
 				"name": "{{ special.attributes[-1].name | case_attribute }}",
@@ -142,7 +142,7 @@
 							"{{ enum | uppercase | replace(" ","_") | replace("/","_") }}",{% endfor %}
 							"{{ special.attributes[-1].classification.values[-1] | uppercase | replace(" ","_")}}"
 						]
-					}{% else %}"type": {% if not special.attributes[-1].is_id %}[ {% if special.attributes[-1].dest_type != 'string' %}"string", {% endif %}"null", {% endif %}"{{special.attributes[-1].dest_type}}"{% if not special.attributes[-1].is_id %} ], "default": "__"{% endif %}{% endif %}
+					}{% else %}"type": {% if not special.attributes[-1].is_id %}[ "string", "null"{% if special.attributes[-1].dest_type != 'string' %}, "{{special.attributes[-1].dest_type}}"{% endif %} ], "default": "__"{% else %}"{{special.attributes[-1].dest_type}}"{% endif %}{% endif %}
 			}			
 		]
 	}{% endif %}{% endfor %}
