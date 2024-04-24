@@ -447,7 +447,7 @@ class UMLAttribute:
                 self.precision = int(attrs[0])
                 self.scale = int(attrs[1])
         elif source_type.lower() in ['string', 'str']:
-            self.length = 100
+            self.length = settings['default_string_length']
 
         self.type = source_type
         if source_type in generation_fields[settings['default_dialect']].keys():

@@ -17,6 +17,7 @@ defaults: Dict = {
     "case_attribute": "snake_case",
     "parser": None,
     "use_alias": True,
+    "default_string_length": 50,
 }
 
 

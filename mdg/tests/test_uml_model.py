@@ -1,6 +1,7 @@
 import unittest
 
 from mdg.uml import UMLClass, UMLPackage, UMLAssociation, Cardinality, UMLAssociationType, UMLAttribute, UMLEnumeration, SearchTypes
+from mdg.config import defaults
 
 
 class TestUMLModel(unittest.TestCase):
@@ -64,6 +65,7 @@ class TestUMLModel(unittest.TestCase):
         attr = UMLAttribute(None, "test", 123)
         attr.set_type('String')
         self.assertEqual(attr.dest_type, 'CharField')
+        self.assertEqual(attr.length, defaults[ "default_string_length"])
         attr.set_type('String (123)')
         self.assertEqual(attr.dest_type, 'CharField')
         self.assertEqual(attr.length, 123)
