@@ -17,7 +17,7 @@ from {{ cls.generalization.package.name | case_package }}.models import {{ cls.g
         abstract = True
 {% endif %}{% endfor %}
 
-{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}( {% if cls.generalization %}{{ cls.generalization.name }}{% else %}models.Model{% endif %} ):
+{% for cls in package.classes %}{% if not cls.is_abstract %}class {{ cls.name | case_class }}( {% if cls.generalization %}{{ cls.generalization.name | case_class }}{% else %}models.Model{% endif %} ):
 {% for attr in cls.attributes %}
 {% if attr.classification %}    {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name | case_class }}.choices, blank=True, null=True )
 {% else %}    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.dest_type == "DecimalField" %}max_digits=10, decimal_places=2, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )
