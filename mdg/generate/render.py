@@ -1,8 +1,9 @@
 #!/usr/bin/python
-import json
 import os
 import logging
 from typing import Dict, Optional, List, Any
+import json
+import yaml
 
 from jinja2 import Environment, FileSystemLoader, Template, BaseLoader
 from jinja2.exceptions import TemplateNotFound
@@ -193,7 +194,8 @@ def output_test_cases(test_cases: List[UMLInstance]) -> None:
     env.filters = {**env.filters, **filters}
 
     for case in test_cases:
-        serialised = json.dumps(serialize_instance(case), indent=2)
+        serialised_json = json.dumps(serialize_instance(case), indent=2)
+        serialised_yaml = yaml.dump(serialize_instance(case), Dumper=yaml.CDumper)
 
         template_definition: Dict
         for template_definition in settings['test_templates']:
@@ -206,7 +208,10 @@ def output_test_cases(test_cases: List[UMLInstance]) -> None:
                 os.makedirs(dirname)
 
             with open(filename, 'w') as fh:
-                fh.write(serialised)
+                if filename[-4:] in ['yaml', '.yml']:
+                    fh.write(serialised_yaml)
+                else:
+                    fh.write(serialised_json)
 
 
 def serialize_instance(instance: UMLInstance):
