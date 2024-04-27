@@ -7,7 +7,7 @@
         "name": "{{ package.name | snakecase }}",
         "kind": "postgres",
         "tables": [{% set classes = package.get_all_classes() %}{% for cls in classes %}{% if cls.is_abstract == False and cls.id_attribute %}{% set objects = cls.get_object_relationships() %}{% set array_objects = cls.get_array_relationships() %}
-            {% for obj in array_objects %}{% set assoc = cls.get_class_association(obj) %}{% if assoc.cardinality.name == "MANY_TO_MANY" and assoc.source == cls %}{
+            {% for obj in array_objects %}{% set assoc = cls.get_class_association(obj) %}{% if assoc and assoc.cardinality.name == "MANY_TO_MANY" and assoc.source == cls %}{
               "table":{
                   "name": "{{ assoc.source.package.name | case_package }}_{{ assoc.source.name | snakecase }}_{{ assoc.destination.name | snakecase }}s",
                   "schema": "public"
@@ -45,9 +45,9 @@
                         "name": "list_{{ obj.package.name | case_package }}_{{ obj.name | snakecase }}s",
                         "using": {
                             "foreign_key_constraint_on": {
-                                "column": "{{ cls.name | snakecase }}_id",
+                                "column": "{{ cls.name | snakecase }}{% if obj.generalization == cls %}_ptr{% endif %}_id",
                                 "table": {
-                                    {% if assoc.cardinality.name == "MANY_TO_MANY" %}
+                                    {% if assoc and assoc.cardinality.name == "MANY_TO_MANY" %}
                                     "name": "{{ assoc.source.package.name | case_package }}_{{ assoc.source.name | snakecase }}_{{ assoc.destination.name | snakecase }}s",{% else %}
                                     "name": "{{ obj.package.name | case_package }}_{{ obj.name | snakecase }}",{% endif %}
                                     "schema": "public"

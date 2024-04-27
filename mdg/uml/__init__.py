@@ -337,8 +337,10 @@ class UMLClass:
         """ Returns all related classes where this class is part of an array:
                 - associations from: many to one
                 - associations to: one to many
+                - specialisations
         """
         result = []
+        result += self.specialized_by
         for assoc in self.associations_from:
             if assoc.cardinality in [Cardinality.ONE_TO_MANY, Cardinality.ONE_TO_ONE, Cardinality.MANY_TO_MANY]:
                 result.append(assoc.destination)
