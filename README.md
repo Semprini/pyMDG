@@ -30,6 +30,9 @@ Or once installed into site-packages execute:
 
 See the sample_recipe configs for examples
 
+## Limitations
+Most templates have a limit of single inheritance and no chained inheritance (a is a specialisation of b which is a specialisation of c). The results of this are unknown.
+
 ## Sparx EA XMI (versions earlier than V16) Export Process
 The UML parser expects a specific package hierarchy, please see the sample EA file.
 - In Sparx select the domain root node  (e.g. Model/Sample )

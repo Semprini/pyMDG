@@ -74,7 +74,6 @@ def pascalcase(string: str) -> str:
         string: Pascal case string.
 
     """
-
     return capitalcase(camelcase(string))
 
 

@@ -17,7 +17,7 @@ def get_filters():
         filters['case_package'] = camelcase
     elif settings['case_package'] == "snake_case":
         filters['case_package'] = snakecase
-    elif settings['case_package'] == "PacalCase":
+    elif settings['case_package'] == "PascalCase":
         filters['case_package'] = pascalcase
     else:
         filters['case_package'] = camelcase
@@ -26,7 +26,7 @@ def get_filters():
         filters['case_class'] = camelcase
     elif settings['case_class'] == "snake_case":
         filters['case_class'] = snakecase
-    elif settings['case_class'] == "PacalCase":
+    elif settings['case_class'] == "PascalCase":
         filters['case_class'] = pascalcase
     else:
         filters['case_class'] = camelcase
@@ -35,7 +35,7 @@ def get_filters():
         filters['case_attribute'] = camelcase
     elif settings['case_attribute'] == "snake_case":
         filters['case_attribute'] = snakecase
-    elif settings['case_attribute'] == "PacalCase":
+    elif settings['case_attribute'] == "PascalCase":
         filters['case_attribute'] = pascalcase
     else:
         filters['case_class'] = snakecase

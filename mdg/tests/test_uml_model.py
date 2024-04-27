@@ -9,8 +9,8 @@ class TestUMLModel(unittest.TestCase):
         self.root_package = UMLPackage("1", "root")
         child = UMLPackage("2", "child1", self.root_package)
         self.root_package.children.append(child)
-        cls = UMLClass(child, "class1", "3")
-        child.classes.append(cls)
+        self.cls = UMLClass(child, "class1", "3")
+        child.classes.append(self.cls)
         cls = UMLClass(child, "class2", "4")
         child.classes.append(cls)
         enum = UMLEnumeration(child, "enum1", "4")
@@ -18,6 +18,7 @@ class TestUMLModel(unittest.TestCase):
 
     def test_find_package(self):
         res = self.root_package.find_by_id("2")
+        assert res is not None
         self.assertEqual(UMLPackage, type(res))
         self.assertEqual("child1", res.name)
 
@@ -27,6 +28,7 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual(None, res)
         # Check that we find the enum with the id=4, not the class with id=4
         res = self.root_package.find_by_id("4", SearchTypes.ENUM)
+        assert res is not None
         self.assertEqual(UMLEnumeration, type(res))
         self.assertEqual("enum1", res.name)
 
@@ -62,7 +64,7 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual(assoc.association_type, UMLAssociationType.COMPOSITION)
 
     def test_attribute_type(self):
-        attr = UMLAttribute(None, "test", 123)
+        attr = UMLAttribute(self.cls, "test", 123)
         attr.set_type('String')
         self.assertEqual(attr.dest_type, 'CharField')
         self.assertEqual(attr.length, defaults[ "default_string_length"])
@@ -75,7 +77,7 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual(attr.scale, 2)
 
     def test_attribute_get_type(self):
-        attr = UMLAttribute(None, "test", 123)
+        attr = UMLAttribute(self.cls, "test", 123)
         attr.set_type('String')
         self.assertEqual(attr.get_type('default'), 'string')
 
@@ -106,6 +108,7 @@ class TestUMLClassFunctions(unittest.TestCase):
 
     def test_find_class(self):
         res = self.root_package.find_by_id("3", SearchTypes.CLASS)
+        assert res is not None
         self.assertEqual(UMLClass, type(res))
         self.assertEqual("class1", res.name)
 

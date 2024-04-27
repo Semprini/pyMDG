@@ -4,14 +4,17 @@ parser: sparxdb
 dest_root: ./build/sample_sparxdb_graphql
 templates_folder: ./mdg/templates
 default_dialect: django
+case_package: PascalCase
+case_class: PascalCase
+case_attribute: snake_case
 generation_artifacts:
 # Hasura Schema
-- dest: "{{package.name | camelcase}}-hasura_metadata.json"
+- dest: "{{package.name | pascalcase}}-hasura_metadata.json"
   level: root
   source: "hasura.json.jinja"
 
 # Django app
-- dest: "{{package.root_package.name | camelcase}}/{{package.name | camelcase}}/models.py"
+- dest: "{{package.root_package.name | pascalcase}}/{{package.name | pascalcase}}/models.py"
   level: package
   source: "django/app/models.py.jinja"
   filter: "{% if package.classes != [] %}True{% else %}False{% endif %}"

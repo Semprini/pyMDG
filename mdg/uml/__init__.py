@@ -339,8 +339,6 @@ class UMLClass:
                 - associations to: one to many
         """
         result = []
-        if self.generalization is not None:
-            result.append(self.generalization)
         for assoc in self.associations_from:
             if assoc.cardinality in [Cardinality.ONE_TO_MANY, Cardinality.ONE_TO_ONE, Cardinality.MANY_TO_MANY]:
                 result.append(assoc.destination)
@@ -357,6 +355,8 @@ class UMLClass:
                 - generalization
         """
         result = []
+        if self.generalization is not None:
+            result.append(self.generalization)
         for assoc in self.associations_from:
             if assoc.cardinality == Cardinality.MANY_TO_ONE:
                 result.append(assoc.destination)
