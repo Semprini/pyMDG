@@ -40,6 +40,17 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     engine = sqlalchemy.create_engine(f"{settings['source']}", echo=False, future=True)
     with Session(engine) as session:
 
+        # Find the root package. Can specify either EA GUID or name
+        # If guid make sure value in recipie is quoted - model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
+        if settings['root_package'][0] == "{":
+            stmt = sqlalchemy.select(TPackage).where(TPackage.ea_guid == settings['root_package'])
+        else:
+            stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['root_package'])
+        root_tpackage: TPackage = session.execute(stmt).scalars().first()
+        if root_tpackage is None:
+            raise ValueError("Root package element not found. Settings has:{}".format(settings['root_package']))
+        logger.debug(f"Root Object: {root_tpackage.package_id}: {root_tpackage.name}")
+
         # Find the package with the model nodes. Can specify either EA GUID or name
         # If guid make sure value in recipie is quoted - model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
         if settings['model_package'][0] == "{":
@@ -51,12 +62,15 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
             raise ValueError("Model package element not found. Settings has:{}".format(settings['model_package']))
         logger.debug(f"Model Object: {model_tpackage.package_id}: {model_tpackage.name}")
 
-        # Create our root model UMLPackage and parse in 3 passes
-        model_package = package_parse(session, model_tpackage, None)
+        root_package = package_parse(session, root_tpackage, None, False)
+
+        # Create our model UMLPackage and parse in 3 passes
+        model_package = package_parse(session, model_tpackage, root_package)
+        root_package.children.append(model_package)
         logger.debug("Parsing associations and inheritance")
-        package_parse_associations(session, model_package)
+        package_parse_associations(session, root_package)
         logger.debug("Sorting objects")
-        package_sort_classes(model_package)
+        package_sort_classes(root_package)
 
     if 'test_package' in settings.keys():
         logger.info("Parsing test cases")
@@ -72,7 +86,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
         test_package_parse_inheritance(test_package, model_package)
         test_cases = parse_test_cases(test_package)
 
-    return model_package, test_cases
+    return root_package, test_cases
 
 
 def parse_test_cases(package: UMLPackage) -> List[UMLInstance]:
@@ -93,7 +107,7 @@ def parse_test_cases(package: UMLPackage) -> List[UMLInstance]:
     return test_cases
 
 
-def package_parse(session, tpackage: TPackage, parent_package: Optional[UMLPackage]):
+def package_parse(session, tpackage: TPackage, parent_package: Optional[UMLPackage], parse_children=True):
     """ Extract package details, call class parser for classes and self parser for sub-packages.
     Associations are not done here, but in a 2nd pass using the parse_associations function.
     :param element:
@@ -120,7 +134,8 @@ def package_parse(session, tpackage: TPackage, parent_package: Optional[UMLPacka
 
     logger.debug("Added UMLPackage {}".format(package.path))
 
-    package_parse_children(session, package)
+    if parse_children:
+        package_parse_children(session, package)
     return package
 
 

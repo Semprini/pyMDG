@@ -1,3 +1,4 @@
+root_package: "{ECF156CE-46EA-4f7c-9F9C-4A54FB975BEC}"
 model_package: "{AEB30CD7-DECA-4310-BFD6-9225F9251D9A}"
 source: sqlite:///./sample_recipes/sparxdb/sample.qea
 parser: sparxdb
