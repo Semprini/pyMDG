@@ -57,6 +57,8 @@ generation_fields = {
         "dateTime": "DateTimeField",
         "datetime": "DateTimeField",
         "date_time": "DateTimeField",
+        "Timestamp": "DateTimeField",
+        "timestamp": "DateTimeField",
         "json": "JSONField",
     },
     "marshmallow": {

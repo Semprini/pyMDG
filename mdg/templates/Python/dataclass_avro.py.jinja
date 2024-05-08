@@ -1,0 +1,43 @@
+from dataclasses import dataclass
+import enum
+import typing
+from datetime import date
+
+from dataclasses_avroschema import AvroModel
+
+{% macro do_enum(current_enum) -%}
+class {{ current_enum.name | case_class }}(enum.Enum):{% for attr in current_enum.values %}
+    {{ attr | case_class | replace("/", "_") | replace("-", "_")}} = '{{ attr }}'{% endfor -%}
+{% endmacro -%}
+
+{% macro do_class(current_class, root=False) -%}
+@dataclass
+class {{ current_class.name | case_class }}({% if current_class.generalization %}{{ current_class.generalization.name | case_class }}{% else %}AvroModel{% endif %}):{% if current_class.id_attribute.parent == current_class %}
+    {{ current_class.id_attribute.name | snakecase }}: {{current_class.id_attribute.dest_type}}{% endif %}
+{% for attr in current_class.attributes %}{% if not attr.is_id %}    {{ attr.name | snakecase }}: {% if attr.classification %}str | {{ attr.classification.name | case_class }} = "__"
+{% else %}str | None{% if attr.dest_type != 'str' %} | {{attr.dest_type}}{% endif %} = "__"
+{% endif %}{% endif %}{% endfor %}{% for rel in current_class.associations_from %}
+    {{ rel.destination_name | snakecase }}_id: str | None{% if rel.destination.id_attribute.dest_type != 'str' %} | {{ rel.destination.id_attribute.dest_type }}{% endif %} = "__"
+{% endfor %}{% if root %}{% for rel in current_class.associations_to %}
+    {{ rel.source_name | snakecase }}: str | typing.List[{{ rel.source.name | case_class }}] = "__"
+{% endfor %}{% endif %}
+    class Meta:
+        namespace = "{{ current_class.package.name | snakecase }}"
+
+{% endmacro -%}
+
+{% for attr in cls.attributes %}{% if attr.classification %}
+{{ do_enum(attr.classification) }}
+{% endif %}{% endfor %}{% for assoc in cls.associations_to %}{% for attr in assoc.source.attributes %}{% if attr.classification %}
+
+{{ do_enum(attr.classification) }}{% endif %}{% endfor %}{% endfor %}{% if cls.generalization %}{% for attr in cls.generalization.attributes %}{% if attr.classification %}
+
+{{ do_enum(attr.classification) }}
+{% endif %}{% endfor %}{% endif %}
+
+{% for assoc in cls.associations_to %}{% if assoc.association_type.name in ['AGGREGATION', 'COMPOSITION', 'ASSOCIATION'] and "aggregate root" not in assoc.source.stereotypes -%}
+{{ do_class(assoc.source) }}
+{% endif %}{% endfor -%}
+
+{% if cls.generalization %}{{ do_class(cls.generalization) }}{% endif %}
+{{ do_class(cls, True) }}

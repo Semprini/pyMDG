@@ -16,6 +16,10 @@ generation_artifacts:
   level: package
   source: Schema/openapi.yaml.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
+# Dataclass Avro
+- dest: "python/{{package.name}}_dataclasses.py"
+  level: package
+  source: "Python/dataclass_avro.py.jinja"
 test_templates:
 - dest: ./build/json{{ins.package.path}}/{{ins.stereotype}}.json
   format: json
