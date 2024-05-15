@@ -497,7 +497,7 @@ def attr_parse(parent: Union[UMLClass, UMLEnumeration, UMLComponent], element, r
 
     stereotype = detail.find('stereotype')
     if stereotype is not None:
-        attr.stereotype = stereotype.get('stereotype')
+        attr.stereotypes = [stereotype.get('stereotype'),]
 
     constraints = detail.find('Constraints')
     if constraints is not None:

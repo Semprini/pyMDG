@@ -178,15 +178,19 @@ class UMLInstance:
 class UMLAssociation:
     id: Union[int, str]
     documentation: str
+    stereotypes: List[str]
 
     association_type: UMLAssociationType
     source: Union[UMLClass, UMLInstance, UMLComponent]
     source_name: Optional[str]
     source_multiplicity: Tuple[str, str]
+    source_stereotypes: List[str]
 
     destination: Union[UMLClass, UMLInstance, UMLComponent]
     destination_multiplicity: Tuple[str, str]
     destination_name: Optional[str]
+    destination_stereotypes: List[str]
+
 
     class Meta:
         id_field = 'id'
@@ -196,17 +200,20 @@ class UMLAssociation:
         self.package: UMLPackage = package
         self.id = id
         self.documentation = ""
+        self.stereotypes = []
 
         self.association_type = assoc_type
         self.source = source
         self.source_name = None
         self.source_multiplicity = ('0', '0')
         source.associations_from.append(self)
+        self.source_stereotypes = []
 
         self.destination = destination
         self.destination_multiplicity = ('0', '0')
         self.destination_name = None
         destination.associations_to.append(self)
+        self.destination_stereotypes = []
 
     def __str__(self) -> str:
         return f"{self.source_name}({self.source_multiplicity}) -> {self.destination_name}({self.destination_multiplicity})"
@@ -387,7 +394,7 @@ class UMLAttribute:
     alias: Optional[str]
     id: Union[int, str]
     is_unique: bool
-    stereotype: Optional[str]
+    stereotypes: List[str]
     classification: Optional[UMLClass]
     documentation: str
     type: Optional[str]
@@ -409,7 +416,7 @@ class UMLAttribute:
         self.alias = None
         self.id = id
         self.is_unique = False
-        self.stereotype = None
+        self.stereotypes = []
         self.classification = None
         self.classification_id: Union[None, int, str] = None
         self.documentation = ""

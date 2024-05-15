@@ -323,6 +323,18 @@ def association_parse(session, tconnector: TConnector, package: UMLPackage, sour
     if tconnector.destrole is not None:
         association.destination_name = tconnector.destrole
 
+    # Stereotypes
+    # TODO: Extract list of stereotypes
+    if tconnector.stereotype is not None:
+        association.stereotypes = [tconnector.stereotype,]
+        print(association.stereotypes)
+    if tconnector.sourcestereotype is not None:
+        association.source_stereotypes = [tconnector.sourcestereotype,]
+        print(association.source_stereotypes)
+    if tconnector.deststereotype is not None:
+        association.destination_stereotypes = [tconnector.deststereotype,]
+        print(association.destination_stereotypes)
+
     logging.debug(f"Created {association.cardinality.name} {association.association_type.name} from {association.source_name} to {association.destination_name}")
     return association
 
@@ -400,7 +412,11 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
     else:
         attr.is_id = False
 
-    attr.stereotype = tattribute.stereotype
+    # @STEREO;Name=routable;GUID={FCE54E6B-5A61-4336-88FD-7FEF375BB7E1};@ENDSTEREO;
+    stmt = sqlalchemy.select(TXref).where(TXref.client == tattribute.ea_guid, TXref.name == "Stereotypes")
+    txref = session.execute(stmt).scalars().first()
+    if txref is not None:
+        attr.stereotypes = re.findall('@STEREO;Name=(.*?);', txref.description)
 
     stmt = sqlalchemy.select(TAttributeconstraint).where(TAttributeconstraint.id == tattribute.id)
     for constraint in session.execute(stmt).scalars().all():

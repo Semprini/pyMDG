@@ -6,11 +6,11 @@ from {{ cls.generalization.package.name | case_package }}.models import {{ cls.g
 from {{ attr.classification.package.name | case_package }}.models import ENUM_{{ attr.classification.name | case_class }}{% endif %}{% endfor %}{% endfor %}
 
 {% for enum in package.enumerations %}class ENUM_{{ enum.name | case_class }}(models.TextChoices):{% for attr in enum.values %}
-    {{ attr.upper() }} = '{{ attr }}', _('{{ attr }}'){% endfor %}
+    {{ attr | case_class | replace("/","_") | replace("-","_") }} = '{{ attr }}', _('{{ attr }}'){% endfor %}
 
 {% endfor %}{% for cls in package.classes %}{% if cls.is_abstract %}class {{ cls.name | case_class }}( models.Model ):{% for attr in cls.attributes %}{% if attr.classification %}
     {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name}}.choices, blank=True, null=True ){% else %}
-    {{ attr.name | snakecase }} = models.{% if attr.stereotype == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %} )
+    {{ attr.name | snakecase }} = models.{% if "auto" in attr.stereotypes %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %} )
 {% endif %}{% endfor %}
     class Meta:
         abstract = True
@@ -18,7 +18,7 @@ from {{ attr.classification.package.name | case_package }}.models import ENUM_{{
 
 {% for cls in package.classes %}{% if not cls.is_abstract and cls.specialized_by | length > 0 %}class {{ cls.name | case_class }}( {% if cls.generalization %}{{ cls.generalization.name | case_class }}{% else %}models.Model{% endif %} ):{% for attr in cls.attributes %}{% if attr.classification %}
     {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name | case_class }}.choices, blank=True, null=True ){% else %}
-    {{ attr.name | snakecase }} = models.{% if attr.stereotype | lower == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.dest_type == "DecimalField" %}max_digits=10, decimal_places=2, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )
+    {{ attr.name | snakecase }} = models.{% if "auto" in attr.stereotypes %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.dest_type == "DecimalField" %}max_digits=10, decimal_places=2, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )
 {% endif %}{% endfor %}{% for rel in cls.associations_from %}{% if rel.association_type.name == "ASSOCIATION" %}{% if rel.cardinality.name == "ONE_TO_ONE" %}
     {{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.package.name | case_package }}.{{ rel.destination.name | case_class }}', on_delete=models.CASCADE, blank=True, null=True ){% elif rel.cardinality.name == "MANY_TO_ONE" %}
     {{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.package.name | case_package }}.{{ rel.destination.name | case_class }}', related_name='{{ rel.source_name | snakecase }}', on_delete=models.CASCADE, blank=True, null=True ){% elif rel.cardinality.name == "MANY_TO_MANY" %}
@@ -32,7 +32,7 @@ from {{ attr.classification.package.name | case_package }}.models import ENUM_{{
 {% endfor %}
 {% for cls in package.classes %}{% if not cls.is_abstract and cls.specialized_by | length == 0 %}class {{ cls.name | case_class }}( {% if cls.generalization %}{{ cls.generalization.name | case_class }}{% else %}models.Model{% endif %} ):{% for attr in cls.attributes %}{% if attr.classification %}
     {{ attr.name | snakecase }} = models.CharField( max_length=100, choices=ENUM_{{ attr.classification.name | case_class }}.choices, blank=True, null=True ){% else %}
-    {{ attr.name | snakecase }} = models.{% if attr.stereotype | lower == "auto" %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.dest_type == "DecimalField" %}max_digits=10, decimal_places=2, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )
+    {{ attr.name | snakecase }} = models.{% if "auto" in attr.stereotypes %}AutoField{% else %}{{ attr.dest_type }}{% endif %}( {% if attr.is_id %}primary_key=True, {% else %}blank=True, null=True, {% endif %}{% if attr.dest_type == "DecimalField" %}max_digits=10, decimal_places=2, {% endif %}{% if attr.length %}max_length={{ attr.length }}{% endif %}{% if attr.validations != [] %}validators=[validate_even]{% endif %} )
 {% endif %}{% endfor %}{% for rel in cls.associations_from %}{% if rel.association_type.name == "ASSOCIATION" %}{% if rel.cardinality.name == "ONE_TO_ONE" %}
     {{ rel.destination_name | snakecase }} = models.OneToOneField( '{{ rel.destination.package.name | case_package }}.{{ rel.destination.name | case_class }}', on_delete=models.CASCADE, blank=True, null=True ){% elif rel.cardinality.name == "MANY_TO_ONE" %}
     {{ rel.destination_name | snakecase }} = models.ForeignKey( '{{ rel.destination.package.name | case_package }}.{{ rel.destination.name | case_class }}', related_name='{{ rel.source_name | snakecase }}', on_delete=models.CASCADE, blank=True, null=True ){% elif rel.cardinality.name == "MANY_TO_MANY" %}
