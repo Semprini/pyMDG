@@ -5,7 +5,7 @@ source: sqlite:///./sample_recipes/sparxdb/sample.qea
 parser: sparxdb
 dest_root: ./build/sample_sparxdb_schema
 templates_folder: ./mdg/templates
-default_dialect: default
+default_dialect: python
 generation_artifacts:
 # Avro Schema
 - dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
@@ -20,6 +20,7 @@ generation_artifacts:
 - dest: "python/{{package.name}}_dataclasses.py"
   level: package
   source: "Python/dataclass_avro.py.jinja"
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
 test_templates:
 - dest: ./build/json{{ins.package.path}}/{{ins.stereotype}}.json
   format: json

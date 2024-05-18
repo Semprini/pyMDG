@@ -4,13 +4,13 @@ import typing
 from datetime import date
 
 from dataclasses_avroschema import AvroModel
-
-{% macro do_enum(current_enum) -%}
+{% set enums_done = [] %}{% set classes_done = [] %}
+{% macro do_enum(current_enum) -%}{% if current_enum.id not in enums_done %}{{ enums_done.append( current_enum.id ) | default("", True) }}
 class {{ current_enum.name | case_class }}(enum.Enum):{% for attr in current_enum.values %}
     {{ attr | case_class | replace("/", "_") | replace("-", "_")}} = '{{ attr }}'{% endfor -%}
-{% endmacro -%}
+{% endif %}{% endmacro -%}
 
-{% macro do_class(current_class, root=False) -%}
+{% macro do_class(current_class, root=False) -%}{% if current_class.id not in classes_done %}{{ classes_done.append( current_class.id ) | default("", True) }}
 @dataclass
 class {{ current_class.name | case_class }}({% if current_class.generalization %}{{ current_class.generalization.name | case_class }}{% else %}AvroModel{% endif %}):{% if current_class.id_attribute.parent == current_class %}
     {{ current_class.id_attribute.name | snakecase }}: {{current_class.id_attribute.dest_type}}{% endif %}
@@ -24,7 +24,7 @@ class {{ current_class.name | case_class }}({% if current_class.generalization %
     class Meta:
         namespace = "{{ current_class.package.name | snakecase }}"
 
-{% endmacro -%}
+{% endif %}{% endmacro -%}
 
 {% for cls in package.classes %}{% for attr in cls.attributes %}{% if attr.classification %}
 {{ do_enum(attr.classification) }}
