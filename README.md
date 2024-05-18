@@ -64,7 +64,7 @@ This diagram shows all the features and how to model in UML
 
 ## Metamodel
 This diagram shows the internal classes which are passed to the templates during generation.
-![Metamodel](https://github.com/Semprini/pyMDG/raw/master/sample_recipes/images/EAID_B080F856_9EFB_46f2_8D69_1C79956D714A.png)
+![Metamodel](https://raw.githubusercontent.com/Semprini/pyMDG/master/docs/_static/image/metamodel.png)
 
 ## Build the docs
 Install sphinx

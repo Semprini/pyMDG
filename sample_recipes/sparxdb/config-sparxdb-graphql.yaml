@@ -1,5 +1,6 @@
-root_package: "{ECF156CE-46EA-4f7c-9F9C-4A54FB975BEC}"
-model_package: "{AEB30CD7-DECA-4310-BFD6-9225F9251D9A}"
+root_package: "{EE550A71-3A5F-473d-A3AF-773E900C74ED}"
+model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
+test_package: "{C2E30D48-F8AB-4c6f-9FA3-AFE44653D5EB}"
 source: sqlite:///./sample_recipes/sparxdb/sample.qea
 parser: sparxdb
 dest_root: ./build/sample_sparxdb_graphql
