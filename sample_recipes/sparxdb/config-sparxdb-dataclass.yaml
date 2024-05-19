@@ -1,0 +1,13 @@
+root_package: "{EE550A71-3A5F-473d-A3AF-773E900C74ED}"
+model_package: "{D6D3BF36-E897-4a8b-8CA9-62ADAAD696ED}"
+source: sqlite:///./sample_recipes/sparxdb/sample.qea
+parser: sparxdb
+dest_root: ./build/sample_sparxdb_dataclass
+templates_folder: ./mdg/templates
+default_dialect: python
+generation_artifacts:
+# Dataclass Avro
+- dest: "{{package.name}}_dataclasses.py"
+  level: package
+  source: "Python/dataclass_avro.py.jinja"
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
