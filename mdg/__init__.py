@@ -95,6 +95,7 @@ generation_fields = {
         "Float": "float",
         "Numeric": "Decimal",
         "Boolean": "bool",
+        "boolean": "bool",        
         "DECIMAL": "Decimal",
         "CHAR": "str",
         "TIMESTAMP": "datetime.timestamp",
