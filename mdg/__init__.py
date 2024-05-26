@@ -44,6 +44,7 @@ generation_fields = {
     "django": {
         "boolean": "BooleanField",
         "int": "IntegerField",
+        "Integer": "IntegerField",
         "bigint": "BigIntegerField",
         "decimal": "DecimalField",
         "string": "CharField",
