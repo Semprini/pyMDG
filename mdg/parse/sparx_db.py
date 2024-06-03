@@ -336,6 +336,17 @@ def association_parse(session, tconnector: TConnector, package: UMLPackage, sour
     return association
 
 
+def get_stereotypes( session, guid: str ) -> List[str]:
+    # TXref
+    #   description @STEREO;Name=notifiable;GUID={ADC4E914-13DD-4f1b-A9DB-EDCB89896228};@ENDSTEREO;@STEREO;Name=auditable;GUID={C5DA655B-B862-4a27-96F8-FEB0B2EDD529};@ENDSTEREO;
+    stmt = sqlalchemy.select(TXref).where(TXref.client == guid, TXref.name == "Stereotypes")
+    txref = session.execute(stmt).scalars().first()
+    if txref is not None:
+        return re.findall('@STEREO;Name=(.*?);', txref.description)
+    else:
+        return []
+
+
 def enumeration_parse(session, package: UMLPackage, tobject: TObject):
     enumeration = UMLEnumeration(package, tobject.name, tobject.object_id)
 
