@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 class TestXMIAttributeParse(unittest.TestCase):
     def setUp(self):
-        engine = sqlalchemy.create_engine(f"{settings['source']}", echo=False, future=True)
+        # engine = sqlalchemy.create_engine(f"{settings['source']}", echo=False, future=True)
         # with Session(engine) as session:
 
         self.package = UMLPackage("id", "name")
