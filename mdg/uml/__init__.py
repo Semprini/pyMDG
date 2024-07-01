@@ -405,6 +405,7 @@ class UMLAttribute:
     scale: Optional[int]
     precision: Optional[int]
     validations: List[str]
+    tags: dict[str,str]
 
     class Meta:
         id_field = 'id'
@@ -429,6 +430,7 @@ class UMLAttribute:
         self.scale = None
         self.precision = None
         self.validations = []
+        self.tags = {}
 
     def __str__(self) -> str:
         return f"{self.name}"

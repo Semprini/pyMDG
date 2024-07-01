@@ -14,6 +14,7 @@ from mdg.parse.sparx_db_models import (
     TAttribute,
     TAttributeconstraint,
     TConnector,
+    TAttributetag,
 )
 
 from mdg.config import settings
@@ -376,10 +377,11 @@ def class_parse(session, package: UMLPackage, tobject: TObject):
 
     # TXref
     #   description @STEREO;Name=notifiable;GUID={ADC4E914-13DD-4f1b-A9DB-EDCB89896228};@ENDSTEREO;@STEREO;Name=auditable;GUID={C5DA655B-B862-4a27-96F8-FEB0B2EDD529};@ENDSTEREO;
-    stmt = sqlalchemy.select(TXref).where(TXref.client == tobject.ea_guid, TXref.name == "Stereotypes")
-    txref = session.execute(stmt).scalars().first()
-    if txref is not None:
-        cls.stereotypes = re.findall('@STEREO;Name=(.*?);', txref.description)
+    # stmt = sqlalchemy.select(TXref).where(TXref.client == tobject.ea_guid, TXref.name == "Stereotypes")
+    # txref = session.execute(stmt).scalars().first()
+    # if txref is not None:
+    #     cls.stereotypes = re.findall('@STEREO;Name=(.*?);', txref.description)
+    cls.stereotypes = get_stereotypes(session, tobject.ea_guid)
 
     logger.debug(f"Added UMLClass {cls.package.path}{cls.name} | Stereotypes: {cls.stereotypes}")
 
@@ -421,10 +423,11 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
         attr.is_id = False
 
     # @STEREO;Name=routable;GUID={FCE54E6B-5A61-4336-88FD-7FEF375BB7E1};@ENDSTEREO;
-    stmt = sqlalchemy.select(TXref).where(TXref.client == tattribute.ea_guid, TXref.name == "Stereotypes")
-    txref = session.execute(stmt).scalars().first()
-    if txref is not None:
-        attr.stereotypes = re.findall('@STEREO;Name=(.*?);', txref.description)
+    # stmt = sqlalchemy.select(TXref).where(TXref.client == tattribute.ea_guid, TXref.name == "Stereotypes")
+    # txref = session.execute(stmt).scalars().first()
+    # if txref is not None:
+    #     attr.stereotypes = re.findall('@STEREO;Name=(.*?);', txref.description)
+    attr.stereotypes = get_stereotypes(session, tattribute.ea_guid)
 
     stmt = sqlalchemy.select(TAttributeconstraint).where(TAttributeconstraint.id == tattribute.id)
     for constraint in session.execute(stmt).scalars().all():
@@ -432,6 +435,10 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
             attr.is_unique = True
         elif constraint.Constraint.startswith('length'):
             attr.length = int(constraint.Constraint.split("=")[1])
+
+    stmt = sqlalchemy.select(TAttributetag).where(TAttributetag.elementid == tattribute.id )
+    for tag in session.execute(stmt).scalars().all():
+        attr.tags[tag.property] = tag.value
 
     logger.debug(f"Added Attribute {attr.parent.name}/{attr.name}")
 

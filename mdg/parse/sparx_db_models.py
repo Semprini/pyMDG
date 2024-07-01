@@ -265,3 +265,17 @@ class TAttributeconstraint(Base):
     type = Column(String(255))
     notes = Column(Text)
     id = Column(Integer, primary_key=True, nullable=False)
+
+
+class TAttributetag(Base):
+    __tablename__ = 't_attributetag'
+    __table_args__ = (
+        Index('ix_attributetag_elementidprop', 'elementid', 'property'),
+    )
+
+    propertyid = Column(Integer, primary_key=True, server_default=text("nextval(('propertyid_seq'::text)::regclass)"))
+    elementid = Column(Integer, index=True)
+    property = Column(String(255), index=True)
+    value = Column(String(255), index=True)
+    notes = Column(Text)
+    ea_guid = Column(String(40), index=True)
