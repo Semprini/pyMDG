@@ -2,8 +2,12 @@
 generation_fields = {
     "default": {
         "bool": "boolean",
+        "Boolean": "boolean",
+        "Bool": "boolean",
         "Date": "date",
         "dateTime": "date-time",
+        "timestamp": "date-time",
+        "Timestamp": "date-time",
         "decimal": "number",
         "Decimal": "number",
         "enum": "enum",
@@ -16,8 +20,13 @@ generation_fields = {
     },
     "avro": {
         "bool": "boolean",
+        "Bool": "boolean",
+        "Boolean": "boolean",
         "Date": "date",
         "dateTime": "date-time",
+        "datetime": "date-time",
+        "timestamp": "date-time",
+        "Timestamp": "date-time",
         "decimal": "number",
         "Decimal": "number",
         "enum": "enum",
@@ -43,9 +52,12 @@ generation_fields = {
     },
     "django": {
         "boolean": "BooleanField",
+        "Boolean": "BooleanField",
+        "bool": "BooleanField",
         "int": "IntegerField",
         "Integer": "IntegerField",
         "bigint": "BigIntegerField",
+        "long": "BigIntegerField",
         "decimal": "DecimalField",
         "string": "CharField",
         "str": "CharField",
@@ -90,6 +102,7 @@ generation_fields = {
         "date_time": "DateTime",
     },
     "python": {
+        "long": "int",
         "Integer": "int",
         "String": "str",
         "string": "str",
