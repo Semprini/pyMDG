@@ -97,6 +97,46 @@ class UMLPackage:
     def __str__(self):
         return f"{self.name}"
 
+
+    def find_class_by_id(self, id: Union[int, str]) -> UMLClass | None:
+        """ Finds UMLClass. Looks for classes part of this package and all sub-packages
+        """
+        for cls in self.classes:
+            if str(cls.id) == str(id):
+                return cls
+
+        for child in self.children:
+            res = child.find_class_by_id(id)
+            if res is not None:
+                return res
+
+
+    def find_enum_by_id(self, id: Union[int, str]) -> UMLEnumeration | None:
+        """ Finds UMLClass. Looks for classes part of this package and all sub-packages
+        """
+        for enum in self.enumerations:
+            if str(enum.id) == str(id):
+                return enum
+
+        for child in self.children:
+            res = child.find_enum_by_id(id)
+            if res is not None:
+                return res
+
+
+    def find_instance_by_id(self, id: Union[int, str]) -> UMLInstance | None:
+        """ Finds UMLClass. Looks for classes part of this package and all sub-packages
+        """
+        for ins in self.instances:
+            if str(ins.id) == str(id):
+                return ins
+
+        for child in self.children:
+            res = child.find_instance_by_id(id)
+            if res is not None:
+                return res
+
+
     def find_by_id(self, id: Union[int, str], find_type: Optional[SearchTypes] = None):
         """ Finds UMLPackage, UMLClass, UMLEnumeration or UMLInstance object with specified Id
         Looks for classes part of this package and all sub-packages
@@ -394,8 +434,9 @@ class UMLAttribute:
     alias: Optional[str]
     id: Union[int, str]
     is_unique: bool
+    is_derived: bool
     stereotypes: List[str]
-    classification: Optional[UMLClass]
+    classification: Optional[UMLClass | UMLEnumeration]
     documentation: str
     type: Optional[str]
     value: Optional[str]
@@ -417,6 +458,7 @@ class UMLAttribute:
         self.alias = None
         self.id = id
         self.is_unique = False
+        self.is_derived = False
         self.stereotypes = []
         self.classification = None
         self.classification_id: Union[None, int, str] = None

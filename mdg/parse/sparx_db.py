@@ -27,6 +27,7 @@ from mdg.uml import (
     UMLPackage,
     UMLAssociationType,
     SearchTypes,
+    UMLStatuses,
 )
 
 
@@ -47,7 +48,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
             stmt = sqlalchemy.select(TPackage).where(TPackage.ea_guid == settings['root_package'])
         else:
             stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['root_package'])
-        root_tpackage: TPackage = session.execute(stmt).scalars().first()
+        root_tpackage: Optional[TPackage] = session.execute(stmt).scalars().first()
         if root_tpackage is None:
             raise ValueError("Root package element not found. Settings has:{}".format(settings['root_package']))
         logger.debug(f"Root Object: {root_tpackage.package_id}: {root_tpackage.name}")
@@ -58,7 +59,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
             stmt = sqlalchemy.select(TPackage).where(TPackage.ea_guid == settings['model_package'])
         else:
             stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['model_package'])
-        model_tpackage: TPackage = session.execute(stmt).scalars().first()
+        model_tpackage: Optional[TPackage] = session.execute(stmt).scalars().first()
         if model_tpackage is None:
             raise ValueError("Model package element not found. Settings has:{}".format(settings['model_package']))
         logger.debug(f"Model Object: {model_tpackage.package_id}: {model_tpackage.name}")
@@ -79,7 +80,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
             stmt = sqlalchemy.select(TPackage).where(TPackage.ea_guid == settings['test_package'])
         else:
             stmt = sqlalchemy.select(TPackage).where(TPackage.name == settings['test_package'])
-        test_tpackage: TPackage = session.execute(stmt).scalars().first()
+        test_tpackage: Optional[TPackage] = session.execute(stmt).scalars().first()
         if test_tpackage is None:
             raise ValueError("Test package element not found. Settings has:{}".format(settings['test_package']))
         test_package = package_parse(session, test_tpackage, None)
@@ -173,7 +174,7 @@ def package_parse_associations(session, package: UMLPackage):
         stmt = sqlalchemy.select(TConnector).where(TConnector.start_object_id == cls.id)
 
         for connector in session.execute(stmt).scalars().all():
-            dest = package.root_package.find_by_id(connector.end_object_id, SearchTypes.CLASS)
+            dest = package.root_package.find_class_by_id(connector.end_object_id)
             if dest is None:
                 logger.warn(f"Cannot find associated class from {cls}. Association Id:{connector.id}, Destination Id: {connector.end_object_id}")
 
@@ -191,7 +192,7 @@ def package_parse_associations(session, package: UMLPackage):
         # Find enumeration attributes of class and link to attribute
         for attr in cls.attributes:
             if attr.classification_id is not None:
-                attr.classification = package.root_package.find_by_id(attr.classification_id, SearchTypes.ENUM)
+                attr.classification = package.root_package.find_enum_by_id(attr.classification_id)
                 if attr.classification is None:
                     logger.warn("Cannot find expected classification for {} of attribute {}. Id={}".format(attr.dest_type, attr.name, attr.classification_id))
 
@@ -199,11 +200,12 @@ def package_parse_associations(session, package: UMLPackage):
         stmt = sqlalchemy.select(TConnector).where(TConnector.start_object_id == ins.id)
 
         for connector in session.execute(stmt).scalars().all():
-            dest = package.root_package.find_by_id(connector.end_object_id, SearchTypes.INSTANCE)
+            dest = package.root_package.find_instance_by_id(connector.end_object_id)
 
-            association = association_parse(session, connector, package, ins, dest)
-            if association is not None:
-                package.associations.append(association)
+            if dest:
+                association = association_parse(session, connector, package, ins, dest)
+                if association is not None:
+                    package.associations.append(association)
 
     for package_child in package.children:
         package_parse_associations(session, package_child)
@@ -272,7 +274,7 @@ def instance_parse(session, package: UMLPackage, tobject: TObject):
 
     ins.stereotype = tobject.stereotype
     ins.documentation = tobject.note
-    ins.status = tobject.status
+    ins.status = UMLStatuses[tobject.status]
 
     # We need to link this instance to the class it is an instance of
     ins.classification_id = tobject.classifier
@@ -332,8 +334,8 @@ def association_parse(session, tconnector: TConnector, package: UMLPackage, sour
         association.source_stereotypes = [tconnector.sourcestereotype,]
     if tconnector.deststereotype is not None:
         association.destination_stereotypes = [tconnector.deststereotype,]
-
-    logging.debug(f"Created {association.cardinality.name} {association.association_type.name} from {association.source_name} to {association.destination_name}")
+    
+    logging.debug(f"Created {association.cardinality} {association.association_type.name} from {association.source_name} to {association.destination_name}")
     return association
 
 
@@ -368,8 +370,8 @@ def class_parse(session, package: UMLPackage, tobject: TObject):
         cls.is_abstract = False
 
     cls.alias = tobject.alias
-    cls.status = tobject.status
-    cls.phase = tobject.phase
+    cls.status = UMLStatuses[tobject.status]
+    cls.phase = Decimal(tobject.phase)
     if tobject.note is not None:
         cls.documentation = tobject.note
     else:
@@ -397,6 +399,8 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute):
     attr = UMLAttribute(parent, tattribute.name, tattribute.id)
 
     # attr.visibility = element.get('visibility')
+    if tattribute.derived == "1":
+        attr.is_derived = True
 
     type_elem = tattribute.type
     if type_elem is not None:
