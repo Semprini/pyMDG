@@ -329,6 +329,7 @@ class UMLClass:
     stereotypes: List[str]
     documentation: str
     is_abstract: bool
+    is_active: bool
     status: Optional[UMLStatuses]
     composed_of: List[UMLClass]
     phase: Optional[Decimal]
@@ -352,6 +353,7 @@ class UMLClass:
         self.id_attribute: Optional[UMLAttribute] = None
         self.documentation = ""
         self.is_abstract = False
+        self.is_active = True
         self.status = None
         self.composed_of = []
         self.phase = None
