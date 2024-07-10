@@ -139,6 +139,7 @@ def output_model(package: UMLPackage) -> None:
     # Loop through all template definitions in the config file
     template_definition: Dict
     for template_definition in settings['generation_artifacts']:
+        logger.debug(f"Rendering {template_definition['source']} template for {package} package. Template level is {template_definition['level']}")
         dest_file_template: Template = dest_env.from_string(os.path.join(settings['dest_root'], template_definition['dest']))
 
         if template_definition['level'] == 'copy':
@@ -174,6 +175,8 @@ def output_model(package: UMLPackage) -> None:
                     raise ValueError("'{}' is not a valid template level".format(template_definition['level']))
             except TemplateNotFound:
                 logger.error(f"Could not find template to render from '{template_definition['source']}' in either the configured templates folder or the default templates folder. Check your templates_folder and source in settings.")
+    logger.debug(f"Completed Rendering all templates for {package} package")
+
 
     # Walk through the package hierarchy and recurse output
     child: UMLPackage

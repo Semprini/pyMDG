@@ -2,16 +2,10 @@ from datetime import datetime
 
 from sqlalchemy import (
     CHAR,
-    Column,
-    # Date,
     DateTime,
-    # Float,
     Index,
     Integer,
-    # LargeBinary,
-    # SmallInteger,
     String,
-    # Table,
     Text,
     text,
 )
