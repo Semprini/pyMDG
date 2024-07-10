@@ -72,6 +72,8 @@ def output_level_enum(source_template: Template, dest_file_template: Template, f
                 fh.write(source_template.render(enum=enum))
 
             logger.debug(f"Created {dest_filename}")
+        else:
+            logger.debug(f"Filtered out generation of {enum.name}")
 
 
 def output_level_class(source_template: Template, dest_file_template: Template, filter_template: Optional[Template], package: UMLPackage) -> None:
@@ -92,6 +94,8 @@ def output_level_class(source_template: Template, dest_file_template: Template, 
                 fh.write(source_template.render(cls=cls))
 
             logger.debug(f"Created {dest_filename}")
+        else:
+            logger.debug(f"Filtered out generation of {cls.name}")
 
 
 def output_level_assoc(source_template: Template, dest_file_template: Template, filter_template: Optional[Template], package: UMLPackage):
@@ -112,6 +116,8 @@ def output_level_assoc(source_template: Template, dest_file_template: Template, 
                 fh.write(source_template.render(association=assoc))
 
             logger.debug(f"Created {dest_filename}")
+        else:
+            logger.debug(f"Filtered out generation of {assoc}")
 
 
 def output_model(package: UMLPackage) -> None:
@@ -162,6 +168,8 @@ def output_model(package: UMLPackage) -> None:
                 if template_definition['level'] == 'package':
                     if filter_template is None or filter_template.render(package=package) == "True":
                         output_level_package(source_template, dest_file_template, package)
+                    else:
+                        logger.debug(f"Filtered out generation of {package.name}")
                 elif template_definition['level'] == 'class':
                     output_level_class(source_template, dest_file_template, filter_template, package)
                 elif template_definition['level'] == 'enumeration':
