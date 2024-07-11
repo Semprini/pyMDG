@@ -40,7 +40,7 @@ class {{ current_class.name | case_class }}({% if current_class.generalization %
         namespace = "customer_core.{{ current_class.package.name | snakecase }}"
 
 {% endmacro -%}
-
+{% for cls in package.classes %}
 {% for attr in cls.attributes %}{% if attr.classification %}
 {{ do_enum(attr.classification) }}
 {% endif %}{% endfor %}{% for assoc in cls.associations_to %}{% for attr in assoc.source.attributes %}{% if attr.classification %}
@@ -50,12 +50,5 @@ class {{ current_class.name | case_class }}({% if current_class.generalization %
 {{ do_enum(attr.classification) }}
 {% endif %}{% endfor %}{% endif %}
 
-{% for assoc in cls.associations_to %}{% if assoc.association_type.name in ['AGGREGATION', 'COMPOSITION', 'ASSOCIATION'] and "aggregate root" not in assoc.source.stereotypes -%}
-{{ do_class(assoc.source) }}
-{% endif %}{% endfor -%}
-
-{% if cls.generalization %}{{ do_class(cls.generalization) }}{% endif %}
 {{ do_class(cls, True) }}
-{% for specialization in cls.specialized_by %}{% if "aggregate root" not in specialization.stereotypes %}{{ do_class(specialization) }}
-{% endif %}{% endfor -%}
-
+{% endfor %}
