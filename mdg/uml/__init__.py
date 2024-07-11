@@ -7,7 +7,7 @@ import json
 
 from mdg import generation_fields
 from mdg.config import settings
-from mdg.tools.io import obj_to_dict
+from mdg.tools.io import obj_to_dict, NestedIOClass, DecimalEncoder
 
 
 # TODO: Add a UMLObject abstract class which UMLClass, UMLEnumeration and UMLComponent inherit from. Update obj_to_dict to handle inheritance.
@@ -40,7 +40,7 @@ class SearchTypes(Enum):
     INSTANCE = "instance"
 
 
-class UMLPackage:
+class UMLPackage(NestedIOClass):
     parent: Optional[UMLPackage]
     children: List[UMLPackage]
 
@@ -183,7 +183,7 @@ class UMLPackage:
         return result
 
 
-class UMLInstance:
+class UMLInstance(NestedIOClass):
     package: UMLPackage
     attributes: List[UMLAttribute]
     stereotype: Optional[str]
@@ -215,7 +215,7 @@ class UMLInstance:
         return f"{self.name}"
 
 
-class UMLAssociation:
+class UMLAssociation(NestedIOClass):
     id: Union[int, str]
     documentation: str
     stereotypes: List[str]
@@ -291,7 +291,7 @@ class UMLAssociation:
         return output
 
 
-class UMLEnumeration:
+class UMLEnumeration(NestedIOClass):
     package: UMLPackage
     name: str
     id: Union[int, str]
@@ -316,7 +316,7 @@ class UMLEnumeration:
         return f"{self.name}"
 
 
-class UMLClass:
+class UMLClass(NestedIOClass):
     package: UMLPackage
     name: str
     alias: Optional[str]
@@ -430,7 +430,7 @@ class UMLClass:
         return result
 
 
-class UMLAttribute:
+class UMLAttribute(NestedIOClass):
     parent: Union[UMLClass, UMLEnumeration, UMLComponent, UMLInstance]
     name: str
     alias: Optional[str]
@@ -519,7 +519,7 @@ class UMLAttribute:
             return f"{self.name}"
 
 
-class UMLComponent:
+class UMLComponent(NestedIOClass):
     package: UMLPackage
     attributes: List[UMLAttribute]
     stereotype: Optional[str]
@@ -554,4 +554,4 @@ class UMLComponent:
 
 def dumps(package: UMLPackage) -> str:
     output = obj_to_dict(package)
-    return json.dumps(output)
+    return json.dumps(output, cls=DecimalEncoder)

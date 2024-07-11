@@ -1,8 +1,9 @@
 import unittest
+from typing import List, Optional, cast
+from decimal import Decimal
 
 from mdg.tools.case import camelcase, snakecase, pascalcase
-from typing import List
-from mdg.tools.io import obj_to_dict, dict_to_obj
+from mdg.tools.io import obj_to_dict, dict_to_obj, NestedIOClass
 
 
 class TestUMLModel(unittest.TestCase):
@@ -42,22 +43,25 @@ class TestUMLModel(unittest.TestCase):
         self.assertEqual("eftpos", snakecase("EFTPOS"))
 
 
-class foo:
+class foo(NestedIOClass):
     id: int
 
     class Meta:
         id_field = 'id'
 
 
-class blort:
+class blort(NestedIOClass):
     my_list: List[foo]
     basic_list: List[int]
     c: foo
     d: dict
+    e: Optional[Decimal]
 
     class Meta:
-        owned_subobjects = 'my_list'
+        owned_subobjects = List = ['my_list']
 
+    def __init__(self):
+        self.e = None
 
 class TestIO(unittest.TestCase):
     def setUp(self):
@@ -73,14 +77,24 @@ class TestIO(unittest.TestCase):
         output = obj_to_dict(self.b)
         self.assertEqual(2, output['my_list'][0]['id'])
 
-    def test_to_obj(self):
-        input = {'c': {'id': 1}}
+    def test_to_obj_simple(self):
+        input = {'my_list': [{'id': 1}]}
         obj = dict_to_obj(input, blort)
-        self.assertEqual(1, obj.c.id)
+        self.assertTrue(isinstance(obj,blort))
+        obj = cast(blort, obj)
+        self.assertEqual(1, obj.my_list[0].id)
 
-        input = {'my_list': [{'id': 1}, ], 'c': 1, 'd': {"e": "f"}, 'basic_list': [1, 2, 3]}
+    def test_to_obj_full(self):
+        input = {'my_list': [{'id': 1}, ], 'c': 1, 'd': {"e": "f"}, 'basic_list': [1, 2, 3],'e': "1.2"}
         obj = dict_to_obj(input, blort)
+        self.assertTrue(isinstance(obj,blort))
+        obj = cast(blort, obj)
+        self.assertTrue(isinstance(obj.my_list[0],foo))
+        self.assertTrue(isinstance(obj.d,dict))
+        self.assertTrue(isinstance(obj.c,foo))
+
         self.assertEqual(1, obj.c.id)
         self.assertEqual('f', obj.d['e'])
         self.assertEqual(2, obj.basic_list[1])
         self.assertEqual(1, obj.my_list[0].id)
+        self.assertEqual(Decimal("1.2"), obj.e)

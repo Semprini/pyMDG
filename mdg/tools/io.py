@@ -1,7 +1,24 @@
-from typing import get_type_hints, Any, Tuple
+from typing import get_type_hints, Any, Tuple, get_args, get_origin, Union
 from enum import Enum
+import json
+from decimal import Decimal
 
-DEFAULT_TYPES = [str, list, tuple, dict, bool, int, type(None)]
+DEFAULT_TYPES = [str, list, tuple, dict, bool, int, type(None), Decimal]
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
+
+
+class NestedIOClass():
+    """ Designed to be inherited by any class that needs this form of IO
+    """
+    class Meta:
+        id_field = None
+        owned_subobjects: list = []
 
 
 def obj_to_dict(obj: Any, base_dict={}) -> dict:
@@ -19,25 +36,31 @@ def obj_to_dict(obj: Any, base_dict={}) -> dict:
             value = getattr(obj, attr_name)
 
             # If the value is not a base type or enum then it's a class TODO: Actual check for class
-            if type(value) not in DEFAULT_TYPES and not isinstance(value, Enum):
+            if isinstance(value, NestedIOClass):
                 # If the class is owned by this parent class then convert to a dict
                 if attr_name in obj.Meta.owned_subobjects:
                     value = obj_to_dict(value)
                 # If the class is not owned by this parent class then convert to a reference
                 else:
-                    value = getattr(value, value.Meta.id_field)
+                    if value.Meta.id_field is not None:                    
+                        value = getattr(value, value.Meta.id_field)
+                    else:
+                        raise ValueError(f"NestedIOClass {type(value)} must have an id_field to be used in IO")
 
             # If value is a list then examine the type of the list and convert each element
             elif type(value) in [list, tuple]:
                 new_value: Any = []
                 for element in value:
                     # Check for base types as in non list mode above: TODO: Actual check for class
-                    if type(element) not in DEFAULT_TYPES and not isinstance(element, Enum):
+                    if isinstance(element, NestedIOClass):
                         # Check for class ownership as above
                         if attr_name in obj.Meta.owned_subobjects:
                             new_value.append(obj_to_dict(element))
                         else:
-                            new_value.append(getattr(element, element.Meta.id_field))
+                            if element.Meta.id_field is not None:
+                                new_value.append(getattr(element, element.Meta.id_field))
+                            else:
+                                raise ValueError(f"NestedIOClass {type(element)} must have an id_field to be used in IO")
                     # Just a base type so use the value
                     else:
                         new_value.append(element)
@@ -69,6 +92,10 @@ def dict_to_obj_pass2(obj: Any, references: dict) -> None:
         if hasattr(obj, attr_name):
             value = getattr(obj, attr_name)
             obj_attr_type = type_dict[attr_name]
+            type_origin = get_origin(obj_attr_type)
+            type_args = get_args(obj_attr_type)
+            if type_origin == Union and type(None) in type_args:
+                obj_attr_type = type_args[0]
 
             if type(value) == list:
                 # We have a list if its supposed to be a list of classes then examine
@@ -83,9 +110,11 @@ def dict_to_obj_pass2(obj: Any, references: dict) -> None:
                             new_list.append(item)
                     setattr(obj, attr_name, new_list)
 
-            elif obj_attr_type not in DEFAULT_TYPES:
+            elif obj_attr_type not in DEFAULT_TYPES and value != None:
+                # issubclass(obj_attr_type, NestedIOClass):
                 # If value is supposed to be a class but is actually a default type then must be reference
                 if type(value) in DEFAULT_TYPES:
+                #if not isinstance(value, NestedIOClass):
                     setattr(obj, attr_name, references[value])
                 # If value is a class then parse it
                 else:
@@ -105,12 +134,20 @@ def dict_to_obj_pass1(input: dict, base_object_class, references: dict = {}) -> 
             # The input has this item defined in the class so extract
             # dict_attr_type = type(input[attr_name])  # type_dict[attr_name].__origin__ TODO: use definition rather than input
             obj_attr_type = type_dict[attr_name]
+            type_origin = get_origin(obj_attr_type)
+            type_args = get_args(obj_attr_type)
+            if type_origin == Union and type(None) in type_args:
+                obj_attr_type = type_args[0]
 
             if type(input[attr_name]) != list:
-                if obj_attr_type in DEFAULT_TYPES:
+                if obj_attr_type == Decimal:
+                    # Value definition is decimal type so set the value using Decimal.
+                    setattr(obj, attr_name, Decimal(input[attr_name]))
+                elif obj_attr_type in DEFAULT_TYPES:
                     # Value definition is standard type so just set the value
                     setattr(obj, attr_name, input[attr_name])
                 elif type(input[attr_name]) == dict:
+                    print(f"Expanding {input[attr_name]}")
                     # Not a standard type, represented as dict. Recurse to expand sub-object
                     new_obj, new_refs = dict_to_obj_pass1(input[attr_name], type_dict[attr_name], references)
                     setattr(obj, attr_name, new_obj)

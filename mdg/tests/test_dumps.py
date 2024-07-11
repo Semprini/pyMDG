@@ -1,4 +1,5 @@
 import unittest
+from decimal import Decimal
 
 from mdg.uml import UMLAttribute, UMLClass, UMLPackage, UMLAssociation
 from mdg.uml import dumps as uml_dumps
@@ -27,5 +28,10 @@ class TestDumps(unittest.TestCase):
         self.package.associations.append(assoc)
 
     def test_object_serialise(self):
+        data: str = uml_dumps(self.package)
+        self.assertGreater(data.find('"associations": [{'), -1)
+
+    def test_decimal_dump(self):
+        self.package.classes[0].phase = Decimal("1.0")
         data: str = uml_dumps(self.package)
         self.assertGreater(data.find('"associations": [{'), -1)
