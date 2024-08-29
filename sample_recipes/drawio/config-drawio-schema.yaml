@@ -1,0 +1,21 @@
+root_package: SampleDomain
+model_package: Model
+test_package: Test
+source: ./sample_recipes/drawio/sample.xml
+parser: drawio
+dest_root: ./build/sample_drawio_django
+templates_folder: ./mdg/templates
+default_dialect: default
+generation_artifacts:
+# Avro Schema
+- dest: "avro/{{cls.package.name}}.{{ cls.name }}.avsc"
+  level: class
+  source: "Schema/avro.avsc.jinja"
+# OpenAPI Schema
+- dest: "openapi/{{ package.name }}.yaml"
+  level: package
+  source: Schema/openapi.yaml.jinja
+  filter: "{% if package.classes %}True{% else %}False{% endif %}"
+test_templates:
+- dest: ./build/sample_drawio_django/json{{ins.package.path}}/{{ins.stereotype}}.json
+  format: json

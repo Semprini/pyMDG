@@ -328,7 +328,7 @@ def association_parse(session, tconnector: TConnector, package: UMLPackage, sour
         association.source_stereotypes = [tconnector.sourcestereotype,]
     if tconnector.deststereotype is not None:
         association.destination_stereotypes = [tconnector.deststereotype,]
-    
+
     logging.debug(f"Created {association.cardinality} {association.association_type.name} from {association.source_name} to {association.destination_name}")
     return association
 
@@ -362,7 +362,7 @@ def class_parse(session, package: UMLPackage, tobject: TObject) -> UMLClass:
         cls.is_abstract = True
     else:
         cls.is_abstract = False
-    
+
     if tobject.isactive == 0:
         cls.is_active = False
 
