@@ -3,7 +3,7 @@ model_package: Model
 test_package: Test
 source: ./sample_recipes/drawio/sample.xml
 parser: drawio
-dest_root: ./build/sample_drawio_django
+dest_root: ./build/sample_drawio_schema
 templates_folder: ./mdg/templates
 default_dialect: default
 generation_artifacts:
@@ -17,5 +17,5 @@ generation_artifacts:
   source: Schema/openapi.yaml.jinja
   filter: "{% if package.classes %}True{% else %}False{% endif %}"
 test_templates:
-- dest: ./build/sample_drawio_django/json{{ins.package.path}}/{{ins.stereotype}}.json
+- dest: ./build/sample_drawio_schema/json{{ins.package.path}}/{{ins.stereotype}}.json
   format: json

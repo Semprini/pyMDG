@@ -40,7 +40,7 @@ def parse_uml() -> Tuple[UMLPackage, List[UMLInstance]]:
     root = etree.parse(settings['source']).getroot()
     model = root.find('./diagram/mxGraphModel/root')
     if model is None:
-        raise ValueError("Cannot find model in XML at path ./diagram/mxGraphModel/root")
+        raise ValueError(f"Cannot find model named {settings['source']} in XML at path ./diagram/mxGraphModel/root")
 
     element = find_label_name(model, settings['root_package'])
     if element is None:
@@ -134,6 +134,9 @@ def generalization_parse(package: UMLPackage, element, root):
     source: UMLClass = package.find_by_id(cell.get("source"))
     target: UMLClass = package.find_by_id(cell.get("target"))
     source.generalization = target
+    target.specialized_by.append(source)
+    if source.id_attribute is None:
+        source.id_attribute = target.id_attribute
 
 
 def association_parse(package: UMLPackage, element, root):
