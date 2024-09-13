@@ -17,9 +17,8 @@ class TestSample_DrawIO_Django(unittest.TestCase):
         self.assertEqual("Model", self.model_package.name)
 
     def test_validate(self):
-        # Deliberate error in test config
         errors = validate_package(self.model_package)
-        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors, [])
 
     def test_render_model(self):
         self.assertGreater(len(self.model_package.children), 0)

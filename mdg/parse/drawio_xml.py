@@ -1,5 +1,5 @@
 from typing import List, Tuple, Optional
-from lxml import etree
+from lxml import etree, html
 import logging
 
 from mdg.config import settings
@@ -18,8 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 def get_label_name(element):
-    label = element.get("label")
-    label = label.strip("<div>").strip("</div>")
+    tree = html.fromstring( element.get("label"))
+    label = "".join(list(tree.itertext()))
     return label
 
 
@@ -131,22 +131,29 @@ def enumeration_link(package):
 
 def generalization_parse(package: UMLPackage, element, root):
     cell = element.find("mxCell")
-    source: UMLClass = package.find_by_id(cell.get("source"))
-    target: UMLClass = package.find_by_id(cell.get("target"))
-    source.generalization = target
-    target.specialized_by.append(source)
-    if source.id_attribute is None:
-        source.id_attribute = target.id_attribute
+    source: Optional[UMLClass] = package.find_class_by_id(cell.get("source"))
+    target: Optional[UMLClass] = package.find_class_by_id(cell.get("target"))
+    if source == None or target == None:
+        logger.warn(f"Cannot find generalization class. Source Id:{cell.get("source")}, Target Id: {cell.get("target")}")
+    else:
+        source.generalization = target
+        target.specialized_by.append(source)
+        if source.id_attribute is None:
+            source.id_attribute = target.id_attribute
 
 
 def association_parse(package: UMLPackage, element, root):
     id = element.get("id")
     cell = element.find("mxCell")
-    source: UMLClass = package.find_by_id(cell.get("source"))
-    target: UMLClass = package.find_by_id(cell.get("target"))
+    source: Optional[UMLClass] = package.find_class_by_id(cell.get("source"))
+    target: Optional[UMLClass] = package.find_class_by_id(cell.get("target"))
     element_type = element.get("UMLType")
 
-    association = UMLAssociation(package, source, target, id, UMLAssociationType[element_type.upper()])
+    if source == None or target == None:
+        logger.warn(f"Cannot find association class. Source Id:{cell.get("source")}, Target Id: {cell.get("target")}")
+        return
+    else:
+        association = UMLAssociation(package, source, target, id, UMLAssociationType[element_type.upper()])
 
     # Extract multiplicities
     ret = root.findall('.//object[@UMLType="DestinationMultiplicity"]')
@@ -189,12 +196,13 @@ def association_parse(package: UMLPackage, element, root):
 
 def class_parse(package: UMLPackage, element, root) -> UMLClass:
     stereotypes = []
-    label = element.get("label").split("<div>")
-    if len(label) == 1:
-        name = label[0].replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace('<br>', "").strip()
+    label = get_label_name(element)
+    label_split = label.split(">>")
+    if len(label_split) > 1:
+        name = label[-1]
+        stereotypes = label[0].split(',')
     else:
-        name = label[-1].replace("</div>", "").replace("<b>", "").replace("</b>", "").replace("<i>", "").replace("</i>", "").replace('<br>', "").strip()
-        stereotypes = label[-2].split('&lt;&lt;')[-1].split('&gt;&gt;')[0].split(',')
+        name = label
 
     id = element.get("id")
     cls = UMLClass(package, name, id)
@@ -227,11 +235,13 @@ def class_parse(package: UMLPackage, element, root) -> UMLClass:
 
 
 def enumeration_parse(package: UMLPackage, element, root) -> UMLEnumeration:
-    label = element.get("label").split(",")[-1].split("div>")
-    if len(label) == 1:
-        name = label[0].strip("<b>").strip("</b>").strip("i>").strip("</i")
+    label = get_label_name(element)
+    label_split = label.split(">>")
+    if len(label_split) > 1:
+        name = label[-1]
     else:
-        name = label[-2].strip("<b>").strip("</b></").strip("i>").strip("</i")
+        name = label
+
     id = element.get("id")
     enum = UMLEnumeration(package, name, id)
 
