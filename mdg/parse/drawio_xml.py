@@ -145,7 +145,9 @@ def generalization_parse(package: UMLPackage, element, root):
     source: Optional[UMLClass] = package.find_class_by_id(cell.get("source"))
     target: Optional[UMLClass] = package.find_class_by_id(cell.get("target"))
     if source == None or target == None:
-        logger.warn(f"Cannot find generalization class. Source Id:{cell.get("source")}, Target Id: {cell.get("target")}")
+        s = cell.get("source")
+        t = cell.get("target")
+        logger.warn(f"Cannot find generalization class. Source Id:{s}, Target Id: {t}")
     else:
         source.generalization = target
         target.specialized_by.append(source)
