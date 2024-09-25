@@ -163,7 +163,9 @@ def association_parse(package: UMLPackage, element, root):
     element_type = element.get("UMLType")
 
     if source == None or target == None:
-        logger.warn(f"Cannot find association class. Source Id:{cell.get("source")}, Target Id: {cell.get("target")}")
+        s = cell.get("source")
+        t = cell.get("target")
+        logger.warn(f"Cannot find association class. Source Id:{s}, Target Id: {t}")
         return
     else:
         association = UMLAssociation(package, source, target, id, UMLAssociationType[element_type.upper()])
