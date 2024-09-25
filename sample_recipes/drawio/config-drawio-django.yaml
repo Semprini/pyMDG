@@ -1,4 +1,4 @@
-root_package: SampleIndustry
+root_package: SampleDomain
 model_package: Model
 test_package: Test
 source: ./sample_recipes/drawio/sample.xml
