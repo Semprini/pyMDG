@@ -18,7 +18,7 @@ servers:
 paths:{% for cls in package.classes %}{% if cls.is_abstract == False and cls.id_attribute %}
   "{{ package.path | snakecase }}{{ cls.get_name() | snakecase }}/":
     get:
-      operationId: {{ package.path[1:] | snakecase | replace('/', '_') }}{{ cls.get_name() | snakecase }}_list
+      operationId: {{ package.path[1:] | snakecase | replace('/', '_') }}{{ cls.get_name() | snakecase | replace(' ', '?') }}_list
       parameters:
         - in: query
           name: page_key
@@ -41,7 +41,7 @@ paths:{% for cls in package.classes %}{% if cls.is_abstract == False and cls.id_
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/{{ cls.get_name() | camelcase }}_list"
+                "$ref": "#/components/schemas/{{ cls.get_name() | pascalcase }}_list"
 
   "{{ package.path | snakecase }}{{ cls.get_name() | snakecase }}/{% raw %}{{% endraw %}{{ cls.id_attribute.name | snakecase }}{% raw %}}{% endraw %}/":
     get:
@@ -60,7 +60,7 @@ paths:{% for cls in package.classes %}{% if cls.is_abstract == False and cls.id_
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/{{ cls.get_name() | camelcase }}"{% if cls.associations_from != [] or cls.associations_to != [] %}
+                "$ref": "#/components/schemas/{{ cls.get_name() | pascalcase }}"{% if cls.associations_from != [] or cls.associations_to != [] %}
           links:{% for assoc in cls.associations_from %}{% if assoc.destination.is_abstract == False %}
             {{ assoc.destination_name | snakecase }}:
               operationId: {{ assoc.destination.package.path[1:] | snakecase | replace('/', '_') }}{{ assoc.destination.name | snakecase }}_entity
@@ -73,18 +73,18 @@ paths:{% for cls in package.classes %}{% if cls.is_abstract == False and cls.id_
 {% endif %}{% endfor %}
 components:
   schemas:{% for cls in package.classes %}
-    {{ cls.get_name() | camelcase }}_list:
+    {{ cls.get_name() | pascalcase }}_list:
       type: object
       description: 'List of {{ cls.get_name() }}'
       properties:
         result:
           type: array
           items:
-            $ref: "#/components/schemas/{{ cls.get_name() | camelcase }}"
+            $ref: "#/components/schemas/{{ cls.get_name() | pascalcase }}"
         next_page_key:
           type: string
 
-    {{ cls.get_name() | camelcase }}_basic:
+    {{ cls.get_name() | pascalcase }}_basic:
       type: object
       description: 'Basic view of {{ cls.get_name() }}'
       properties:{% if cls.id_attribute %}
@@ -105,7 +105,7 @@ components:
           - {{ enum }}{% endfor %}{% elif attr.dest_type == "float" %}number
           format: float{% else %}{{ attr.dest_type }}{% endif %}{% endfor %}
 
-    {{ cls.get_name() | camelcase }}:
+    {{ cls.get_name() | pascalcase }}:
       {% if not cls.supertype %}type: object
       description: 'Basic view of {{ cls.get_name() }}'
       properties:
@@ -126,17 +126,17 @@ components:
           - {{ enum }}{% endfor %}{% elif attr.dest_type == "float" %}number
           format: float{% else %}{{ attr.dest_type }}{% endif %}{% endfor %}{% for assoc in cls.associations_from %}
         {{ assoc.destination_name | snakecase }}:
-          {% if assoc.cardinality.name not in [ "MANY_TO_MANY", "ONE_TO_MANY" ] %}{% if assoc.destination.name != cls.get_name() %}{% if assoc.destination.package.name == cls.package.name %}$ref: "#/components/schemas/{{ assoc.destination.name | camelcase }}_basic"{% else %}$ref: "./{{ assoc.destination.package.name | camelcase }}.yaml#/components/schemas/{{ assoc.destination.name | camelcase }}_basic"{% endif %}{% else %}  type: {{ assoc.destination.id_attribute.dest_type }}{% endif %}{% else %}type: array
+          {% if assoc.cardinality.name not in [ "MANY_TO_MANY", "ONE_TO_MANY" ] %}{% if assoc.destination.name != cls.get_name() %}{% if assoc.destination.package.name == cls.package.name %}$ref: "#/components/schemas/{{ assoc.destination.name | pascalcase }}_basic"{% else %}$ref: "./{{ assoc.destination.package.name | pascalcase }}.yaml#/components/schemas/{{ assoc.destination.name | pascalcase }}_basic"{% endif %}{% else %}  type: {{ assoc.destination.id_attribute.dest_type }}{% endif %}{% else %}type: array
           items:
             oneOf:
               - type: {{ assoc.destination.id_attribute.dest_type }}
                 format: uri
-              - {% if assoc.destination.package.name == cls.package.name %}$ref: "#/components/schemas/{{ assoc.destination.name | camelcase }}_basic"{% else %}$ref: "./{{ assoc.destination.package.name | camelcase }}.yaml#/components/schemas/{{ assoc.destination.name | camelcase }}_basic"{% endif %}{% endif %}{% endfor %}{% for assoc in cls.associations_to %}{% if assoc.association_type.name == "COMPOSITION" %}
+              - {% if assoc.destination.package.name == cls.package.name %}$ref: "#/components/schemas/{{ assoc.destination.name | pascalcase }}_basic"{% else %}$ref: "./{{ assoc.destination.package.name | pascalcase }}.yaml#/components/schemas/{{ assoc.destination.name | pascalcase }}_basic"{% endif %}{% endif %}{% endfor %}{% for assoc in cls.associations_to %}{% if assoc.association_type.name == "COMPOSITION" %}
         {{ assoc.source_name | snakecase }}:
           {% if assoc.cardinality.name == "MANY_TO_ONE" %}type: array
           items:
-            {% endif %}$ref: "#/components/schemas/{{ assoc.source.name | camelcase }}_basic"{% endif %}{% endfor %}{% else %}allOf:
-        - $ref: "#/components/schemas/{{ cls.supertype.name | camelcase }}"
+            {% endif %}$ref: "#/components/schemas/{{ assoc.source.name | pascalcase }}_basic"{% endif %}{% endfor %}{% else %}allOf:
+        - $ref: "#/components/schemas/{{ cls.supertype.name | pascalcase }}"
         - type: object{% if cls.attributes|length !=0 %}
           properties:{% endif %}{% for attr in cls.attributes %}
             {{ attr.name | snakecase }}:
@@ -146,10 +146,10 @@ components:
               - {{ enum }}{% endfor %}{% elif attr.dest_type == "float" %}number
               format: float{% else %}{{ attr.dest_type }}{% endif %}{% endfor %}{% for assoc in cls.associations_from %}
             {{ assoc.destination_name | snakecase }}:
-              {% if assoc.cardinality.name not in [ "MANY_TO_MANY", "ONE_TO_MANY" ] %}{% if assoc.destination.name != cls.get_name() %}{% if assoc.destination.package.name == cls.package.name %}$ref: "#/components/schemas/{{ assoc.destination.name | camelcase }}_basic"{% else %}$ref: "./{{ assoc.destination.package.name | camelcase }}.yaml#/components/schemas/{{ assoc.destination.name | camelcase }}_basic"{% endif %}{% else %}  type: {{ assoc.destination.id_attribute.dest_type }}{% endif %}{% else %}type: array
+              {% if assoc.cardinality.name not in [ "MANY_TO_MANY", "ONE_TO_MANY" ] %}{% if assoc.destination.name != cls.get_name() %}{% if assoc.destination.package.name == cls.package.name %}$ref: "#/components/schemas/{{ assoc.destination.name | pascalcase }}_basic"{% else %}$ref: "./{{ assoc.destination.package.name | pascalcase }}.yaml#/components/schemas/{{ assoc.destination.name | pascalcase }}_basic"{% endif %}{% else %}  type: {{ assoc.destination.id_attribute.dest_type }}{% endif %}{% else %}type: array
               items:
                 oneOf:
                   - type: {{ assoc.destination.id_attribute.dest_type }}
                     format: uri
-                  - {% if assoc.destination.package.name == cls.package.name %}$ref: "#/components/schemas/{{ assoc.destination.name | camelcase }}_basic"{% else %}$ref: "./{{ assoc.destination.package.name | camelcase }}.yaml#/components/schemas/{{ assoc.destination.name | camelcase }}_basic"{% endif %}{% endif %}{% endfor %}{% endif %}
+                  - {% if assoc.destination.package.name == cls.package.name %}$ref: "#/components/schemas/{{ assoc.destination.name | pascalcase }}_basic"{% else %}$ref: "./{{ assoc.destination.package.name | pascalcase }}.yaml#/components/schemas/{{ assoc.destination.name | pascalcase }}_basic"{% endif %}{% endif %}{% endfor %}{% endif %}
 {% endfor %}

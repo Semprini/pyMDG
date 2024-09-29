@@ -2,6 +2,7 @@ from typing import List, Tuple, Optional
 from lxml import etree, html
 import logging
 
+
 from mdg.config import settings
 from mdg.uml import (
     UMLAssociation,
@@ -22,7 +23,10 @@ def get_label_name(element) -> Optional[str]:
     if label_element == "":
         return None
     tree = html.fromstring(label_element)
-    label = "".join(list(tree.itertext()))
+    label = tree.text_content().replace(" ", " ")
+
+    # label = "".join(list(tree.itertext()))
+    # print(label)
     return label
 
 
@@ -145,8 +149,8 @@ def generalization_parse(package: UMLPackage, element, root):
     source: Optional[UMLClass] = package.find_class_by_id(cell.get("source"))
     target: Optional[UMLClass] = package.find_class_by_id(cell.get("target"))
     if source == None or target == None:
-        s = cell.get("source")
-        t = cell.get("target")
+        s = cell.get("source") # Kludge for flake8
+        t = cell.get("target") # Kludge for flake8
         logger.warn(f"Cannot find generalization class. Source Id:{s}, Target Id: {t}")
     else:
         source.generalization = target
@@ -163,8 +167,8 @@ def association_parse(package: UMLPackage, element, root):
     element_type = element.get("UMLType")
 
     if source == None or target == None:
-        s = cell.get("source")
-        t = cell.get("target")
+        s = cell.get("source") # Kludge for flake8
+        t = cell.get("target") # Kludge for flake8
         logger.warn(f"Cannot find association class. Source Id:{s}, Target Id: {t}")
         return
     else:
@@ -217,7 +221,7 @@ def class_parse(package: UMLPackage, element, root) -> Optional[UMLClass]:
         return None
     label_split = label.split(">>")
     if len(label_split) > 1:
-        name = label[-1]
+        name = label_split[-1]
         stereotypes = label[0].split(',')
     else:
         name = label
@@ -259,7 +263,7 @@ def enumeration_parse(package: UMLPackage, element, root) -> Optional[UMLEnumera
         return None
     label_split = label.split(">>")
     if len(label_split) > 1:
-        name = label[-1]
+        name = label_split[-1]
     else:
         name = label
 
@@ -276,8 +280,10 @@ def enumeration_parse(package: UMLPackage, element, root) -> Optional[UMLEnumera
 
 
 def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
-    value = element.get("value").strip("<div>").strip("</div>").strip("<br")
-    # height = int(element.find("mxGeometry").get("y"))
+    a = element.get("value")
+    tree = html.fromstring(a)
+    node = tree.xpath("//div")
+    value = ''.join(node[0].itertext()).replace(" ", " ")
 
     dq = []
     if "{dq_even}" in value:
@@ -292,8 +298,8 @@ def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
     visibility: bool = False
     if value.startswith("+"):
         visibility = True
-    value = value.strip("+").strip("-").strip()
 
+    value = value.strip("+").strip("-").strip()
     name, attr_type = value.split(":")
 
     attr = UMLAttribute(parent, name, element.get('id'))
