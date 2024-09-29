@@ -20,7 +20,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='pymdg',
-    version='1.2.4',
+    version='1.2.5',
     author='Semprini',
     author_email='dont@contact.me',
     description='Model driven genration - from UML to Code & Docs',

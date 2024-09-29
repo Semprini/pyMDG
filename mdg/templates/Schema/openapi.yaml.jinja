@@ -18,7 +18,7 @@ servers:
 paths:{% for cls in package.classes %}{% if cls.is_abstract == False and cls.id_attribute %}
   "{{ package.path | snakecase }}{{ cls.get_name() | snakecase }}/":
     get:
-      operationId: {{ package.path[1:] | snakecase | replace('/', '_') }}{{ cls.get_name() | snakecase | replace(' ', '?') }}_list
+      operationId: {{ package.path[1:] | snakecase | replace('/', '_') }}{{ cls.get_name() | snakecase }}_list
       parameters:
         - in: query
           name: page_key
