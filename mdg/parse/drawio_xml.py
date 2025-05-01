@@ -282,8 +282,7 @@ def enumeration_parse(package: UMLPackage, element, root) -> Optional[UMLEnumera
 def attr_parse(parent: UMLClass, element, root, stereotypes) -> UMLAttribute:
     a = element.get("value")
     tree = html.fromstring(a)
-    node = tree.xpath("//div")
-    value = ''.join(node[0].itertext()).replace(" ", " ")
+    value = tree.text_content().replace(" ", " ")
 
     dq = []
     if "{dq_even}" in value:

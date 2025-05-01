@@ -36,6 +36,8 @@ def validate_package(package):
         for attr in cls.attributes:
             if "auto" in attr.stereotypes and attr.type not in ("int", "bigint"):
                 errors.append(AttributeValidationError(package, cls, attr, "auto increment field must be int or bigint"))
+            if attr.type.lower()  == "decimal" and ( attr.scale == None or attr.precision == None ):
+                errors.append(AttributeValidationError(package, cls, attr, "decimal field must have scale and precision"))
 
     for child in package.children:
         errors += validate_package(child)
