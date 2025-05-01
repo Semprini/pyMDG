@@ -424,7 +424,7 @@ class UMLClass(NestedIOClass):
         parent = self.generalization
 
         if parent is not None:
-            if parent.is_abstract or abstract_only==False:
+            if parent.is_abstract or not abstract_only:
                 result += parent.get_all_attributes(abstract_only)
 
         return result
@@ -449,6 +449,7 @@ class UMLAttribute(NestedIOClass):
     precision: Optional[int]
     validations: List[str]
     tags: dict[str,str]
+    multiplicity: Tuple[str, str]
 
     class Meta:
         id_field = 'id'
@@ -475,6 +476,7 @@ class UMLAttribute(NestedIOClass):
         self.precision = None
         self.validations = []
         self.tags = {}
+        self.multiplicity = ('1', '1')
 
     def __str__(self) -> str:
         return f"{self.name}"

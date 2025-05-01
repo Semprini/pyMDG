@@ -9,12 +9,12 @@ class TestInstanceOutput(unittest.TestCase):
         self.package = UMLPackage("id", "name")
         self.instance = UMLInstance(self.package, "test1", 1)
 
-        attr = UMLAttribute(self.package, 'Test Att', 1)
+        attr = UMLAttribute(self.instance, 'Test Att', 1)
         attr.value = 'testval'
         self.instance.attributes.append(attr)
 
-        attr = UMLAttribute(self.package, 'Test Att 2', 2)
-        attr.value = 10
+        attr = UMLAttribute(self.instance, 'Test Att 2', 2)
+        attr.value = "10"
         self.instance.attributes.append(attr)
 
         self.package.instances.append(self.instance)
@@ -23,4 +23,5 @@ class TestInstanceOutput(unittest.TestCase):
         data = serialize_instance(self.instance)
         self.assertEqual(data['test_att'], 'testval')
 
-        self.assertEqual(data['test_att_2'], 10)
+        self.assertEqual(data['test_att_2'], "10")
+

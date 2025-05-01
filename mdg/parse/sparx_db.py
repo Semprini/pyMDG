@@ -3,6 +3,7 @@ from typing import List, Tuple, Optional, Union
 import logging
 import re
 from decimal import Decimal
+import json
 
 import sqlalchemy
 from sqlalchemy.orm import Session
@@ -26,9 +27,10 @@ from mdg.uml import (
     UMLInstance,
     UMLPackage,
     UMLAssociationType,
-    SearchTypes,
     UMLStatuses,
 )
+
+from mdg import generation_fields
 
 
 logger = logging.getLogger(__name__)
@@ -210,6 +212,11 @@ def package_parse_associations(session, package: UMLPackage) -> None:
     for package_child in package.children:
         package_parse_associations(session, package_child)
 
+type_conversions = {
+    'int': int,
+    'float': float,
+    'Decimal': Decimal,
+}
 
 def test_package_parse_inheritance(test_package: UMLPackage, model_package: UMLPackage) -> None:
     """ Links instances with the class they are instances of
@@ -228,7 +235,13 @@ def test_package_parse_inheritance(test_package: UMLPackage, model_package: UMLP
                 for attr in ins.attributes:
                     for cls_attr in ins.classification.attributes:
                         if attr.name == cls_attr.name and cls_attr.type is not None:
-                            attr.type = cls_attr.type
+                            attr.set_type(cls_attr.type)
+                            if attr.type in generation_fields["python"].keys() and generation_fields["python"][f"{attr.type}"] in type_conversions.keys():
+                                attr.value = type_conversions[generation_fields["python"][f"{attr.type}"]](attr.value)
+                            elif attr.type in type_conversions.keys():
+                                attr.value = type_conversions[f"{attr.type}"](attr.value)
+                            elif cls_attr.multiplicity[1] != "1":
+                                attr.value = json.loads(f"{attr.value}")
                             break
         else:
             logger.warn("Instance object which is not from any class: id={}".format(ins.id))
@@ -278,11 +291,15 @@ def instance_parse(session, package: UMLPackage, tobject: TObject) -> UMLInstanc
     if run_state is not None:
         vars = run_state.split('@ENDVAR;')
         for var in vars:
-            if var != '':
+            if var != '' and "Value=" in var and "Variable=" in var:
                 variable, value = (var.split(';')[1:3])
-                attr = UMLAttribute(ins, variable.split('=')[1], value.split('=')[1])
-                attr.value = value.split('=')[1]
+                value = value.split('Value=')[1]
+                variable = variable.split('Variable=')[1]
+                attr = UMLAttribute(ins, variable, value)
+                attr.value = value
                 ins.attributes.append(attr)
+            else:
+                logger.warning(f"Unexpected instance attribute data. Instance name={ins.name}, Attribute data={run_state}. Parser expects one or more: @VAR;Variable=<variable name>;Value=<variable value>;Op==;@ENDVAR;")
     else:
         logger.info(f"No runstate found for UMLInstance {ins.name} | {ins.id}")
     logger.debug(f"Added UMLInstance {ins.name}")
@@ -412,6 +429,8 @@ def attr_parse(session, parent: UMLClass, tattribute: TAttribute) -> UMLAttribut
         attr.documentation = tattribute.notes
     else:
         attr.documentation = ""
+
+    attr.multiplicity = (f"{tattribute.lowerbound}",f"{tattribute.upperbound}")
 
     # @PROP=@NAME=isID@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=1@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;
     stmt = sqlalchemy.select(TXref).where(TXref.client == tattribute.ea_guid, TXref.name == "CustomProperties")
